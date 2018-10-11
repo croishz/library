@@ -1,0 +1,65 @@
+// mixin
+@mixin blind($type:absolute) {
+    position: $type;
+    z-index: -100;
+    left:-100000px;
+    opacity:0;
+}
+@mixin addInlineLevel {
+    display:inline-block;
+    vertical-align:middle;
+}
+@mixin clearfix {
+    &:after {
+        content:"";
+        display:block;
+        clear:both;
+    }
+}
+html {
+    font-size:16px;
+    color:steelblue;
+    line-height:1.3;
+}
+html, body, div, p,
+h1, h2, h3, h4, h5, h6, blockquote,
+fieldset, legend, figure, 
+ul, ol, li, dl, dd {
+    padding:0; margin:0;
+}
+a, a:hover, a:-webkit-any-link {
+    text-decoration:none;
+}
+img {
+    vertical-align:middle;
+}
+button, select, textarea {border-color:none;}
+textarea {resize:none;}
+
+input:checked + label {
+    @include addInlineLevel;
+}
+option[value="dummy"] {
+    color:#bbb;
+}
+// style
+
+// [data-ableCheck=false] {display:none;}
+a:hover .linear_replace {
+    text-decoration:underline;
+}
+$masterColor-red:darkred;
+.grid_harf {
+    @include clearfix;
+    .column{
+        float:left;
+        width:50%;
+    }
+}
+.request_RA [class*="modelNum"] {
+    color:$masterColor-red;
+}
+.view_select_product {
+    
+    .noMatch {word-break:keep-all;}
+}

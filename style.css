@@ -1,0 +1,62 @@
+html {
+  font-size: 16px;
+  color: steelblue;
+  line-height: 1.3;
+}
+
+html, body, div, p,
+h1, h2, h3, h4, h5, h6, blockquote,
+fieldset, legend, figure,
+ul, ol, li, dl, dd {
+  padding: 0;
+  margin: 0;
+}
+
+a, a:hover, a:-webkit-any-link {
+  text-decoration: none;
+}
+
+img {
+  vertical-align: middle;
+}
+
+button, select, textarea {
+  border-color: none;
+}
+
+textarea {
+  resize: none;
+}
+
+input:checked + label {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+option[value="dummy"] {
+  color: #bbb;
+}
+
+a:hover .linear_replace {
+  text-decoration: underline;
+}
+
+.grid_harf:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.grid_harf .column {
+  float: left;
+  width: 50%;
+}
+
+.request_RA [class*="modelNum"] {
+  color: darkred;
+}
+
+.view_select_product .noMatch {
+  word-break: keep-all;
+}
+/*# sourceMappingURL=style.css.map */

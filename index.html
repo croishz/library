@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>UI module for vaildate</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- javascript -->
+    <!-- <script>
+        window.onload = function(){
+            console.log("ready");
+            var e = {};
+            for( var i=0; i < e.length; i++){
+                var tg = document.getElementsByTagName("select")[i];
+                tg.addEventListener("change")
+            }
+        }
+    </script> -->
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <script>
+        $(document).ready(function(){
+            // debug
+            var eventChecker = function(eventName){
+                console.log(eventName + " is active");
+            }
+            /*
+                validate
+                var validate = {
+                    defaultSet : function(uiElem){
+                        for (i = 0; i < $(uiElem).length; i++){
+                            $(uiElem).find("option:selected").index()
+                            var previous_value = [$(uiElem).i];
+                        }
+                        
+                    },
+                    nextStep_bySelect : function(tg, actTg){
+                        tg.on("change", function(){
+                            // var categoryIndex = $(this).find("option:selected").index();
+                            // return categoryIndex;
+                            var preivous_val = $(this).val();
+                            
+                            validate.checkActiveNext(confirm, actTg, preivous_val, now_val);
+                        });
+                    },
+                    checkActiveNext : function(confirm, actTg, preivous_val, now_val){
+                        if( confirm === "able"){
+                            // eventChecker("enable");
+                            actTg.removeAttr("disabled");
+                        }else if( confirm === "disable"){
+                            // eventChecker("disable");
+                            actTg.attr("disabled", "true");
+                            $(this).closest("[class^=box_]").addClass("check")
+                            if( $("select").attr("class").indexOf("master") > -1 ){
+                                // eventChecker("exception");
+                                $(this).removeAttr("disabled");
+                            }
+                        }
+                    }
+                }
+                validate.defaultValue();
+                console.log(categoryIndex);
+
+                validate.nextStep_bySelect($("select"));
+            */
+
+            // interface
+            var init = function(){
+                v.checkDefalutAllbox( $(document).find('select') );
+                v._bySelect.activeStep(v.keepdata);
+            }
+            
+            // logic
+            // validate
+            var v = {
+                keepdata : [],
+                checkDefalutAllbox : function(tgElem){
+                   
+                    for(var i=0; i<tgElem.length; i++){
+                        //console.log( tgElem.eq(i).val() );
+                        v.keepdata[i] = tgElem.eq(i).val();
+                        //console.log(v.keepdata[i]);
+                    }
+                    //console.log(v.keepdata);
+                    return v.keepdata;
+
+                },
+                validator : function(){
+                    return false;
+                },
+                /* logic 
+                    1. If first ; master option have value, next option free to disabled attribute. and next pattern repeat same routine.
+                    2. If change first option, reset all next options for reselect model and category.
+                    3. Product type option is need to next option box be hide layout by case of product. 
+                */
+                _bySelect : {
+                    skipType : 
+                    [
+                        "monitor",
+                        "gear",
+                        "console"
+                    ],
+                    skipStep : function(obj, matchStr){
+                        for(var i=0; i<obj.length; i++){
+                            if( obj[i].indexOf(matchStr) !== -1 ){
+                                return true;
+                            }
+                        }
+                    },
+                    stepByStep : function(a, b, c, d, f){
+                        for( var i=a+1; i<b.length; i++){
+                            b[i].selectedIndex = 0;
+                            b.eq(i+1).attr({
+                                "disabled":"true"
+                            });
+                            c[i] = b.eq(i+1).d;
+                            // c[i] = f; 
+                            // ex> f = 'dummy'
+                        }
+                    },
+                    activeStep : function(previousVal){
+                        $("select").on("change", function(e){
+                            // hoisting
+                            var tgDOM = $(this),
+                                moduleArrange = tgDOM.closest("[class^=\"box_\"]").find("select"),
+                                nowVal = tgDOM.val(),
+                                category_location = tgDOM.parent().index() - 1,
+                                confirm = tgDOM.find("option:selected").data("ablecheck"),
+                                hideLimit = moduleArrange.length - 1,
+                                actTg = tgDOM.parent().next().find("select");
+
+                            // Catch event by dummy option :: remove
+                            if( nowVal === "dummy" ){
+                                eventChecker("extra");  // event check
+                                e.preventDefault();
+
+                            // Find model :: normal
+                            }else{
+                                eventChecker("normal"); // event check
+
+                                // Selected value replace and save to memory.
+                                console.log("option depth is " + category_location);
+                                previousVal[category_location] = nowVal;
+                                
+                                // Free selectbox
+                                actTg.removeAttr("disabled");
+                                
+                                // Band active box and Reset memory what selected option
+                                v._bySelect.stepByStep(category_location, moduleArrange, previousVal, nowVal);
+
+                                // Skip & hide step by case of before step.
+                                function DOMHandlerByValue(a, b, c){
+                                    if( a != 0 && c ){
+                                        eventChecker("skip");
+                                        
+                                        for(var i=a+1; i<hideLimit; i++){
+                                            previousVal[i] = "skip";
+                                            b.eq(i).hide();
+                                            b.eq(hideLimit).removeAttr("disabled");
+                                        }
+                                    // refresh by noncase. 
+                                    }else{
+                                        eventChecker("refresh dom");
+
+                                        for(i=a; i<b.length; i++){
+                                            b.eq(i).removeAttr("style", "display");
+                                        }
+                                    }
+                                }
+                                DOMHandlerByValue(category_location, moduleArrange, v._bySelect.skipStep(v._bySelect.skipType, nowVal));
+                                // console.log("next log is Data what time with end event");
+                                console.log(previousVal);
+                            }
+                        });
+                    }
+                }
+            };
+
+            init();
+        });
+        /*
+            description method and property
+            
+            -=-=-=
+            data()
+            1. camelcase do not function.
+            2. If you give them property such as true, false, 10, undefined, null, those return value with datatype.
+
+            -=-=-=
+            selectedIndex
+            0. be supported js api.
+            1. use index of option element in select one by one.
+            2. force trigger for all events ; change, focus, mouse....
+        */
+    </script>
+</head>
+<body>
+    <main class="page_contents business_support request_RA">
+        <section class="request_RA-step1">
+            <h2>Select Your Product</h2>
+            <div class="grid_harf">
+                <div class="column find_product">
+                    <!-- form module01 :: find product comboboxes -->
+                    <dl class="cluster_find_modelOption">
+                        <div class="">
+                            <dt>Enter Model Number</dt>
+                            <dd>
+                                <input type="text" class="typoBox_modelNum">
+                                <button><img src="" alt="Research your model"></button>
+                            </dd>
+                            <a href="javascript:;"><span class="linear_replace">Find my model & seral number</span><i class="icon_newWindow"></i></a>
+                        </div>
+                        <div class="box_find_modelOption">
+                            <dt>or Select by Product Category</dt>
+                            <dd>
+                                <select name="" id="" class="op_master">
+                                    <option value="tv" data-ablecheck="enable">TV/Audio/Video</option>
+                                    <option value="app" data-ablecheck="enable">Application</option>
+                                    <option value="mob" data-ablecheck="enable">smart phone</option>
+                                    <option value="pc" data-ablecheck="enable">desktop</option>
+                                </select>
+                            </dd>
+                            <dd>
+                                <select name="" id="" class="op_product" disabled>
+                                    <option value="dummy" data-ablecheck="disable">Product</option>
+                                    <option value="electronic" data-ablecheck="enable">electronic</option>
+                                    <option value="monitor" data-ablecheck="enable">monitor</option>
+                                    <option value="console" data-ablecheck="enable">console</option>
+                                    <option value="gear" data-ablecheck="enable">gear</option>
+                                </select>
+                            </dd>
+                            <dd>
+                                <select name="" id="" class="op_productType" disabled>
+                                    <option value="dummy" data-ablecheck="disable">Product Type</option>
+                                    <option value="productType_01" data-ablecheck="enable">bbb</option>
+                                    <option value="productType_02" data-ablecheck="enable">fff</option>
+                                    <option value="productType_03" data-ablecheck="enable">ggg</option>
+                                </select>
+                            </dd>
+                            <dd>
+                                <select name="" id="op_model" class="op_model" disabled>
+                                    <option value="dummy" data-ablecheck="disable">Model number</option>
+                                    <option value="model_01" data-ablecheck="enable">OLED65W8PUA</option>
+                                    <option value="model_02" data-ablecheck="enable">OLED45W8PUA</option>
+                                    <option value="model_03" data-ablecheck="enable">OLED55W8PUA</option>
+                                </select>
+                            </dd>
+                        </div>
+                        <span class="alert_nonTypo"><i class="icon_error"></i><em>{Error event message}</em></span>
+                    </dl>
+                    <!--// form module01 :: find product comboboxes -->
+                </div>
+                <div class="grid_harf column view_select_product">
+                    <div class="column viewimage_Product">
+                        <img src="" alt="not yet selection">
+                    </div>
+                    <div class="column viewID_product">
+                        <p class="beforeAction" data-ableCheck="true">Enter model number or Select by Product Category</p>
+                        <!--// default : none -->
+                        <a class="onSelection" href="" data-ableCheck="false"><em class="view_modelNum linear_replace">OLED65W8PUA</em><i class="icon"></i></a>
+                        <!--// situation1 : on Selection  -->
+                        <p class="noMatch" data-ableCheck="false">Unfortunately, requesting RA online is currently unavailable for your selected product <em class="view_modelNum">OLED65W8PUA</em></p>
+                    </div>
+                </div>
+            </div>
+            <!--//End :: Find model -->
+            <div class="cutoff_clear">
+                <dl>
+                    <dt>Serial Number</dt>
+                    <dd><input type="text" placeholder="Enter your serial number" id=""><label for="" class="">Enter your serial number</label></dd>
+                </dl>
+            </div>
+            <!--//End :: Serial Number  -->
+            <div class="btn_area">
+                <button class="validator">Next</button>
+            </div>
+        </section>
+        <section class="step2"></section>
+        <section></section>
+        
+    </main>
+</body>
+</html>
