@@ -23,54 +23,36 @@
     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
     <script>
         $(document).ready(function(){
+
+            function test($){
+                console.log($);
+                $.abc = function(){
+                    return false;
+                },
+                $.dhj = function(){
+                    return false;
+                },
+                $.dise = {};
+                console.log(f);
+                console.log(this);
+            }
+            (function(){
+
+                if(sample.value=="dummy"){
+                    alert("hehe");
+                }
+            })();
+
             // debug
             var eventChecker = function(eventName){
                 console.log(eventName + " is active");
             }
-            /*
-                validate
-                var validate = {
-                    defaultSet : function(uiElem){
-                        for (i = 0; i < $(uiElem).length; i++){
-                            $(uiElem).find("option:selected").index()
-                            var previous_value = [$(uiElem).i];
-                        }
-                        
-                    },
-                    nextStep_bySelect : function(tg, actTg){
-                        tg.on("change", function(){
-                            // var categoryIndex = $(this).find("option:selected").index();
-                            // return categoryIndex;
-                            var preivous_val = $(this).val();
-                            
-                            validate.checkActiveNext(confirm, actTg, preivous_val, now_val);
-                        });
-                    },
-                    checkActiveNext : function(confirm, actTg, preivous_val, now_val){
-                        if( confirm === "able"){
-                            // eventChecker("enable");
-                            actTg.removeAttr("disabled");
-                        }else if( confirm === "disable"){
-                            // eventChecker("disable");
-                            actTg.attr("disabled", "true");
-                            $(this).closest("[class^=box_]").addClass("check")
-                            if( $("select").attr("class").indexOf("master") > -1 ){
-                                // eventChecker("exception");
-                                $(this).removeAttr("disabled");
-                            }
-                        }
-                    }
-                }
-                validate.defaultValue();
-                console.log(categoryIndex);
-
-                validate.nextStep_bySelect($("select"));
-            */
 
             // interface
             var init = function(){
                 v.checkDefalutAllbox( $(document).find('select') );
                 v._bySelect.activeStep(v.keepdata);
+                v.validator($(".validator"));
             }
             
             // logic
@@ -88,8 +70,34 @@
                     return v.keepdata;
 
                 },
-                validator : function(){
-                    return false;
+                /*
+                    logic
+                    1. check input, select, textarea what in module [have value and that is correct data].
+                    2. no data element [be focused] one by one [sequentially] [with alert massage] that need to value by case [on the element top]. for example number, text, date, be selected option value. 
+                */ 
+                validator : function(e){
+                    e.on("click", function(){
+                        var $this = $(this),
+                            moduleArrange = $this.closest("section"),
+                            tgElem = "select";
+                        eventChecker("validata");
+                        //console.log(moduleArrange.find(tgElem).length);
+                        
+                        for(i=0; i<moduleArrange.find(tgElem).length; i++){
+                            //console.log(moduleArrange.find(tgElem).eq(i).val() );
+                            
+                            // dummy exchange empty string.
+                            var filter = document.getElementsByTagName("select")[i].value;
+                            if( filter === "dummy"){
+                                v.keepdata[i] = "";
+                                // v.keepdata[i].match("dummy") == ""; 
+                                // console.log(v.keepdata[i]);
+                            }
+                            v.keepdata[i].length > 0 ? console.log("done") : console.log("not yet");
+                            // console.log(d);
+                        }
+                        console.log(v.keepdata);
+                    });
                 },
                 /* logic 
                     1. If first ; master option have value, next option free to disabled attribute. and next pattern repeat same routine.
@@ -177,6 +185,7 @@
                         });
                     }
                 }
+
             };
 
             init();
@@ -194,93 +203,124 @@
             0. be supported js api.
             1. use index of option element in select one by one.
             2. force trigger for all events ; change, focus, mouse....
+
+            -=-=-=
+            form element 
+            1. name propery direct use as variable.
+                ex> <form name="submitForm">, submitForm.value = ""
         */
     </script>
 </head>
 <body>
     <main class="page_contents business_support request_RA">
-        <section class="request_RA-step1">
-            <h2>Select Your Product</h2>
-            <div class="grid_harf">
-                <div class="column find_product">
-                    <!-- form module01 :: find product comboboxes -->
-                    <dl class="cluster_find_modelOption">
-                        <div class="">
-                            <dt>Enter Model Number</dt>
-                            <dd>
-                                <input type="text" class="typoBox_modelNum">
-                                <button><img src="" alt="Research your model"></button>
-                            </dd>
-                            <a href="javascript:;"><span class="linear_replace">Find my model & seral number</span><i class="icon_newWindow"></i></a>
+        <form action="" name="sample">
+            <section class="step1">
+                <h2>Select Your Product</h2>
+                <div class="grid_harf">
+                    <div class="column find_product">
+                        <!-- form module01 :: find product comboboxes -->
+                        <dl class="cluster_find_modelOption">
+                            <div class="">
+                                <dt>Enter Model Number</dt>
+                                <dd>
+                                    <input type="text" class="typoBox_modelNum">
+                                    <button><img src="" alt="Research your model"></button>
+                                </dd>
+                                <a href="javascript:;"><span class="linear_replace">Find my model & seral number</span><i class="icon_newWindow"></i></a>
+                            </div>
+                            <div class="box_find_modelOption">
+                                <dt>or Select by Product Category</dt>
+                                <dd>
+                                    <select name="" id="" class="op_master">
+                                        <option value="tv" data-ablecheck="enable">TV/Audio/Video</option>
+                                        <option value="app" data-ablecheck="enable">Application</option>
+                                        <option value="mob" data-ablecheck="enable">smart phone</option>
+                                        <option value="pc" data-ablecheck="enable">desktop</option>
+                                    </select>
+                                </dd>
+                                <dd>
+                                    <select name="" id="" class="op_product" disabled>
+                                        <option value="dummy" data-ablecheck="disable">Product</option>
+                                        <option value="electronic" data-ablecheck="enable">electronic</option>
+                                        <option value="monitor" data-ablecheck="enable">monitor</option>
+                                        <option value="console" data-ablecheck="enable">console</option>
+                                        <option value="gear" data-ablecheck="enable">gear</option>
+                                    </select>
+                                </dd>
+                                <dd>
+                                    <select name="" id="" class="op_productType" disabled>
+                                        <option value="dummy" data-ablecheck="disable">Product Type</option>
+                                        <option value="productType_01" data-ablecheck="enable">bbb</option>
+                                        <option value="productType_02" data-ablecheck="enable">fff</option>
+                                        <option value="productType_03" data-ablecheck="enable">ggg</option>
+                                    </select>
+                                </dd>
+                                <dd>
+                                    <select name="" id="op_model" class="op_model" disabled>
+                                        <option value="dummy" data-ablecheck="disable">Model number</option>
+                                        <option value="model_01" data-ablecheck="enable">OLED65W8PUA</option>
+                                        <option value="model_02" data-ablecheck="enable">OLED45W8PUA</option>
+                                        <option value="model_03" data-ablecheck="enable">OLED55W8PUA</option>
+                                    </select>
+                                </dd>
+                            </div>
+                            <span class="alert_nonTypo"><i class="icon_error"></i><em>{Error event message}</em></span>
+                        </dl>
+                        <!--// form module01 :: find product comboboxes -->
+                    </div>
+                    <div class="grid_harf column view_select_product">
+                        <div class="column viewimage_Product">
+                            <img src="" alt="not yet selection">
                         </div>
-                        <div class="box_find_modelOption">
-                            <dt>or Select by Product Category</dt>
-                            <dd>
-                                <select name="" id="" class="op_master">
-                                    <option value="tv" data-ablecheck="enable">TV/Audio/Video</option>
-                                    <option value="app" data-ablecheck="enable">Application</option>
-                                    <option value="mob" data-ablecheck="enable">smart phone</option>
-                                    <option value="pc" data-ablecheck="enable">desktop</option>
-                                </select>
-                            </dd>
-                            <dd>
-                                <select name="" id="" class="op_product" disabled>
-                                    <option value="dummy" data-ablecheck="disable">Product</option>
-                                    <option value="electronic" data-ablecheck="enable">electronic</option>
-                                    <option value="monitor" data-ablecheck="enable">monitor</option>
-                                    <option value="console" data-ablecheck="enable">console</option>
-                                    <option value="gear" data-ablecheck="enable">gear</option>
-                                </select>
-                            </dd>
-                            <dd>
-                                <select name="" id="" class="op_productType" disabled>
-                                    <option value="dummy" data-ablecheck="disable">Product Type</option>
-                                    <option value="productType_01" data-ablecheck="enable">bbb</option>
-                                    <option value="productType_02" data-ablecheck="enable">fff</option>
-                                    <option value="productType_03" data-ablecheck="enable">ggg</option>
-                                </select>
-                            </dd>
-                            <dd>
-                                <select name="" id="op_model" class="op_model" disabled>
-                                    <option value="dummy" data-ablecheck="disable">Model number</option>
-                                    <option value="model_01" data-ablecheck="enable">OLED65W8PUA</option>
-                                    <option value="model_02" data-ablecheck="enable">OLED45W8PUA</option>
-                                    <option value="model_03" data-ablecheck="enable">OLED55W8PUA</option>
-                                </select>
-                            </dd>
+                        <div class="column viewID_product">
+                            <p class="beforeAction" data-ableCheck="true">Enter model number or Select by Product Category</p>
+                            <!--// default : none -->
+                            <a class="onSelection" href="" data-ableCheck="false"><em class="view_modelNum linear_replace">OLED65W8PUA</em><i class="icon"></i></a>
+                            <!--// situation1 : on Selection  -->
+                            <p class="noMatch" data-ableCheck="false">Unfortunately, requesting RA online is currently unavailable for your selected product <em class="view_modelNum">OLED65W8PUA</em></p>
                         </div>
-                        <span class="alert_nonTypo"><i class="icon_error"></i><em>{Error event message}</em></span>
+                    </div>
+                </div>
+                <!--//End :: Find model -->
+                <div class="cutoff_clear">
+                    <dl>
+                        <dt>Serial Number</dt>
+                        <dd><input type="text" placeholder="Enter your serial number" id=""><label for="" class="">Enter your serial number</label></dd>
                     </dl>
-                    <!--// form module01 :: find product comboboxes -->
                 </div>
-                <div class="grid_harf column view_select_product">
-                    <div class="column viewimage_Product">
-                        <img src="" alt="not yet selection">
-                    </div>
-                    <div class="column viewID_product">
-                        <p class="beforeAction" data-ableCheck="true">Enter model number or Select by Product Category</p>
-                        <!--// default : none -->
-                        <a class="onSelection" href="" data-ableCheck="false"><em class="view_modelNum linear_replace">OLED65W8PUA</em><i class="icon"></i></a>
-                        <!--// situation1 : on Selection  -->
-                        <p class="noMatch" data-ableCheck="false">Unfortunately, requesting RA online is currently unavailable for your selected product <em class="view_modelNum">OLED65W8PUA</em></p>
-                    </div>
+                <!--//End :: Serial Number  -->
+                <div class="btn_area">
+                    <button class="validator">Next</button>
                 </div>
-            </div>
-            <!--//End :: Find model -->
-            <div class="cutoff_clear">
-                <dl>
-                    <dt>Serial Number</dt>
-                    <dd><input type="text" placeholder="Enter your serial number" id=""><label for="" class="">Enter your serial number</label></dd>
-                </dl>
-            </div>
-            <!--//End :: Serial Number  -->
-            <div class="btn_area">
-                <button class="validator">Next</button>
-            </div>
-        </section>
-        <section class="step2"></section>
-        <section></section>
-        
+            </section>
+            <section class="step2">
+                <div><input type="text" id="targetIP" required ></div>
+                <script>
+                    // regex
+
+                    // 차량번호판[두자리숫자+한자리문자+네자리숫자]
+                    //var re = /[0-9]{2}[a-zA-z]{1}[0-9]{4}/g;
+                    var mobil = new RegExp('[0-9]{2}[a-zA-z]{1}[0-9]{4}');
+                    
+                    // 날짜선택 :: 영어권 mm/dd/yyyy
+                    var date = /^[0-1][0-9][/][0-31]{2}[/][1-2][0-9]{3}$/;
+                    function valueCheck(r){
+                        var g = document.getElementById("targetIP").value;
+                        console.log(g);
+                        console.log( mobil.exec(g) );
+                        console.log( mobil.test(g) );
+                    }
+                    
+                </script>
+                <div>
+                    <textarea name="" id="" cols="30" rows="10" style="resize: none;" maxlength="400"></textarea>
+                </div>
+                <div class="btn_area">
+                    <button type="button" class="" onclick="valueCheck()">Next</button>
+                </div>
+            </section>
+            <section></section>
+        </form>
     </main>
 </body>
 </html>
