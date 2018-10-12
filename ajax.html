@@ -9,68 +9,53 @@
     <!-- script -->
     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
     <script>
-        // $(document).ready(function(){
-        //     console.log("ready");
-        //     // var objAjax = new XMLHttpRequest();
-        //     // objAjax.open("post", "/index.html", true);
-        //     // objAjax.setRequestHeader();
-        //     // objAjax.send();
-        //     $.ajax({
-        //         type : "post",
-        //         url : "/index.html",
-        //         dataType : "html",
-        //         success : function(data){
-        //             $(document).html(data);
-        //         }
-        //     })
-        // });
-    </script>
-    <script>
-        window.onload =function(){
+        $(document).ready(function(){
+            console.log("ready");
 
-            document.querySelector('input').addEventListener('click', function(event){
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', './time.php');
-                xhr.onreadystatechange = function(){
-                    if(xhr.readyState === 4 && xhr.status === 200){
-                        document.querySelector('#time').innerHTML = xhr.responseText;
+            //by js
+            function ajaxTEST(){
+                var objAjax = new XMLHttpRequest(),
+                    callUrl = "index.html";
+                objAjax.onreadystatechange = function(){
+                    if( objAjax.readyState === objAjax.DONE && objAjax.status === 200 ){
+                        document.getElementsByClassName("wrap")[0].innerHTML = objAjax.responseText;
                     }
-                }
-                xhr.send(); 
-            }); 
-        }
+                };
+
+                objAjax.open("get", callUrl, true);
+                // objAjax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                objAjax.send();
+            }
+            ajaxTEST();
+            // by jqeury
+            // $.ajax({
+            //     type : "get",
+            //     url : "index.html",
+            //     dataType : "html",
+            //     success : function(data){
+            //         $(".wrap").html(data);
+            //     }
+            // });
+
+            // $.ajax({
+            //     type : "get",
+            //     url : "sam_1.json",
+            //     dataType : "json",
+            //     data : {
+            //         filter: "John", 
+            //         responsive: "Boston"
+            //     },
+            //     success : function(data){
+            //         $(".wrap").html(data);
+            //     }
+            // })
+            /*
+                통신방식을 post로 설정하면 405 오류를 반환하며 동작하지 않음. 미제.
+            */
+        });
     </script>
 </head>
 <body>
-    <!-- get -->
-    <p>time : <span id="time"></span></p>
-    <input type="button" id="execute" value="execute" />
-     
-    <!--// get -->
-
-    <p>time : <span id="time"></span></p>
-    <select id="timezone">
-        <option value="Asia/Seoul">asia/seoul</option>
-        <option value="America/New_York">America/New_York</option>
-    </select>
-    <select id="format">
-        <option value="Y-m-d H:i:s">Y-m-d H:i:s</option>
-        <option value="Y-m-d">Y-m-d</option>
-    </select>
-    <input type="button" id="execute" value="execute" />
-    <script>
-    document.querySelector('input').addEventListener('click', function(event){
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', './time2.php');
-        xhr.onreadystatechange = function(){
-            document.querySelector('#time').innerHTML = xhr.responseText;
-        }
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        var data = '';
-        data += 'timezone='+document.getElementById('timezone').value;
-        data += '&format='+document.getElementById('format').value;
-        xhr.send(data); 
-    });
-    </script> 
+    <div class="wrap"></div>
 </body>
 </html>
