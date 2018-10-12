@@ -9,10 +9,68 @@
     <!-- script -->
     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
     <script>
-        
+        // $(document).ready(function(){
+        //     console.log("ready");
+        //     // var objAjax = new XMLHttpRequest();
+        //     // objAjax.open("post", "/index.html", true);
+        //     // objAjax.setRequestHeader();
+        //     // objAjax.send();
+        //     $.ajax({
+        //         type : "post",
+        //         url : "/index.html",
+        //         dataType : "html",
+        //         success : function(data){
+        //             $(document).html(data);
+        //         }
+        //     })
+        // });
+    </script>
+    <script>
+        window.onload =function(){
+
+            document.querySelector('input').addEventListener('click', function(event){
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', './time.php');
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState === 4 && xhr.status === 200){
+                        document.querySelector('#time').innerHTML = xhr.responseText;
+                    }
+                }
+                xhr.send(); 
+            }); 
+        }
     </script>
 </head>
 <body>
-    
+    <!-- get -->
+    <p>time : <span id="time"></span></p>
+    <input type="button" id="execute" value="execute" />
+     
+    <!--// get -->
+
+    <p>time : <span id="time"></span></p>
+    <select id="timezone">
+        <option value="Asia/Seoul">asia/seoul</option>
+        <option value="America/New_York">America/New_York</option>
+    </select>
+    <select id="format">
+        <option value="Y-m-d H:i:s">Y-m-d H:i:s</option>
+        <option value="Y-m-d">Y-m-d</option>
+    </select>
+    <input type="button" id="execute" value="execute" />
+    <script>
+    document.querySelector('input').addEventListener('click', function(event){
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', './time2.php');
+        xhr.onreadystatechange = function(){
+            document.querySelector('#time').innerHTML = xhr.responseText;
+        }
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        var data = '';
+        data += 'timezone='+document.getElementById('timezone').value;
+        data += '&format='+document.getElementById('format').value;
+        xhr.send(data); 
+    });
+    </script> 
 </body>
 </html>
