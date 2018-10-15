@@ -22,8 +22,8 @@
                     }
                 };
 
-                objAjax.open("get", callUrl, true);
-                // objAjax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                objAjax.open("POST", callUrl, true);
+                objAjax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 objAjax.send();
             }
             ajaxTEST();
