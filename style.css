@@ -37,6 +37,54 @@ option[value="dummy"] {
   color: #bbb;
 }
 
+.cutOver {
+  clear: both;
+}
+
+.grid-1 .column {
+  float: left;
+  width: 100%;
+}
+
+.grid-1 .column:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.grid-2 .column {
+  float: left;
+  width: 50%;
+}
+
+.grid-2 .column:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.grid-3 .column {
+  float: left;
+  width: 33.33333%;
+}
+
+.grid-3 .column:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.grid-4 .column {
+  float: left;
+  width: 25%;
+}
+
+.grid-4 .column:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 a:hover .linear_replace {
   text-decoration: underline;
 }

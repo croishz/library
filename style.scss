@@ -9,10 +9,14 @@
     display:inline-block;
     vertical-align:middle;
 }
-@mixin clearfix {
-    &:after {
-        content:"";
-        display:block;
+@mixin clearfix($type:true) {
+    @if($type){
+        &:after {
+            content:"";
+            display:block;
+            clear:both;
+        }
+    }@else{
         clear:both;
     }
 }
@@ -42,7 +46,21 @@ input:checked + label {
 option[value="dummy"] {
     color:#bbb;
 }
+.cutOver {
+    @include clearfix(false);
+}
 // style
+
+// grid 
+@for $i from 1 to 5 {
+    .grid-#{$i} {         
+        .column {
+            float:left;
+            width: 100% / $i;
+            @include clearfix; 
+        }
+    }
+}
 
 // [data-ableCheck=false] {display:none;}
 a:hover .linear_replace {
