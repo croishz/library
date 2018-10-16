@@ -21,6 +21,7 @@
         }
     </script> -->
     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <script src="bootstrap-datepicker.min.js"></script>
     <script>
         $(document).ready(function(){
 
@@ -181,8 +182,19 @@
                                 DOMHandlerByValue(category_location, moduleArrange, v._bySelect.skipStep(v._bySelect.skipType, nowVal));
                                 // console.log("next log is Data what time with end event");
                                 console.log(previousVal);
+                                v._bySelect.activeView( $(".view_select_product"), previousVal );
                             }
                         });
+                    },
+                    activeView : function(e, previousVal){
+                        previousVal[parseInt(previousVal.length - 1)] !== undefined 
+                        ? ( 
+                            e.addClass("active"), 
+                            e.find(".view_modelNum").text( $(".op_model").find("option:selected").text() ) 
+                        ) 
+                        : e.removeClass("active");
+
+                        // e.find(".view_modelNum").text(previousVal[parseInt(previousVal.length - 1)]);
                     }
                 }
 
@@ -294,16 +306,23 @@
                 </div>
             </section>
             <section class="step2">
-                <div><input type="text" id="targetIP" required ></div>
+                <!-- regex -->
+                <div><input type="text" id="targetIP" required></div>
                 <script>
                     // regex
-
+                    
                     // 차량번호판[두자리숫자+한자리문자+네자리숫자]
                     //var re = /[0-9]{2}[a-zA-z]{1}[0-9]{4}/g;
                     var mobil = new RegExp('[0-9]{2}[a-zA-z]{1}[0-9]{4}');
                     
                     // 날짜선택 :: 영어권 mm/dd/yyyy
                     var date = /^[0-1][0-9][/][0-31]{2}[/][1-2][0-9]{3}$/;
+
+                    // 패스워스
+                    // 주소
+                    // 메일
+                    // 아이디
+
                     function valueCheck(r){
                         var g = document.getElementById("targetIP").value;
                         console.log(g);
@@ -312,6 +331,50 @@
                     }
                     
                 </script>
+                <!--// regex -->
+
+                <!-- datepicker -->
+                <div><input type="text" class="datepicker_" required readonly></div>
+                <style>
+                .datepicker {
+                    position: absolute;
+                    background: #fff;
+                    padding: 0 10px 10px;
+                    border: 1px solid #888;
+                    border-radius: 0 0 5px 5px;
+                    direction: ltr;
+                    font-family: "LG Smart",Tahoma,Arial,sans-serif;
+                    box-shadow: 3px 4px 9px 1px rgba(0,0,0,.2);
+                    margin-top: 5px;
+                }
+                .datepicker_ {
+                    color:inherit; 
+                    border:2px solid currentColor; 
+                    border-radius:6px;
+                    cursor:pointer;
+                }
+                .datepicker_:focus {
+                    border-color:salmon;
+                }
+                </style>
+                <script>
+                    //datepicker
+                    // $(".datepicker_").on("click", function(){
+                    //     console.log("floating picker");
+                        
+                    // });
+                    $(".datepicker_").datepicker({
+                        startDate: ""
+                        , endDate: "-d"
+                        , orientation : "bottom auto"
+                        , format : "mm/dd/yyyy"
+                    });
+                    /*
+                        bootstrap datepicker 1.6.4 버전에선 enddate 혹은 startDate의 옵션값에 따라 그 이전/이후의 날짜들을 제공하지 않는다. 
+                        github의 버전-1.8.0은 옵션값으로 이러한 결과값을 출력할 수 없다.  
+                    */ 
+                </script>
+                <!--// datepicker -->
                 <div>
                     <textarea name="" id="" cols="30" rows="10" style="resize: none;" maxlength="400"></textarea>
                 </div>
