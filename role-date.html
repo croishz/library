@@ -8,10 +8,11 @@
 
     <!-- CSS -->
     <style>
-        .wrap {display:inline-block; border-left:1px solid; border-top:1px solid; border-color:steelblue;}
+        body {text-align:center;}
+        .wrap {display:inline-block; border-left:1px solid; border-top:1px solid; border-color:steelblue; margin-top:100px;}
         /* .wrap:after {content:""; display: block; clear: both;} */
         .cal {display:none;}
-        .daybox {float:left; width:85px; height:60px; line-height:59px; border:1px solid steelblue; border-top:none; border-left:none; text-align:center;}
+        .daybox {float:left; width:85px; height:60px; line-height:59px; border:1px solid steelblue; border-top:none; border-left:none;}
         .daybox:nth-of-type(7n+1) {clear:both;}
         .daybox:not(.before):not(.after) {
             cursor:pointer;
@@ -28,16 +29,20 @@
             https://codepen.io/alenabdula/pen/OPEpGL
         */ 
         window.onload = function(){
-            console.log("ready");
-            function calendar(e){
+            // console.log("ready");
+            function eventCherker(a){
+                console.log(a + " is active");
+            }
+            var calendar = function(e){
                 var dt = new Date(),
                     dayOrder = dt.getDay(), 
                     day = dt.getDate(),
                     month = dt.getMonth() + 1,
-                    year = dt.getFullYear();
-
-                // console.log(dayOrder);
-                console.log(year, month, day);
+                    year = dt.getFullYear(),
+                    // memory
+                    rs = [];
+                    // option
+                    console.log(year, month, day);
                 
                 // 영미권 전환.
                 var _nameOf_ = {
@@ -46,28 +51,13 @@
                     days : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
                     daysShort:["Sun","Mon","Tues","Wed","Thu","Fri","Sat"]
                 }
-                // 월별 시일과 막일의 요일 반환. 
-                var dateOrderReturn = function(month, year){
-                    console.log("day return");
-                    console.log(year + "년," + month + "월");
 
-                    var month = month -1;
-                    var a = new Date(year, month, 1),
-                        // b = _nameOf_.days[a.getDay()],
-                        t = a.getDay(),
-                        c = new Date(year, month, totalDaysReturn(month, year) ),
-                        // d = _nameOf_.days[c.getDay()];
-                        l = c.getDay();
-                    console.log("시일의 요일 : " + t + "막일의 요일 : " + l);
-                    return(stDate = t, flDate = l);
-                };
-                
                 // 월별 일수 설정.
                 var totalDaysReturn = function(month, year){
                     // console.log("total day return");
                     // console.log(month);
                     
-                    // switch state
+                    // switch statement
                     // switch(month){
                     //     case 4 : 
                     //     case 6 : 
@@ -99,7 +89,7 @@
                     //     break;
                     // }
 
-                    // if state by variable return
+                    // if statement by variable return
                     // var a = 0;
                     // if(month === 4 || month === 6 || month === 9 || month === 11){
                     //     a = 30;
@@ -118,37 +108,126 @@
                         return 31;
                     }
                 };
+                // 월별 시일과 막일의 요일 반환. 
+                var dateOrderReturn = function(month, year){
+                    // console.log("day return");
+                    // console.log(year + "년," + month + "월");
+                    
+                    var month = month -1;
+                    var a = new Date(year, month, 1),
+                        // b = _nameOf_.days[a.getDay()],
+                        t = a.getDay(),
+                        c = new Date(year, month, totalDaysReturn(month, year) ),
+                        // d = _nameOf_.days[c.getDay()];
+                        l = c.getDay();
+                    console.log("시일의 요일 : " + t + "막일의 요일 : " + l);
+                    rs = [t,l]
+                    return(rs);
+                };
                 // 화면 출력.
-                var daySpread = function(monthLength, stDate, flDate){
-                    console.log(month-1);
+                var daySpread = function(monthLength){
+                    eventCherker("dayspread");
+                    // start :: spread with DOM =-=-=-=-=-=-=-=-=-=-=-=-
+                    // console.log(month-1);
                     // console.log("done");
+                    // console.log(t, l);
+                    var pw = 2, nw = 1;
                     var reverseDate = totalDaysReturn( (month-1), year);
-                    for(var i=reverseDate; i<=reverseDate; i++){
-                        var c = new Date(year, totalDaysReturn( (month-1), year), i)
+                    for(var i=reverseDate - (pw*7) ; i<=reverseDate; i++){
                         $(".wrap").append("<div class=\"daybox before\">"+i+"</div>");
                     }
 
                     for(var i=1; i<=monthLength; i++){
                         // $(".wrap").append( $("span.day") ).$(".day").eq(i)
                         $(".wrap").append("<div class=\"daybox\">"+i+"</div>");
-
                         var c = new Date(year, month-1, i),
                         d = c.getDay();
-                        if( d === 6 );
                         $(".daybox:not(.before)").eq(i-1).prepend("<span>"+_nameOf_.daysShort[d]+"</span>");
                     }
-                    
-                    for(var i=1; i< 6+7 - flDate; i++){
+                   
+                    for(var i=1; i< (nw*7) + 6 - rs[1]; i++){
                         $(".wrap").append("<div class=\"daybox after\">"+i+"</div>");
                     }
+                    // end :: spread with DOM =-=-=-=-=-=-=-=-=-=-=-=-
                     
+                    // start :: DOM spread first =-=-=-=-=-=-=-=-=-=-=-=-
+                    /*
+                        1. 화면에 한번에 표시할 일자의 전체 수를 구함. 
+                        2. 전체 일자 수에서 이번 달 일자 수를 빼고,
+                        3. 지난 달의 일자 가운데 표시할 일자의 수를 정함. 
+                        4. 전체 일자 수에서 지난 달 표시할 일자 수를 다시 또 빼고,
+                        5. 4에서 남은 일자 수가 다음 달의 표시한 일자 수. 
+                    */
+                    // dateOrderReturn( (month - 1), year );
+                    // console.log(rs);
+                    
+                    // var tr = 8,
+                    //     t = Number(tr * 7),
+                    //     pr = 1,
+                    //     p = Number( (pr * 7) + rs[1] ),
+                    //     n = t - p - monthLength,
+                    //     h = totalDaysReturn( (month-1), year);
+                    //     console.log(t, p, n, "/", h);
+
+                    // not work case :: 
+                    // 1.prev month days over taken this month days, be not drawed.
+                    // 2.total days not reach to 42, be not drawed.
+                    // if( (tr - pr) * 7 < monthLength || tr < 6 ){
+                    //     console.log("alert");
+                    //     return false;
+                    // }
+                    // for(var i=0; i<t; i++){
+                    //     $(".wrap").append("<div class=\"daybox\"></div>");
+                    //     if( 0 <= i && i < p ){
+                    //         $(".daybox").eq(i).text( (h - p) + i + 1 ).addClass("before");
+                    //     }else if ( p <= i && i < (t - n) ){
+                    //         var c = new Date(year, month-1, (i-p + 1) ),
+                    //             d = c.getDay();
+                    //         $(".daybox").eq(i).text( (i - p) + 1).prepend("<span>"+_nameOf_.daysShort[d]+"</span>");
+                    //     }else{
+                    //         $(".daybox" ).eq(i).text( i - monthLength - p + 1 ).addClass("after");
+                    //         // if( i - monthLength - p + 1 > 31 ){
+                    //         //     console.log("cut");
+                    //         // }
+                    //     }
+                    // }
+                    // if( n < 0 ){
+                    //     return n = 0;
+                    // }
+
+                    // give box to past n come by equal
+                    // av_e = (t - monthLength) / 2,
+                    // if(monthLength%2 === 1){
+                    //     av_e - 0.5; 
+                    // }
+
+                    // for(
+                    //     var i=0, 
+                    //         tx = (h - p);
+                    //         i<t, tx < h;
+                    //         i++, tx++
+                    // ){
+                    //     $(".wrap").append("<div class=\"daybox\">" + i + "</div>");
+                    //     if (0 <= i < p){
+                    //         $(".daybox").eq(i).text(tx + 1);
+                    //     }else if ( p <= i < monthLength){
+                    //         $(".daybox").eq(i).text( i - p );
+                    //     }
+                    // }
+
+                    // end :: DOM spread first =-=-=-=-=-=-=-=-=-=-=-=-
+
+                    // spread days cumstom
+                    var dayMax = 365, // default 
+                        dayMin = 42;
+                        
                 }
                 dateOrderReturn(month, year);
-                daySpread( totalDaysReturn(month, year), stDate, flDate );
+                
+                daySpread( totalDaysReturn(month, year));
                 var selectDay = (function(){
                     $(".daybox:not(.before):not(.after)").on("click", function(){
-                        console.log("slct day");
-                        alert($(this).text());
+                        alert( $(this).text() );
                     });
                 })();
             }
