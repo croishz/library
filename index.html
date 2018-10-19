@@ -187,10 +187,13 @@
                         });
                     },
                     activeView : function(e, previousVal){
+                        var a = $(".op_model").find("option:selected").text();
+                        var b = $(".op_product").find("option:selected").text();
                         previousVal[parseInt(previousVal.length - 1)] !== undefined 
                         ? ( 
                             e.addClass("active"), 
-                            e.find(".view_modelNum").text( $(".op_model").find("option:selected").text() ) 
+                            e.find(".view_modelNum").text(a),
+                            $(".viewimage_Product img").attr("alt", "select model is " + a + " in " + b)
                         ) 
                         : e.removeClass("active");
 
