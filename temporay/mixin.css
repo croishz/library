@@ -1,0 +1,50 @@
+.test-block.manual:after {
+  background-image: url(/lg5-common/images/component/component-psp-download/manual.svg);
+}
+
+.test-block.document:after {
+  background-image: url(/lg5-common/images/component/component-psp-download/document.svg);
+}
+
+.test-block.software:after {
+  background-image: url(/lg5-common/images/component/component-psp-download/software.svg);
+}
+
+.test-block.driver:after {
+  background-image: url(/lg5-common/images/component/component-psp-download/driver.svg);
+}
+
+.teskk {
+  content: color;
+}
+
+@media screen and (max-width: 1440px) {
+  .class1 {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 991px) and (max-width: 1440px) {
+  .class2 {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1091px) and (max-width: 1340px) {
+  .class2-1 {
+    display: none;
+  }
+}
+
+@media screen and (orientation: landscape) and (min-width: 991px) and (max-width: 1440px) {
+  .class3 {
+    display: none;
+  }
+}
+
+@media screen and (orientation: landscape) and (max-width: 1440px) {
+  .class4 {
+    display: none;
+  }
+}
+/*# sourceMappingURL=mixin.css.map */

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <!-- chrome의 번역도구는 이 lang 속성의 코드가 접속 ip의 로컬과 매칭되는지를 판단해서 활성화되는 듯 함. -->
+<head>
+    <title>Vue Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- framework -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div class="app">
+        <p v-if="seen">이제 나를 볼 수 있어요</p>
+    </div>
+    <script>
+        var app = new Vue({
+            el : ".app",
+            data : {
+                seen : false 
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Html5 Canvas Image</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+	</style>
+	<script type="text/javascript">
+		
+		function draw(){
+
+			//이미지 객체 생성
+			var imgClo = new Image();
+
+			//페이지 로드후 이미지가 로드 되었을 때 이미지 출력
+			imgClo.addEventListener('load', function(){
+				//로드된 이미지를 캔버스에 출력
+				var ctx = document.getElementById('myCanvas').getContext("2d");
+
+				//canvas.drawImage() 함수를 사용하여 이미지 출력
+				//drawImage ( image sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+				ctx.drawImage( imgClo , 0, 0, 200, 200);
+			
+			},false);
+
+			//이미지 경로 설정
+			imgClo.src="Drivers.svg";
+			imgClo.style.fill = "steelblue";
+		
+		}
+	</script>
+	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+	<!-- <script>
+		$(document).ready(function(){
+			// document.getElementsByClassName("svg")[0].style.color = "salmon";
+			console.dir("ready " + document.getElementsByClassName("svg")[0] );
+			
+		});
+	</script> -->
+	<style>
+		.svg {color:steelblue;}
+	</style>
+</head>
+<body onload="draw();">
+
+	<canvas id="myCanvas" height="200" width="200">
+	</canvas>
+	<svg xmlns="http://www.w3.org/2000/svg" style="fill:red" width="20" height="20" viewBox="0 0 20 20">
+		<path id="Drivers" d="M1138,831h-16a2,2,0,0,1-2-2v-4a2,2,0,0,1,2-2h1l2,2h-3v4h16v-4h-3l2-2h1a2,2,0,0,1,2,2v4A2,2,0,0,1,1138,831Zm-2-5a1,1,0,0,1,0,2h-2a1,1,0,0,1,0-2h2Zm-5.14-.5a0.958,0.958,0,0,1-.14.217,0.924,0.924,0,0,1-.49.237,0.575,0.575,0,0,1-.46,0,0.932,0.932,0,0,1-.49-0.237,0.958,0.958,0,0,1-.14-0.217l-3.86-3.856a0.961,0.961,0,1,1,1.36-1.358l2.36,2.358V814a1,1,0,0,1,2,0v8.642l2.36-2.358a0.961,0.961,0,1,1,1.36,1.358Z" transform="translate(-1120 -812)"/>
+	</svg>
+	  
+	<hr noshade="noshade" color="green"/>
+	<!-- <object type="image/svg+xml" data="Drivers.svg"></object> -->
+	<embed type="image/svg+xml" src="Drivers.svg" >
+	<!-- <script>
+		function test(){
+			console.dir( document.getElementsByClassName("svg")[0] );
+			document.getElementsByClassName("svg")[0].style.color = "steelblue";
+		}
+	</script> -->
+	<!-- svg style, script 접근 케이스 
+		tag를 이용해 불러들이는 방식을 이용할 시, js, css로는 접근이 불가능하다. window.onload/$(document).ready로 해당 element를 잡으려해도 아직 렌더링이 안된 상태라 undefined로 반환된다. 페이지 로딩이 끝난 상태에서 브라우저의 콘솔 도구로 접근해도 마찬가지. 직접 element를 개발자도구에서 한번이라도 편집하면 그때서부터 js, css로 접근이 가능하다. 페이지에서의 로딩/인식 문제에 장애가 있다. 
+		canvas 태그를 통해 불러들이는 방식에서도 마찬가지. 이 경우에는 아예 웹에 객체 자체가 존재하지 않아 파일 내부에 코드를 넣지 않는 이상 제어가 불가능하다.
+	-->
+</body>
+
+</html>

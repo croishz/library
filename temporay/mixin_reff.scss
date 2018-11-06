@@ -1,0 +1,314 @@
+@charset "utf-8";
+
+// text style
+@mixin accent {
+	color:$master-color_blue!important;
+}
+@mixin alertPoint {
+	color:$master-color-red!important;
+}
+
+// display change
+@mixin blocked {
+	display:block;
+	width:100%;
+	height:100%;
+}
+@mixin IBlocked($align:middle) {
+	display:inline-block;
+	vertical-align:#{$align};
+}
+
+// remove code
+@mixin blind($type:absolute) {
+	position:$type;
+	left:-10000px;
+	z-index:-100;
+	opacity:0;
+}
+@mixin remove {
+	display:none;
+	visibility:hidden;
+	overflow:hidden;
+	width:0; height:0;
+	font-size:0; line-height: 0;
+	margin:0!important;
+	padding:0!important;
+}
+
+// transform property
+@mixin transition($property...) {
+    -moz-transition:$property;
+    -o-transition: $property;
+    -webkit-transition: $property;
+    transition: $property;
+}
+@mixin transform($transforms) {
+	-webkit-transform: $transforms;
+	-moz-transform: $transforms;
+	-ms-transform: $transforms;
+	transform: $transforms;
+}
+@mixin translate ($x:0%, $y:0%) {
+	@include transform(translate($x, $y));
+}
+@mixin midCenter($pos:absolute){
+	position:$pos;
+	top:50%; left:50%;
+	@include translate(-50%, -50%);
+}
+@mixin midCenterAbs{
+	position:absolute;
+	top:0; bottom:0; left:0; right:0;
+	margin:auto;
+}
+// placeholder
+@mixin placeholder {
+  &::-webkit-input-placeholder {@content};
+  &:-moz-placeholder           {@content};
+  &::-moz-placeholder          {@content};
+  &:-ms-input-placeholder      {@content};
+}
+
+// Abbreviation :: 말줄임처리
+@mixin Abbreviation {
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+@mixin multiEllipsis($lineNumber, $lineHeight: 1.4em) {
+    overflow: hidden;
+    text-overflow:ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $lineNumber;
+    -webkit-box-orient: vertical;
+    line-height: $lineHeight;
+    height: $lineNumber * $lineHeight;
+}
+
+// button style
+@mixin btnStandStyle($hgt:30px){
+	height:$hgt; line-height:$hgt - 2px;
+	background:#fff;
+	border:1px solid $master-border-color;
+	font-size:1rem;
+	font-weight:500;
+	text-align: center;
+	box-sizing:border-box;
+}
+@mixin button-default-style {
+	text-align:center;
+	font-size:inherit;
+	font-weight:400;
+	color:#fff;
+	@content;
+}
+@mixin object-blue-rounder {
+	box-sizing:border-box;
+	background-color:$master-color_blue;
+	color:#fff;
+	text-align:center;
+	border-radius:30px;
+	padding:6px 0;
+}
+
+// background property
+@mixin bg-option ($imgName:null, $size:auto, $imgType:png, $bgPos:50% 50%, $repeat:no-repeat, $ankerPath:null){
+    background: {
+        size:$size;
+        image: url(../images/#{$ankerPath}#{$imgName}.#{$imgType});
+        position:$bgPos;
+        repeat:$repeat;
+    }
+    @content;
+}
+@mixin replaceBg ($imgName:null, $imgType:png, $ankerPath:null){
+	background-image:url(../images/#{$ankerPath}#{$imgName}.#{$imgType});
+}
+// shape & bleet decoration
+@mixin decoHR($interval:38px 0, $lineColor:#fff, $thin:2px, $lineWidth:40px) {
+	content:"";
+	display:block;
+	width:$lineWidth;
+	height:$thin;
+	background-color:$lineColor;
+	margin:$interval;
+}
+@mixin divdeHR ($interval:0 auto 20px, $lineColor:$master-color-blue, $thin:3px, $lineWidth:30px) {
+	content:"";
+	display:block;
+	width:$lineWidth;
+	height:$thin;
+	background-color:$lineColor;
+	margin:$interval;
+}
+@mixin vLinearBleet($horiMg:null) {
+	&:after {
+		content:"";
+		@include IBlocked;
+		width:1px; height:14px;
+		background-color:#ccc;
+		margin: 0 $horiMg;
+		margin-top: -2px;
+	}
+}
+@mixin cubicBleet($position-X:4px, $size:5px, $ltSpace:17px, $cubicColor:$master-color_blue) {
+	position:relative;
+	padding-left:$ltSpace;
+	box-sizing:border-box;
+	&:before{
+		content:"";
+		position:absolute;
+		left:0; top:#{$position-X};
+		display:block;
+		width:$size; height:$size;
+		background-color:$cubicColor;
+		@content;
+	}
+}
+@mixin bleetElem($elemColor:currentColor) {
+	content:"";
+	display:inline-block;
+	vertical-align:middle;
+	width:1px;
+	height:15px;
+	background-color: #{$elemColor};
+	@content;
+}
+@mixin indexboxStyle($fontSz:1rem,$bgColor:$master-color_blue){
+	display:inline-block;
+	vertical-align:top;
+	width:20px; height:20px;
+	line-height:18px;
+	text-align:center;
+	color:#fff;
+	font-size:$fontSz;
+	background:$bgColor;
+	margin-right:4px; margin-top:4px;
+}
+@mixin textLiner {
+	position:relative;
+	display:inline-block;
+	vertical-align:text-top;
+	&:before{
+		content: "";
+		position:absolute;
+		top:100%;
+		width:100%; height: 1px;
+		background-color:currentColor;
+		margin:-1px 0 0 -1px;
+		padding:0 2px;
+	}
+}
+@mixin sliderPage-linear($pos-x:0, $pos-y:0) {
+	position: absolute;
+	left: $pos-x; bottom: $pos-y;
+	height: auto;line-height:0;
+	> * {
+		@include IBlocked;
+		width: 41px;
+		height: 3px;
+		border-radius: 3px;
+		background:#fff;
+		box-shadow:0 1px 1px hsla(0,0%,0%, 0.2);
+		@content;
+		&.active{
+			background:#666;
+		}
+	}
+}
+// checkbox custom
+@mixin checkbox($elemProperty:inline-block, $size:15px){
+	display:$elemProperty;
+	width:#{$size};
+	height:$size;
+	// background:$bgColor;
+	// border:1px solid;
+	// border-color:$brColor;
+}
+@mixin box-shadow($top:0px, $left:0px, $blur:0px, $color:#000, $inset: false) {
+	@if $inset {
+		-webkit-box-shadow:inset $top $left $blur $color;
+		-moz-box-shadow:inset $top $left $blur $color;
+		box-shadow:inset $top $left $blur $color;
+	} @else {
+		-webkit-box-shadow: $top $left $blur $color;
+		-moz-box-shadow: $top $left $blur $color;
+		box-shadow: $top $left $blur $color;
+	}
+}
+// mediaQuery breaking point :: 반응형 변곡점 설정
+@mixin breakPoint($point:null, $minpoint:0px) {
+	@media all and ( min-width: #{$minpoint} ) and ( max-width: #{$point} ) {
+		@content;
+	}
+}
+
+// placeholder custom
+@mixin replacePlaceholder(){
+	position:relative;
+	label {
+		position:absolute;
+		top:0; left:0;
+		display:block;
+		width:100%; height:100%;
+		background-color:inherit;
+		color:#999;
+		font-size:14px;
+		line-height:1;
+		box-sizing:border-box;
+		white-space:nowrap;
+		overflow:hidden;
+		cursor: text;
+		@content;
+	}
+	input:focus + label {
+		display:none;
+	}
+}
+
+// form style
+@mixin form-cellStyle($fixedHeight:null, $borderColor:#ddd, $bgColor:#fff){
+	border:1px solid #{$borderColor};
+	background:#{$bgColor};
+	height:#{$fixedHeight};
+	box-sizing:border-box;
+}
+// quick button
+@mixin circleBtnStyle_onQuick($size:56px, $bg-color:#e5e5e5){
+	width:$size; height:$size;
+	margin: auto;
+	background-color:$bg-color;
+	color:#fff;
+	font-size:12px;
+	border-radius:50%;
+	text-transform:uppercase;
+	text-align:center;
+	@include box-shadow(0px, 2px, 1px 0px, hsla(0,0%,0%,0.4));
+}
+// mobile container width defeasance
+@mixin cancleBox {
+	margin:0 -15px;
+}
+
+// animation
+@keyframes fadeup{
+	from{
+		opacity:0;
+		@include transform(translateY(55px));
+	}
+	to {
+		opacity:1;
+		@include transform(translateY(0));
+	}
+}
+@keyframes fadeLt{
+	from {
+		opacity:0;
+		right:200%;
+	}
+	to {
+		opacity:1;
+		right:100%;
+	}
+}

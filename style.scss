@@ -11,33 +11,41 @@
 }
 @mixin clearfix($type:true) {
     @if($type){
-        &:after {
+        &:before, &:after {
             content:"";
-            display:block;
+            display:table;
+        }
+        &:after {
             clear:both;
         }
     }@else{
         clear:both;
     }
 }
+// variable
+$form_margin_standard: 100px * 0.3;
+$formElemHeight : 100px * 0.3;
 html {
     font-size:16px;
     color:steelblue;
     line-height:1.3;
+    letter-spacing: 0.025em;
 }
 html, body, div, p,
 h1, h2, h3, h4, h5, h6, blockquote,
 fieldset, legend, figure, 
-ul, ol, li, dl, dd {
+ul, ol, li, dl, dd,
+input, select, button {
     padding:0; margin:0;
 }
 a, a:hover, a:-webkit-any-link {
     text-decoration:none;
 }
 img {
-    vertical-align:middle;
+    vertical-align:top;
+    // line-height: 1;
 }
-button, select, textarea {border-color:none;}
+input, button, select, textarea {vertical-align:top;}
 textarea {resize:none;}
 
 input:checked + label {
@@ -62,22 +70,141 @@ option[value="dummy"] {
     }
 }
 
-// [data-ableCheck=false] {display:none;}
+[data-viewable="unable"] {display:none;}
 a:hover .linear_replace {
     text-decoration:underline;
 }
 $masterColor-red:darkred;
+.step_container {
+    box-sizing: border-box;
+    padding:0 40px;
+}
 .grid_harf {
     @include clearfix;
-    .column{
+    > .column{
         float:left;
         width:50%;
     }
 }
+/*=-=-=-=-=-=-=-=-=-=-=-=-
+support standard style 
+:: form 
+=-=-=-=-=-=-=-=-=-=-=-=-*/
+.form_support {
+    font-size:1rem;
+    input {
+        box-sizing:border-box;
+        font-size:1em;
+        padding-left: 10px;
+    }
+    input[type="text"], button{
+        height:$formElemHeight;
+        border:1px solid steelblue;
+    }
+}
+.replaceHolder {
+    position:relative;
+    input[type="text"]::placeholder{
+        color:transparent;
+    }
+    input[type="text"] + label {
+        position: absolute;
+        top:50%; margin-top: -11px; //transform:translateY(-50%);
+        left:10px;
+        background-color:#fff;
+        letter-spacing:-0.005em;
+        
+        // fade type
+        // transition: opacity 150ms ease;
+        // opacity: 1;
+       
+        // slide type :: not work ie
+        transition: transform 300ms ease;
+        transform: rotateY(0deg);
+        transform-origin: 0% 50%;
+    }
+    input[type="text"]:focus + label {
+        // fade type
+        // opacity: 0;
+        // z-index:-1;
+
+        // slide type :: not work ie
+        transform: rotateY(90deg);
+    }   
+}
+
 .request_RA [class*="modelNum"] {
     color:$masterColor-red;
 }
-.view_select_product {
-    
+.head_thisModule {
+    font-size:1.6em;
+}
+.find_by_directTypo {
+    margin-bottom:10px;
+    .typoBox_modelNum {
+        width:80%;
+    }
+    .search_modelNum {
+        width:20%;
+    }
+}
+.box_find_modelOption{
+    font-size:0.625rem;
+    // padding-right:20em;
+    // max-width:45em; width:100%;
+    .optLine {
+        margin-bottom: 10px;
+        // &:nth-last-of-type(1) {margin-bottom: 0;}
+    }
+    input, textarea, select {
+        width:100%; height:40px;
+        border:1px solid steelblue;
+        font-size: 1.8em;
+    }
+    select {
+        padding-left:2%;
+    }
+}
+.find_product {
+    position:relative;
+    outline:1px solid currentColor;
+}
+.cluster_find_modelOption {
+    box-sizing:border-box;
+    padding:$form_margin_standard;
+    &:after {
+        content:"";
+        position: absolute;
+        top:$form_margin_standard; bottom:$form_margin_standard;
+        left:50%; //margin-left:-1px;
+        display:block;
+        width:1px;
+        background-color:#ccc;
+    }
+}
+.view_product.active {
+    transform: rotateY(0deg);
+}
+.view_product {
+    position: absolute;
+    left:50%;
+    height:100%;
+
+    // background: lightsalmon;
+    // transition: transform 300ms ease;
+    // transform: rotateY(90deg);
+    // transform-origin: 0% 50%;
+
+    .box_infomation {
+        position: absolute;
+        top:50%; transform:translateY(-50%);
+        width:100%;
+        box-sizing:border-box;
+        padding:0 $form_margin_standard;  
+    }
     .noMatch {word-break:keep-all;}
+}
+.cluster_serial .typo_serial {
+    width:50%;
+    min-width:320px;
 }
