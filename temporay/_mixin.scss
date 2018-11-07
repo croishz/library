@@ -146,9 +146,9 @@ $apple-biggest: $mobile - 352px; // 416px;
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= end option
 
     //output set
-    @media #{$type} #{$min-width} and (max-width:$max-point){
-        @content;
-    }
+    // @media #{$type} #{$min-width} and (max-width:$max-point){
+    //     @content;
+    // }
 }
 
 //media query sample
