@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body {padding: 0;margin: 0;}
+		ul, li {list-style:none; margin:0; padding: 0;}
+		.block {width:100%; height:20px; background-color:steelblue; text-align: center; color:white;}
+
+		.contents {
+			max-width:1284px;
+			margin: auto;
+		}
+		.container {
+			position:relative;
+		}
+		.container:after {
+			content:"";
+			position:absolute;
+			top:0; right:100%;
+			display:block;
+			width:100%;
+			height:60px;
+			background-color:#333;
+		}
+		.contents .infomation {
+			position:absolute;
+			top:0; left:0;
+			width:100%;
+			height:60px;
+		}
+		.contents .menu-list {
+
+		}
+		.contents .menu-list:before {
+			content:"";
+			display:block;
+			width:100%;
+			height:60px;
+		}
+		.contents .menu-list .tab-menu-belt {
+			height:auto;
+			display:none;
+			transition:max-height 300ms ease;
+			background-color:lightsalmon;
+			overflow:hidden;
+		}
+		.contents .menu-list .tab-menu-belt.open {
+			display:block;
+		}
+		.contents .menu-list .tab-menu-belt .menu {
+			
+		}
+		.contents .menu-list .tab-menu-belt .menu .linker {
+			display:block;
+			box-sizing:border-box;
+			padding:12px 0 12px 15px ;
+			border-bottom:1px solid #ccc;
+		}
+		.contents .menu-list .extra-area {
+			position:absolute;
+			top:0; right:0;
+		}
+		.contents .menu-list .extra-area .extra-menu {
+			display:block;
+			height:60px;
+			padding:20px 24px;
+			box-sizing:border-box;
+			background:salmon;
+		}
+		.contents .menu-list .extra-area .btn {
+			position:absolute;
+			top:0; right:100%;
+			width:10000%;
+			background-color:transparent;
+			text-align: right;
+			border:none;
+			padding:0;
+		}
+		.contents .menu-list .extra-area .btn span {
+			display:inline-block;
+			width:40px;
+			height:60px;
+			background-color:#ccc;
+			text-indent:-2000px;
+			white-space:nowrap;
+			color:transparent;
+		}
+		.mob-text {
+			position:absolute;
+			left: -10000px;
+			opacity:0;
+			z-index:-100;
+			color:transparent;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="block">section</div>
+		
+		<!-- path1 -->
+		<div class="contents">
+			<div class="container">
+				<div class="infomation">
+					<div class="name">[product name]</div>
+					<div class="price"><span class="unit">$</span>[product price]</div>
+				</div>
+				<div class="menu-list">
+					<a href="#drop" class="mob-text">Menu</a>
+					<ul class="tab-menu-belt">
+						<li class="menu"><a href="javascript:;" class="linker">overviews</a></li>
+						<li class="menu"><a href="javascript:;" class="linker">spec</a></li>
+						<li class="menu"><a href="javascript:;" class="linker">summary</a></li>
+						<li class="menu"><a href="javascript:;" class="linker">support</a></li>
+						<li class="menu"><a href="javascript:;" class="linker">where to buy</a></li>
+					</ul>
+					<div class="extra-area">
+						<button type="button" class="btn" id="drop"><span>menu open</span></button>
+						<a href="javascript:;" class="extra-menu">Add to Cart</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--// path1 -->
+		
+		<div class="block">section</div>
+	</div>
+	<script>
+		document.querySelector(".btn").addEventListener("click", function(){
+			var tabList = document.querySelector(".tab-menu-belt"),
+				checker = this.children[0].innerText.indexOf("close") > 0;
+			console.dir(this.children[0]);
+			console.dir(tabList.children[0]);
+			
+			if (checker){	
+				console.log("close");			
+				tabList.classList.remove("open");
+				this.children[0].innerText = "menu open";
+			}else{
+				console.log("open");			
+				tabList.classList.add("open");
+				this.children[0].innerText = "menu close";
+
+				setTimeout( function(){
+					tabList.children[0].children[0].focus();	
+				}, 100 )
+			}
+
+		}, false);
+
+	</script>
+</body>
+</html>
