@@ -110,7 +110,7 @@ support standard style
     input[type="text"] + label {
         position: absolute;
         top:50%; margin-top: -11px; //transform:translateY(-50%);
-        left:10px;
+        left:$form_margin_standard + 10px;
         background-color:#fff;
         letter-spacing:-0.005em;
         

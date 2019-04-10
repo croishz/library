@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		body {margin: 0;padding: 0;}
+		.component {
+			max-width:1344px;
+			padding:0 30px;
+			position: relative;
+			
+		}
+		.inner {
+			width:100%;
+			/* padding-bottom:100%; */
+			margin:auto;
+			/* position: absolute;
+			top:0; left:0; */
+		}
+		div ul {
+			display:flex; 
+			flex-direction: column;
+			flex-wrap: wrap;
+			/* justify-content: space-between;  */
+			/* display:grid;
+			grid-template-columns: repeat(3,1fr);
+			-ms-grid-column: repeat(3,1fr);
+			grid-gap: 0.3%;
+			grid-template-rows: repeat(3, min-content);
+			grid-auto-rows: minmax(100px, auto); */
+			/* max-width:1284px;  */
+			padding: 0; margin: 0;
+			/* column-count:3;
+			column-gap: 10px; */
+			height:1450px;
+		}
+		@media (max-width:767px){
+			div ul {height:1580px};
+		}
+		div ul li {
+			display:inline-block; 
+			list-style:none; 
+			width:32%; 
+			margin-bottom:10px;
+			/* margin-right:0.3%;  */
+			
+			outline:1px solid lightcoral; 
+			outline-offset:-1px;
+		}
+		@media (max-width:767px){
+			div ul li {width:50%;}
+		}
+		@media (min-width:768px){
+			div ul li:nth-child(1) {order:1;}
+			div ul li:nth-child(2) {order:3;}
+			div ul li:nth-child(3) {order:6;}
+			div ul li:nth-child(4) {order:2;}
+			div ul li:nth-child(5) {order:4;}
+			div ul li:nth-child(6) {order:7;}
+			div ul li:nth-child(7) {order:5;}
+			div ul li:nth-child(8) {order:8;}
+		}
+		@media (max-width:767px){
+			div ul li:nth-child(1) {order:1;}
+			div ul li:nth-child(2) {order:5;}
+			div ul li:nth-child(3) {order:2;}
+			div ul li:nth-child(4) {order:6;}
+			div ul li:nth-child(5) {order:3;}
+			div ul li:nth-child(6) {order:4;}
+			div ul li:nth-child(7) {order:7;}
+			div ul li:nth-child(8) {order:8;}
+		}
+		
+		/* div ul li:nth-child(1), 
+		div ul li:nth-child(2) 
+		{
+			grid-column:1
+		}
+		div ul li:nth-child(3), 
+		div ul li:nth-child(4), 
+		div ul li:nth-child(5) 
+		{
+			grid-column:2
+		}
+		div ul li:nth-child(6), 
+		div ul li:nth-child(7), 
+		div ul li:nth-child(8) 
+		{
+			grid-column:3
+		}
+		div ul li:nth-child(1), 
+		div ul li:nth-child(3), 
+		div ul li:nth-child(6) {
+			grid-row :1;
+		} 
+		div ul li:nth-child(2), 
+		div ul li:nth-child(4), 
+		div ul li:nth-child(7) {
+			grid-row :2;
+		}
+		div ul li:nth-child(5), 
+		div ul li:nth-child(8) {
+			grid-row :3;
+		} */
+
+		div ul li a {background-color:steelblue;  position:relative; display:block; width:100%; color:white; text-decoration:none; text-align: center;}
+		div ul li a:hover, 
+		div ul li a:focus {background-color:lightseagreen;}
+		div ul li a div {position:absolute; top:0; left:0; bottom:0; right:0; height:20px; margin:auto;}
+
+		.ratio-9-16 {padding-bottom: 177.78%;}
+		.ratio-3-4 {padding-bottom:133.34%}
+		.ratio-4-3 {padding-bottom:75%;}
+		.ratio-1-1 {padding-bottom:100%;}
+	</style>
+</head>
+<body>
+	<div class="component box-ea8">
+		<div class="inner">
+			<ul>
+				<li>
+					<a href="" class="ratio-3-4">
+						<div>1</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-1-1">
+						<div>2</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-4-3">
+						<div>3</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-9-16">
+						<div>4</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-1-1">
+						<div>5</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-9-16">
+						<div>6</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-4-3">
+						<div>7</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-4-3">
+						<div>8</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="component">
+		<div class="inner">
+			<ul>
+				<li>
+					<a href="" class="ratio-3-4">
+						<div>1</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-3-4">
+						<div>2</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-4-3">
+						<div>3</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-1-1">
+						<div>4</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-4-3">
+						<div>5</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-1-1">
+						<div>6</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-9-16">
+						<div>7</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="component">
+		<div class="inner">
+			<ul>
+				<li>
+					<a href="" class="ratio-3-4">
+						<div>1</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-1-1">
+						<div>2</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-1-1">
+						<div>3</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-1-1">
+						<div>4</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-4-3">
+						<div>5</div>
+					</a>
+				</li>
+				<li>
+					<a href="" class="ratio-3-4">
+						<div>6</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

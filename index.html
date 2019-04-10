@@ -10,40 +10,10 @@
     <link rel="stylesheet" href="style.css">
     
     <!-- javascript -->
-    <!-- <script>
-        window.onload = function(){
-            console.log("ready");
-            var e = {};
-            for( var i=0; i < e.length; i++){
-                var tg = document.getElementsByTagName("select")[i];
-                tg.addEventListener("change")
-            }
-        }
-    </script> -->
     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
     <script src="bootstrap-datepicker.min.js"></script>
     <script>
         $(document).ready(function(){
-
-            // function test($){
-            //     console.log($);
-            //     $.abc = function(){
-            //         return false;
-            //     },
-            //     $.dhj = function(){
-            //         return false;
-            //     },
-            //     $.dise = {};
-            //     console.log(f);
-            //     console.log(this);
-            // }
-            // (function(){
-
-            //     if(sample.value=="dummy"){
-            //         alert("hehe");
-            //     }
-            // })();
-
             // debug
             var eventChecker = function(eventName){
                 console.log(eventName + " is active");
@@ -346,26 +316,26 @@
                     <div><input type="text" class="datepicker_" readonly required></div>
                     <div><input type="text" class="datepicker_" readonly required></div>
                     <style>
-                    .datepicker {
-                        position: absolute;
-                        background: #fff;
-                        padding: 0 10px 10px;
-                        border: 1px solid #888;
-                        border-radius: 0 0 5px 5px;
-                        direction: ltr;
-                        font-family: "LG Smart",Tahoma,Arial,sans-serif;
-                        box-shadow: 3px 4px 9px 1px rgba(0,0,0,.2);
-                        margin-top: 5px;
-                    }
-                    .datepicker_ {
-                        color:inherit; 
-                        border:2px solid currentColor; 
-                        border-radius:6px;
-                        cursor:pointer;
-                    }
-                    .datepicker_:focus {
-                        border-color:salmon;
-                    }
+                        .datepicker {
+                            position: absolute;
+                            background: #fff;
+                            padding: 0 10px 10px;
+                            border: 1px solid #888;
+                            border-radius: 0 0 5px 5px;
+                            direction: ltr;
+                            font-family: "LG Smart",Tahoma,Arial,sans-serif;
+                            box-shadow: 3px 4px 9px 1px rgba(0,0,0,.2);
+                            margin-top: 5px;
+                        }
+                        .datepicker_ {
+                            color:inherit; 
+                            border:2px solid currentColor; 
+                            border-radius:6px;
+                            cursor:pointer;
+                        }
+                        .datepicker_:focus {
+                            border-color:salmon;
+                        }
                     </style>
                     <script>
                         //datepicker
@@ -458,8 +428,6 @@
                     }
                 </script>
                 <!--// end validation test -->
-
-                
             </section>
             <section></section>
         </form>
