@@ -69,33 +69,31 @@
 		// cx.arc(600, 600, 50, 0, Math.PI*2, false);
 		// cx.stroke();
 		
-		
-		const draw_op = {};
-			draw_op.x = Math.random() * innerWidth;
-			draw_op.y = Math.random() * innerHeight;
-			draw_op.dx = (Math.random() - 0.5) * 10;
-			draw_op.dy = (Math.random() - 0.5) * 10;
-			draw_op.radius = 50;
-
 		// be depended by random number
 		function animate(){
+			x = Math.random() * innerWidth;
+			y = Math.random() * innerHeight;
+			dx = (Math.random() - 0.5) * 10;
+			dy = (Math.random() - 0.5) * 10;
+			radius = 50;
+
 			requestAnimationFrame(animate);
 			cx.clearRect(0, 0, innerWidth, innerHeight);
 
 			cx.beginPath();
-			cx.arc(draw_op.x, draw_op.y, draw_op.radius, 0, Math.PI*2, false);
+			cx.arc(x, y, radius, 0, Math.PI*2, false);
 			cx.stroke();
 
-			if(draw_op.x + draw_op.radius > innerWidth || draw_op.x - draw_op.radius < 0){
-				draw_op.dx = -draw_op.dx;
+			if(x + radius > innerWidth || x - radius < 0){
+				dx = -dx;
 			}
 
-			if(draw_op.y + draw_op.radius > innerHeight || draw_op.y - draw_op.radius < 0){
-				draw_op.dy = -draw_op.dy;
+			if(y + radius > innerHeight || y - radius < 0){
+				dy = -dy;
 			}
 
-			draw_op.x += draw_op.dx;
-			draw_op.y += draw_op.dy;
+			x += dx;
+			y += dy;
 		}
 		// animate();
 
@@ -133,7 +131,7 @@
 		
 		const circleArray = [];
 
-		for (let idx = 0; idx < 100 ; idx++) {
+		for (let idx = 0; idx < 300 ; idx++) {
 			radius = 50;
 			x = Math.random() * (innerWidth - radius*2) + radius;
 			y = Math.random() * (innerHeight - radius*2) + radius;
