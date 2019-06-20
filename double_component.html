@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<title>Document</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+</head>
+<body>
+	
+	<div class="_component_ Class-a">
+		<button class="btn">type="button"</button>
+		<p class="txt">welcome to earth</p>
+	</div>
+	<div class="_component_ Class-b">
+		<button class="btn">type="button"</button>
+		<p class="txt">welcome to earth</p>
+		<input type="text">
+	</div>
+	<script>
+		const parent_node = document.querySelectorAll("._component_");
+		
+		$(parent_node).each(function(){
+			var $parent = $(this);
+			$parent.find(".btn").on("click", function(){
+				$this = $(this);
+				$this.siblings().text("catched target");
+			})
+		})
+	</script>
+</body>
+	<!-- <script>
+	const parent_elem = document.querySelectorAll("._component_");
+
+	// 가변
+	option_obj = [
+		option1 = {},
+		option2 = {},
+		option3 = {},
+	]
+
+	function component(options){
+		let = default_options = {
+			a : 0,
+			b : "",
+			c : [0, 4]
+		}
+		for(let i=0; i<parent_elem.length; i++){
+			_this = parent_elem[i];
+			_this.options = Object.assign(default_options, options[i]);
+		}
+	}
+	component(option_obj);
+
+	// 불변
+	for(let i=0; i<parent_elem.length; i++){
+		console.dir( parent_elem[i] );
+		
+		const _$this = $(parent_elem[i]);
+		_$this.ownObj = {
+			a : 0,
+			b : "",
+			c : [0, 4]
+		}
+		_$this.find(".btn").on("click", function(){
+			var o = _$this.find(".txt").text();
+			_$this.find(".txt").text( o + ", but get out");
+		})
+	}
+</script> -->
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>motion 1. Infinity rotate circle</title>
+	<style>
+		body {margin:0;overflow: hidden;}
+		.canvas_wrap {}
+		.canvas {outline:1px solid black; outline-offset: -1px;}
+	</style>
+</head>
+<body>
+	<div class="canvas_wrap">
+		<canvas class="canvas" width="900px" height="900px">Your browser not support canvas</canvas>
+	</div>
+	<script id="canvas_script">
+		const izzel = document.querySelector(".canvas");
+		const scrollbarWidth = 0;
+		izzel.width =  document.body.clientWidth - scrollbarWidth;
+		izzel.height = window.innerHeight - scrollbarWidth;
+		
+		// browser size
+		console.log("document offset size set[w/h]" , document.body.offsetWidth, document.body.offsetHeight);
+		console.log("document client size set[w/h]" , document.body.clientWidth, document.body.clientHeight);
+		console.log("document scroll size set[w/h]" , document.body.scrollWidth, document.body.scrollHeight);
+		console.log("screen standard size set[w/h]" , screen.width, screen.height);
+		console.log("screen available size set[w/h]" , screen.availWidth, screen.availHeight);
+		console.log("window inner size set[w/h]" , window.innerWidth, window.innerHeight);
+		console.log("window outer size set[w/h]" , window.outerWidth, window.outerHeight);
+		console.log("canvas width : " + izzel.width, "canvas height : " + izzel.height);
+
+		const cx = izzel.getContext("2d");
+
+		cx.fillStyle = "tan";
+		cx.strokeStyle = "lightcoral";
+		// cx.lineWidth = 4;	
+		// cx.fillRect(x, y, width, height);
+		cx.fillRect(100, 100, 100, 100);
+		cx.fillRect(200, 300, 100, 100);
+		cx.fillRect(300, 200, 100, 100);
+
+		// Line
+		cx.beginPath();
+		// cx.moveTo(x,y);
+		cx.moveTo(50, 300);
+		// cx.lineTo(x,y);
+		cx.lineTo(300, 100);
+		cx.lineTo(400, 300);
+		// cx.closePath();	// complete path.
+		cx.stroke();
+		
+		// Arc
+		// cx.arc(x : n, y : n, radian : n, startAngle : n, endAngle : n, drawCounterClockwise : Boolean)
+		// for(let i=0; i<10; i++){
+		// 	const x = Math.random() * window.innerWidth;
+		// 	const y = Math.random() * window.innerHeight;
+		// 	const arcColor = Math.ceil(Math.random() * 255 );
+			
+		// 	cx.beginPath();
+		// 	cx.arc(x, y, 60, 0, Math.PI*2, false);
+		// 	cx.strokeStyle = "rgba(" + arcColor + "," + arcColor  + "," +  0 + ", 1)";
+		// 	cx.lineWidth = 2;
+		// 	cx.stroke();
+		// }
+
+		// cx.beginPath();
+		// cx.arc(600, 600, 50, 0, Math.PI*2, false);
+		// cx.stroke();
+		
+		// be depended by random number
+		function animate(){
+			x = Math.random() * innerWidth;
+			y = Math.random() * innerHeight;
+			dx = (Math.random() - 0.5) * 10;
+			dy = (Math.random() - 0.5) * 10;
+			radius = 50;
+
+			requestAnimationFrame(animate);
+			cx.clearRect(0, 0, innerWidth, innerHeight);
+
+			cx.beginPath();
+			cx.arc(x, y, radius, 0, Math.PI*2, false);
+			cx.stroke();
+
+			if(x + radius > innerWidth || x - radius < 0){
+				dx = -dx;
+			}
+
+			if(y + radius > innerHeight || y - radius < 0){
+				dy = -dy;
+			}
+
+			x += dx;
+			y += dy;
+		}
+		// animate();
+
+		const circleArray = [];
+		const mouse = {
+			x : null,
+			y : null,
+			range : 50
+		}
+		const maxRadius = 80;
+		// const minRadius = 3;
+		const colorArray = [
+			"tan", "#ff1100", "#af0330", "lightcoral", "aqua"
+		];
+		// use instance
+		function init(){
+
+			for (let idx = 0; idx < 500 ; idx++) {
+				radius = Math.floor(Math.random() * 10 + 1);
+				x = Math.random() * (innerWidth - radius*2) + radius;
+				y = Math.random() * (innerHeight - radius*2) + radius;
+				dx = (Math.random() - 0.5);
+				dy = (Math.random() - 0.5);
+				circleArray.push(new Circle(x, y, dx, dy, radius))
+			}
+
+			_animate();
+		}
+		
+		function Circle(x, y, dx, dy, radius) {
+			this.x = x;
+			this.y = y;
+			this.dx = dx;
+			this.dy = dy;
+			this.radius = radius;
+			this.minRadius = radius;
+			this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
+
+			this.draw = function(){
+				cx.beginPath();
+				cx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+				cx.stroke();
+				cx.fillStyle = this.color;
+				cx.fill();
+			}
+
+			this.update = function(){
+				
+				if(this.x + this.radius > innerWidth || this.x - this.radius < 0){
+					this.dx = -this.dx;
+				}
+				
+				if(this.y + this.radius > innerHeight || this.y - this.radius < 0){
+					this.dy = -this.dy;
+				}
+				
+				this.x += this.dx;
+				this.y += this.dy;
+
+				// interacitve
+				if (
+					mouse.x - this.x < mouse.range && 
+					mouse.x - this.x > -mouse.range && 
+					mouse.y - this.y < mouse.range && 
+					mouse.y - this.y > -mouse.range
+				){
+					
+					if( this.radius < maxRadius){
+						this.radius +=1;
+					}
+
+				}else if( this.radius > this.minRadius){
+					this.radius -=1;
+				}
+
+				this.draw();
+			}
+		}
+
+		function _animate(){
+			requestAnimationFrame(_animate);
+			cx.clearRect(0, 0, innerWidth, innerHeight);
+			for (let i = 0; i < circleArray.length; i++) {
+				circleArray[i].update();
+			}
+		}
+
+		window.addEventListener("mousemove", function(event){
+			// console.log(event);
+			mouse.x = event.x
+			mouse.y = event.y
+		});
+
+		window.addEventListener("resize", function(){
+			izzel.width = window.innerWidth;
+			izzel.height = window.innerHeight;
+		});
+
+		init();
+
+		// 응용 예제
+		// 좌표값 사용
+		// 마우스를 따라 다니는 원
+		// 마우스가 특정 영역 안에 들어갔을 때 마우스를 따라 다니는 오브제의 형태 변화
+	</script>
+</body>
+</html>

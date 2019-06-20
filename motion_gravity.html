@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>motion 2. Gravity</title>
+	<style>
+		body {margin: 0; overflow: hidden;}
+	</style>
+</head>
+<body>
+	<div class="canvas_wrap">
+		<canvas class="canvas">Your broswer do not supported canvas</canvas>
+	</div>
+	<script>
+		const canvas = document.querySelector(".canvas");
+		canvas.width = innerWidth;
+		canvas.height = innerHeight;
+		
+		const cx = canvas.getContext("2d");
+		const colors = [
+			"tan", "#ff1100", "#af0330", "lightcoral", "aqua"
+		]	
+		const mouse = {
+			x : innerWidth/2,
+			y : innerHeight/2 
+		}
+		const gravity = 1;
+		const friction = 0.7;
+		addEventListener("mousemove", function(event){
+			mouse.x = event.clientX;
+			mouse.y = event.clientY;
+		})
+		addEventListener("resize", function(){
+			canvas.width = innerWidth;
+			canvas.height = innerHeight;
+
+			init();
+		})
+
+		function randomInitFromRange(min, max){
+			return(
+				Math.floor(Math.random() * (max - min + 1) + min)
+			);
+		}
+		function randomColor(colors){
+			return colors[Math.floor(Math.random() * colors.length)]
+		}
+
+		function Ball(x, y, dy, radius, color){
+			this.x = x;
+			this.y = y;
+			this.dy = dy;	// g
+			this.radius = radius;
+			this.color = color;
+			this.update = function(){
+				if(this.y + this.radius > canvas.clientHeight){
+					this.dy = -(this.dy) * friction;
+				}else{
+					this.dy += gravity;
+				}
+				this.y += this.dy;
+				this.draw();
+			}
+			this.draw = function(){
+				cx.beginPath();
+				cx.arc(this.x, this.y, this.radius, 0 , Math.PI * 2, false);
+				cx.fillStyle = this.color;
+				cx.fill();
+				cx.stroke();
+				cx.closePath();
+			}
+		}
+		let ball = {};
+		let ballArray = [];
+		function init(){
+			for (let idx = 0; idx < 100; idx++) {
+				let x = randomInitFromRange(0, canvas.width);
+				let y = randomInitFromRange(0, canvas.height);
+				ballArray.push(new Ball(x, y, 2, 30, "tan"));				
+			}
+			
+			animate();
+		}
+		function animate(){
+			requestAnimationFrame(animate);
+			
+			cx.clearRect(0, 0, canvas.width, canvas.height);
+			for(let idx = 0; idx < ballArray.length; idx++){
+				ballArray[idx].update();
+			}
+			// cx.fillText("Hello, world", mouse.x, mouse.y);
+
+			// ball.update();
+		}
+		init();
+	</script>
+</body>
+</html>

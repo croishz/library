@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Motion 3. mouse position</title>
+	<style>
+		body {margin:0; overflow: hidden;}
+		.log {padding-left: 40px; line-height:1.8;}
+		.check-area {border:1px solid #a03490; width:400px; height:300px; position: fixed; top:50%; left:50%; transform:translate(-25%, -25%);}
+		.canvas {outline:1px solid #eee; outline-offset:-1px;}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="log">&nbsp</div>
+		<div class="check-area"></div>
+		<div class="canvas_wrap">
+			<canvas class="canvas">Your browser do not supported canvas</canvas>
+		</div>
+	</div>
+	<script>
+		const canvas = document.querySelector(".canvas");
+		canvas.width = innerWidth;
+		canvas.height = innerHeight;
+
+		const cx = canvas.getContext("2d");
+
+		window.addEventListener("mousemove", function(event){
+			// console.log(event);
+			document.querySelector(".log").innerHTML = 
+			"clientX : " + event.clientX + 
+			", clientY : " + event.clientY + "<br>" + 
+			"pageX : " + event.pageX + 
+			", pageY : " + event.pageY + "<br>" +
+			"layerX : " + event.layerX + 
+			", layerY : " + event.layerY + "<br>" +
+			"offsetX : " + event.offsetX +
+			", offsetY : " + event.offsetY + "<br>" +
+			"screenX : " + event.screenX +
+			", screenY : " + event.screenY + "<br>" +
+			"x : " + event.x +
+			", y : " + event.y
+		}, false);
+	</script>
+</body>
+</html>

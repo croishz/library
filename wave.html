@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Canvas. wave</title>
+</head>
+<body>
+	<div class="canvas-wrap">
+		<canvas id="canvas">Your browser not support canvas. <br>Please, update or be change to connect browser</canvas>
+	</div>
+	<script>
+		const canvas = document.getElementById("canvas");
+		const ctx = canvas.getContext("2d");
+		const cw = canvas.width = window.innerWidth;
+		const ch = canvas.heigth = window.innerHeight;
+		
+		let points = [],
+			tick = 0,
+			opt = {
+				count : 5,
+				range : {
+					x : 20,
+					y : 80
+				},
+				duration : {
+					min : 20,
+					max : 40
+				},
+				thickness :10,
+				strokecolor: '#444',
+				level : 0.35,
+				curved : true
+			};
+		
+		const rand = function(min, max){
+			return(
+				Math.floor( ( Math.random() * (max - min + 1) ) + min )
+			)
+		}
+		
+		const ease = function(t,b,c,d){
+			if( (t/=d/2)){
+			// state return
+				return ( c/2*t*t + b );
+			}
+			// method return
+			return (
+				-c/2 * ( (--t)*(t-2) - 1) + b	
+			);
+		}
+
+		ctx.linJoin = "round";
+		ctx.linWdith = opt.thickness;
+		ctx.strokeStyle = opt.strokecolor;
+
+		let Point = function(config){
+			this.anchorX = config.x;
+			this.anchorY = config.y;
+			this.x = config.x;
+			this.y = config.y;
+
+			this.setTarget();
+		}
+
+		Point.prototype.setTarget = function(){
+			this.initialX = this.x;
+			this.initialY = this.y;
+			this.targetX = this.anchorX + rand(0, opt.range.x *2) - opt.range.x;
+			this.targetY = this.anchorY + rand(0, opt.range.y *2) - opt.range.y;
+			this.tick = 0;
+			this.duration = rand(opt.duration.min, opt.duration.max) // (random number * 21) + 20
+		}
+		Point.prototype.update = function(){
+			let dx = this.targetX - this.x,
+				dy = this.targetY - this.y,
+				dist = Math.sqrt(dx*dx + dy*dy);
+			if( Math.abs(dist) <= 0 ){
+				this.setTarget();
+			}else{
+				let t = this.tick,
+					b = this.initialY,
+					c = this.targetY -this.initialY,
+					d = this.duration;
+				
+				this.x = ease(t, b, c, d);
+				this.tick++;
+			}
+		}
+		Point.prototype.render = function(){
+			ctx.beginPath();
+			ctx.arc(this.x, this.y, 3, 0, Math.PI *2, false)
+			ctx.fillStyle = "#000";
+			ctx.fill();
+		}
+
+		const updatePoints = function(){
+			let i = points.length;
+			while( i-- ){
+				points[i].update();
+			}
+		}
+		const renderPoints = function(){
+			let i = points.length;
+			while( i-- ){
+				points[i].update();
+			}
+		}
+		const renderShape = function(){
+			let pointCount = points.length;
+
+			ctx.beginPath();
+			ctx.moveTo( points[0].x, points[0].y );
+
+			for(let i = 0; i < pointCount - 1; i++){
+				let c = ( points[i].x + points[i].y )/2,
+					d = ( points[i].x + points[i].y )/2;
+				
+				ctx.quadraticCurveTo(points[i].x, points[i].y, c, d);
+			}
+
+			ctx.lineTo( (-opt.range.x) - opt.thickness, ch + opt.thickness);
+			ctx.lineTo(cw + opt.range.x + opt.thickness, ch + opt.thickness);
+			ctx.closePath();
+
+			ctx.fillStyle = "hsl(" + (tick/2) + ", 80%, 60^)";
+			ctx.fill();
+			ctx.stroke();
+		};
+		const clear = function(){
+			ctx.clearRect(0, 0, cw, ch);
+		}
+		const loop = function(){
+			window.requestAnimFrame(loop, canvas);
+			tick++;
+			clear();
+			updatePoints();
+			renderShape();
+			// renderPoints();
+		}
+		
+		let idx = opt.count + 2,
+			spacing = (cw + opt.range.x *2)/(opt.count - 1);
+	
+		while( idx-- ){
+			points.push(
+				new Point({
+					x : ( spacing * (idx - 1) ) - opt.range.x,
+					y : ch - (ch * opt.level)
+				})
+			)
+		}
+
+		window.requestAnimFrame = function(){
+			return(
+				window.requestAnimationFrame || 
+				window.webkitRequestAnimationFrame || 
+				window.mozRequestAnimationFrame || 
+				window.oRequestAnimationFrame || 
+				window.msRequestAnimationFrame || 
+				function(a){window.setTimeout(a, 1E3/60)}
+			)
+		}();
+
+		loop();
+	</script>
+</body>
+</html>

@@ -18,7 +18,7 @@
 		/* border:1px solid lightcoral; */
 	}
 	.slick-belt-vertical ul li div {
-		height:30px;
+		/* height:30px; */
 		font-size:32px;
 		line-height: 1;
 		color:#fff;
@@ -81,13 +81,22 @@
 				<div>04</div>
 			</li>
 			<li>
-				<div>05</div>
+				<div>05<br>890</div>
 			</li>
 			<li>
 				<div>06</div>
 			</li>
 			<li>
 				<div>07</div>
+			</li>
+			<li>
+				<div>08<br>890</div>
+			</li>
+			<li>
+				<div>09</div>
+			</li>
+			<li>
+				<div>10</div>
 			</li>
 		</ul>
 	</div>
@@ -141,6 +150,27 @@
 				<li>box7-item03</li>
 			</ul>
 		</div>
+		<div class="box">
+			<ul>
+				<li>box5-item01</li>
+				<li>box5-item02</li>
+				<li>box5-item03</li>
+			</ul>
+		</div>
+		<div class="box">
+			<ul>
+				<li>in-item01</li>
+				<li>in-item02</li>
+				<li>in-item03</li>
+			</ul>
+		</div>
+		<div class="box">
+			<ul>
+				<li>box7-item01</li>
+				<li>box7-item02</li>
+				<li>box7-item03</li>
+			</ul>
+		</div>
 	</div>
 	<button type="button" class="close-mi">close</button>
 	<script>
@@ -150,6 +180,8 @@
 		$(".slick-belt-vertical ul").slick({
 			vertical : true,
 			infinite: false,
+			// variableWidth : true,
+			adaptiveHeight : true,
 			centerMode: true,
 			centerPadding : "0",
 			slidesToShow: 5,
@@ -171,7 +203,11 @@
 			$(".slick-belt-tab").find(".box").eq(currentSlide).addClass("active");
 			$(".slick-belt-tab ul").slick("setPosition");
 		});
+		$(".slick-belt-vertical").on("click", ".slick-slide", function(event, slick, currentSlide){
+			var index = $(this).data("slick-index");
+			$(".slick-belt-vertical ul").slick("slickGoTo", index);
 
+		});
 		if (matchMedia("screen and (min-width: 767px)").matches) {
 
 		}else{
