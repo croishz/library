@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>motion.8 color change</title>
+</head>
+<body>
+	<canvas class="canvas"></canvas>
+	<script>
+		const canvas = document.querySelector(".canvas");
+		canvas.width = innerWidth;
+		canvas.height = innerHeight;
+
+		const cx = canvas.getContext("2d");
+		const color = {
+			start : "lightcoral",
+			end : "steelblue"
+		}
+		const duration = 60;	// seconds
+		const rate = 1;			// rate
+		let colorFrameFullLength = parseInt(duration * rate);
+		let opacityStep = 0;
+
+		// first loading
+		requestAnimationFrame(animate);
+		
+		function animate(time){
+			console.log(opacityStep, colorFrameFullLength);
+			//  running frame 
+			this.run = () => {
+				this.opacity = 100 * (opacityStep/colorFrameFullLength);
+				++opacityStep;
+			}
+	
+			this.update = (opacity) => {
+				// end color frame
+				cx.globalAlpha = (this.opacity)/100;
+				cx.fillStyle = color.end;
+				cx.fillRect(20, 20, 100, 75);
+				
+				// start color frame
+				cx.globalAlpha = (100 - this.opacity)/100;
+				cx.fillStyle = color.start;
+				cx.fillRect(20, 20, 100, 75);
+	
+				this.run();
+			}
+
+			if( opacityStep < colorFrameFullLength ){
+				cx.clearRect(0,0,canvas.width, canvas.height);
+				this.update();
+				requestAnimationFrame(animate);
+			}
+
+		}
+	</script>
+</body>
+</html>

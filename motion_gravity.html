@@ -19,15 +19,15 @@
 		canvas.height = innerHeight;
 		
 		const cx = canvas.getContext("2d");
-		const colors = [
-			"tan", "#ff1100", "#af0330", "lightcoral", "aqua"
-		]	
+
+		const colors = ["tan", "#ff1100", "#af0330", "lightcoral", "aqua"];	
 		const mouse = {
 			x : innerWidth/2,
 			y : innerHeight/2 
 		}
 		const gravity = 1;
 		const friction = 0.7;
+
 		addEventListener("mousemove", function(event){
 			mouse.x = event.clientX;
 			mouse.y = event.clientY;
@@ -35,32 +35,34 @@
 		addEventListener("resize", function(){
 			canvas.width = innerWidth;
 			canvas.height = innerHeight;
-
-			init();
 		})
-
 		function randomInitFromRange(min, max){
 			return(
-				Math.floor(Math.random() * (max - min + 1) + min)
+				Math.floor(Math.random() * (max - min))
 			);
 		}
 		function randomColor(colors){
 			return colors[Math.floor(Math.random() * colors.length)]
 		}
 
-		function Ball(x, y, dy, radius, color){
+		function Ball(x, y, dx, dy, radius, color){
 			this.x = x;
 			this.y = y;
+			this.dx = dx;
 			this.dy = dy;	// g
 			this.radius = radius;
 			this.color = color;
 			this.update = function(){
-				if(this.y + this.radius > canvas.clientHeight){
+				if(this.y + this.radius > canvas.height){
 					this.dy = -(this.dy) * friction;
 				}else{
 					this.dy += gravity;
 				}
+				if(this.x + this.radius > canvas.width || this.x - this.radius <= 0){
+					this.dx = -(this.dx);
+				}
 				this.y += this.dy;
+				
 				this.draw();
 			}
 			this.draw = function(){
@@ -74,27 +76,28 @@
 		}
 		let ball = {};
 		let ballArray = [];
-		function init(){
-			for (let idx = 0; idx < 100; idx++) {
-				let x = randomInitFromRange(0, canvas.width);
+		function spread(){
+			for (let idx = 0; idx < 30; idx++) {
+				let radius = randomInitFromRange(1, 20);
+				let x = randomInitFromRange(radius, canvas.width - radius);
 				let y = randomInitFromRange(0, canvas.height);
-				ballArray.push(new Ball(x, y, 2, 30, "tan"));				
+				let dx = randomInitFromRange(-2, 2);
+				let dy = randomInitFromRange(-2, 2);
+				let color = randomColor(colors);
+				ballArray.push(new Ball(x, y, dx, dy, radius, color));				
 			}
-			
-			animate();
 		}
 		function animate(){
 			requestAnimationFrame(animate);
-			
 			cx.clearRect(0, 0, canvas.width, canvas.height);
 			for(let idx = 0; idx < ballArray.length; idx++){
 				ballArray[idx].update();
 			}
 			// cx.fillText("Hello, world", mouse.x, mouse.y);
-
 			// ball.update();
 		}
-		init();
+		spread();
+		animate();
 	</script>
 </body>
 </html>

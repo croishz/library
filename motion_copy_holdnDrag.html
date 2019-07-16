@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>motion 7. Hold n Drag</title>
+	<style>
+		body {margin:0; overflow: hidden;}
+		[data="canvas-elem"] {
+			position:fixed; 
+			top:50%; left:0;
+			width:100%;
+			height:400px;
+			transform: translate3d(0, -50%, 0);
+			/* background-color:lightcoral; */
+		}
+	</style>
+</head>
+<body>
+	<canvas class="canvas"></canvas>
+	<div class="canvas_events_target" data="canvas-elem"></div>
+	<!-- <script>
+		const canvas = document.querySelector(".canvas");
+		function canvas_size(){
+			canvas.width = innerWidth;
+			canvas.height = innerHeight;
+		};
+		canvas_size();
+		addEventListener("resize", canvas_size);
+		const ctx = canvas.getContext("2d");
+		
+		// object style
+		// circle painting
+		const object = {
+			r : canvas.width * 0.05,
+			startRadian : 0,
+			endRadian : 2,
+			colors : [ "#51caf9", "#2791d3", "#f15e75", "#f7c56e", "#c3e88d" ],
+			lineWidth : 5
+		};
+		
+		// canvas에 오브젝트를 페인팅.
+		function draw(x, y){
+			ctx.beginPath();
+			// ctx.fillStyle = object.colors[Math.floor(Math.random() * object.colors.length)];
+			// ctx.strokeStyle = object.colors[Math.floor(Math.random() * object.colors.length)];
+			ctx.lineWidth = object.lineWidth;
+			ctx.arc(
+				x, 
+				y,
+				object.r,
+				Math.PI * object.startRadian,
+				Math.PI * object.endRadian,
+				false
+			);
+			ctx.fill();
+			ctx.stroke();
+			ctx.closePath();
+		}
+
+		//  canvas에 페인팅한 오브젝트를 매 프레임마다 이동시킴. 
+		//	이동 경로는 마우스 좌표값을 따라, 지연되어 다소 느리게.
+		const mouse = {
+			x : null,
+			y : null
+		}
+		addEventListener("mousemove", function(event){
+			mouse.x = event.x;
+			mouse.y = event.y;
+		});
+		
+		function update(){
+			draw(mouse.x , mouse.y);
+		}
+
+		function animate(){
+			requestAnimationFrame(animate);
+			ctx.clearRect(0,0, canvas.width, canvas.height);
+			update();
+		}
+		animate();
+	</script> -->
+	<script>
+		const canvas = document.querySelector(".canvas");
+		function canvas_size(){
+			canvas.width = innerWidth;
+			canvas.height = innerHeight;
+		};
+		canvas_size();
+		addEventListener("resize", canvas_size);
+		const ctx = canvas.getContext("2d");
+
+		// object style
+		const colors = [ "#51caf9", "#2791d3", "#f15e75", "#f7c56e", "#c3e88d" ];
+		ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+		ctx.strokeStyle = colors[Math.floor(Math.random() * colors.length)];
+		ctx.lineWidth = 3;
+
+		// circle painting
+		const object = {
+			r : 20,
+			startRadian : 0,
+			endRadian : 2,
+			velocity : 0.2
+		}
+		
+		function draw(x, y){
+			ctx.beginPath();
+			ctx.arc(
+				x, 
+				y,
+				object.r,
+				Math.PI * object.startRadian,
+				Math.PI * object.endRadian,
+				false
+			);
+			ctx.fill();
+			ctx.stroke();
+			ctx.closePath();
+		}
+		
+		function redraw(mouseX, mouseY){
+			lastMouseX = mouseX;
+			lastMouseY = mouseY;
+
+			// Drag effect 
+			lastMouseX += (mouseX - lastMouseX) * object.velocity;
+			lastMouseY += (mouseY - lastMouseY) * object.velocity;
+			
+			ctx.clearRect(0,0,canvas.width, canvas.height);
+			draw(lastMouseX, lastMouseY);
+			
+		}
+
+		addEventListener("mousemove", function(event){
+			redraw(event.x, event.y);
+		});
+
+		addEventListener("resize", function(){
+			canvas.width = innerWidth;
+			canvas.height = innerHeight;
+
+			return (canvas.width, canvas.height);
+		})
+	</script>
+	<!-- <script>
+		let start = null;
+		function move(timestamp){
+			if(!start) {
+				start = timestamp;
+			}
+			let progress = timestamp * 4 - start;
+			tg.forEach(function(factor){
+				// console.log(factor);
+				factor.style.transform = "translate3d(" + Math.floor(progress / 10) + "px, 0, 0)";
+			})
+			console.log(progress, start, timestamp);
+
+			if(progress < 5000){
+				requestAnimationFrame(move);
+			}
+		}
+		requestAnimationFrame(move);
+	</script> -->
+	<!-- <script>
+		const canvas = document.querySelector(".canvas");
+		canvas.width = innerWidth;
+		canvas.height = innerHeight;
+		
+		// const position_board = document.querySelector(".log");
+		// addEventListener("mousemove", function(){
+		// 	position_board.innerHTML = 
+		// 	"";
+		// });
+
+		// 현재 마우스 좌표값 리턴.
+		// 현재 마우스 좌표값을 최근 마우스 좌표값으로 저장.
+		// 최근 마우스 값과 현재 마우스 값의 차이만큼 오브젝트의 이동거리로 반영. 
+		
+		
+		// 
+
+		function pointer(){
+			this.ctx = canvas.getContext("2d"),
+			this.tg = document.querySelectorAll("[data-canvas-elem]"),
+			this.bounds = {
+				// radius : 0.065 * a.width
+				radius : 0.065 * canvas.width
+			}
+			this.arc = {
+				radius : this.bounds.radius,
+				opacity : 1,
+				lineWidth : 5,
+				angle : {
+					start : 0,
+					end : 2
+				}
+			},
+			this.text = {
+				size : 0.25 * this.bounds.radius,
+				strForward : "Hold",
+				strFollow : "& Drag",
+				opacity : 1
+			},
+			this.mouse = {
+				x : 0, 
+				y : 0,
+				last : {
+					x : 0,
+					y : 0
+				}
+			},
+			this.state = {
+				// hover : !1,
+				hover : false,
+				type : null
+			},
+			this.draw = () => {
+				let t = this;
+
+				t.ctx.clearRect(0,0,canvas.width, canvas.height);
+				t.ctx.globalAlpha = t.arc.opacity;
+				t.ctx.beginPath();
+				t.ctx.arc(
+					(t.mouse.last.x * 2), 
+					(t.mouse.last.y * 2), 
+					(t.arc.radius - 2 * t.arc.lineWidth), 
+					(t.arc.angle.start * Math.PI), 
+					(t.arc.angle.end * Math.PI) 
+				);
+				console.log(
+					(t.mouse.last.x * 2), 
+					(t.mouse.last.y * 2), 
+					(t.arc.radius - 2 * t.arc.lineWidth), 
+					(t.arc.angle.start * Math.PI), 
+					(t.arc.angle.end * Math.PI),
+					t.arc.lineWidth
+				);
+				t.ctx.lineWidth = t.arc.lineWidth;
+				t.ctx.strokeStyle = "rgba(254, 53, 1, 1.0)";
+				t.ctx.stroke();
+				t.ctx.closePath();
+				t.ctx.font = "900 ".concat(t.arc.radius * 0.3, "px arial");
+				t.ctx.fillStyle = "rgba(254, 53, 1, ".concat(t.text.opacity, ")");
+				t.ctx.fillText(
+					t.text.strForward,
+					(t.mouse.last.x *2  - t.arc.radius * 0.675),
+					(t.mouse.last.y *2  - t.arc.radius * 0.5)
+				);
+				t.ctx.fillText(
+					t.text.strFollow,
+					(t.mouse.last.x *2  - t.arc.radius * 0.675),
+					(t.mouse.last.y *2  - t.arc.radius * 0.5) + t.arc.radius * 0.3
+				);
+			}
+			this.move = () => {
+				let t = this;
+				addEventListener("mousemove", function(event){
+					t.mouse.x = event.x;
+					t.mouse.y = event.y;
+
+					t.mouse.last.x += (t.mouse.x - t.mouse.last.x) * 0.2;
+					t.mouse.last.y += (t.mouse.y - t.mouse.last.y) * 0.2;
+
+					t.draw();
+
+					return (
+						t.mouse.last.x, 
+						t.mouse.last.y
+					);
+					
+				});
+			},
+			this.cvResize = () => {
+				addEventListener("resize", function(){
+					canvas.width = innerWidth;
+					canvas.height = innerHeight;
+					return (
+						canvas.width,
+						canvas.height
+					);
+				});
+				this.init();
+			}
+			this.onEnter = () => {
+
+			}
+			this.init = () => {
+				this.move();
+				this.draw();
+			}
+			this.init();
+		};
+		pointer();
+		
+	</script> -->
+</body>
+</html>

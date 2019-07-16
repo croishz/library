@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>motion 5. merry go around with circle particles</title>
+	<style>
+		body {margin:0; overflow: hidden;}
+		.canvas_wrap {}
+		.canvas {outline:1px solid black; outline-offset: -1px;}
+	</style>
+</head>
+<body>
+	<div class="canvas_wrap">
+		<canvas class="canvas">Your browser not support canvas</canvas>
+	</div>
+	<script>
+		const canvas = document.querySelector(".canvas");
+		canvas.width = innerWidth;
+		canvas.height = innerHeight;
+		const cx = canvas.getContext("2d");
+		
+		// add event
+		const mouse = {
+			x : innerWidth / 2 ,
+			y : innerHeight / 2
+		}
+		const colors = [ "#51caf9", "#2791d3", "#f15e75", "#f7c56e", "#c3e88d" ];
+
+		addEventListener("mousemove", function(event){
+			mouse.x = event.clientX;
+			mouse.y = event.clientY;
+		})
+		addEventListener("resize", function(){
+			canvas.width = innerWidth;
+			canvas.height = innerHeight;
+
+			init();
+		});
+
+		//  utility function
+		function randomInitFromRange(min, max){
+			return Math.floor(Math.random() * (max - min + 1) + min);
+				
+		};
+		function randomColor(colors) {
+			return colors[Math.floor(Math.random() * colors.length)];
+		};
+
+		// object
+		function Particle(x, y, radius, color){
+			this.x = x;	
+			this.y = y;
+			this.radius = radius;
+			this.color = color;
+			this.radians = Math.random() * Math.PI * 2;
+			this.velocity = 0.01;
+			this.dragEffTimeDelay = 0;
+			this.distanceFromCenter = randomInitFromRange(50, 150);
+			this.lastMouse = {
+				x : x,	
+				y : y
+			};
+
+			this.update = function(){
+				const lastPoint = {
+					x : this.x, 
+					y : this.y
+				}
+				// Move posints over time
+				this.radians += this.velocity;
+
+				// Drag effect 
+				this.lastMouse.x += (mouse.x - this.lastMouse.x) * this.dragEffTimeDelay;
+				this.lastMouse.y += (mouse.y - this.lastMouse.y) * this.dragEffTimeDelay;
+				
+				// circular motion
+				this.x = this.lastMouse.x + Math.sin(this.radians) * this.distanceFromCenter;
+				this.y = this.lastMouse.y + Math.cos(this.radians) * this.distanceFromCenter;
+				this.draw(lastPoint);
+			};
+
+			this.draw = (lastPoint) => {
+				cx.beginPath();
+				cx.strokeStyle = this.color;
+				cx.lineWidth = this.radius;
+				cx.moveTo(lastPoint.x, lastPoint.y);
+				cx.lineTo(this.x, this.y);
+				cx.stroke();
+				cx.closePath();
+			}
+		}
+		// Implementation
+		let particles;
+		function init(){
+			particles = [];
+			for (let index = 0; index < 20; index++) {
+				const radius = (Math.random() * 3) + 1;
+				particles.push( new Particle( canvas.width/2, canvas.height/2, radius, randomColor(colors) ) );
+				
+			}
+			animate();
+		}
+
+		function animate(){
+			requestAnimationFrame(animate);
+			cx.fillStyle = 'rgba(0, 0, 0, 0.05)';		// 잔상의 길이
+			cx.fillRect(0, 0, canvas.width, canvas.height);
+			particles.forEach(particle => {
+				particle.update()
+			});
+		}
+		
+		init();
+		
+	</script>
+</body>
+</html>

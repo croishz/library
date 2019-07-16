@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>motion test</title>
+	<style>
+		body {margin:0; overflow: hidden;}
+		canvas {outline:1px solid red;}
+	</style>
+</head>
+<body>
+	<div class="canvas_wrap">
+		<canvas class="canvas"></canvas>
+	</div>
+	<script>
+		const canvas = document.querySelector(".canvas");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+
+		const cx = canvas.getContext("2d");
+
+		function Ball(x, y, dx, dy, radius, color){
+			this.x = x;
+			this.y = y;
+			this.dx = dx;
+			this.dy = dy;
+			this.radius = radius;
+			this.color = color;
+
+			this.draw = ()=>{
+				cx.beginPath();
+				cx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+				cx.fillStyle = this.color;
+				cx.fill();
+				cx.closePath();
+			}
+			this.update = ()=>{
+				if(this.y + this.radius > canvas.height ){
+					this.dy = -(this.dy) * 0.7;
+				}else{
+					this.dy += 1;
+				}
+
+				// if(this.x + this.radius > canvas.width || this.x - this.radius < 0){
+				// 	this.dx = -(this.dx);
+				// }else{
+				// 	this.dx = this.dx;
+				// }
+				
+				// this.x += this.dx ;
+				this.y += this.dy ;
+
+				this.draw();
+			}
+		}
+
+		let ball = null;
+		function init(){
+			ball = new Ball((canvas.width/2), (canvas.height/2), 2, 0, 30, "lightsalmon");
+		}
+
+		function animate(){
+			requestAnimationFrame(animate);
+			cx.clearRect(0,0,canvas.width, canvas.height);
+			ball.update();
+		}
+		init();
+		animate();
+	</script>
+</body>
+</html>
