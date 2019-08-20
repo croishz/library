@@ -1,0 +1,53 @@
+$viewport_mobile : 360;
+$viewport_tablet : 1024;
+
+@function vw-calc($declaration, $view : "tablet"){
+	$measure:null; 	// 계산 기준 단위
+	$result:();	// 최종 계산 값.
+	$declaration-length : length($declaration);
+	$measure : (#{"$viewport_ "+ #{$view}} * 0.01) * 1px;	// 3.6px or 10.24px
+	@for $i from 1 through $declaration-length {
+		$result: append($result, nth($declaration, $i) / $measure *1vw);
+	}
+	@debug($measure, $result);
+	@return $result;
+}
+
+@mixin vw-convert($value, $size, $view : "tablet"){
+	$max-break : null;
+	$min-break : null;
+	@if ($view == "mobile"){
+		$max-break : 767;
+		$min-break : 320
+	}@else if($view == "tablet"){
+		$max-break : 1024;
+		$min-break : 768;
+	}
+
+	@media(min-width: $min-break + 'px') and ( max-width:( $max-break + "px") ){
+		@if(type-of($size) == number){ #{$value}: vw-calc($size, $view); }
+		@else if(type-of($size) == string ){ #{$value}: $size; }
+		@else if(type-of($size) == list){
+			@if($value == transform or $value == animation){
+				#{$value}: $size;
+			}
+			#{$value}: vw-calc($size, $view);
+		}
+	}
+}
+.box {
+	@include vw-convert(margin, (10px 20px) );
+}
+
+
+$size-container : 1280px;
+$size-contents : 980px;
+
+// string 반환
+@function a($tg : "contents"){
+	@return( #{"$size-" + $tg} * 0.2 * 100%);
+}
+// error
+@function a($tg : "contents"){
+	@return( "$size-" + #{$tg} * 0.2 * 100%);
+}

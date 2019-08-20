@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>wcag sampling</title>
+	<style>
+		body {margin:0; padding:0;}
+		ul ul {padding-inline-start: 16px;}
+		a, a:hover {text-decoration:none; color:currentColor;}
+		.wrap {margin:auto; max-width:1440px;}
+		.article-head {font-size:24px; line-height:125%; color:whitesmoke; background-color:#666;}
+		.article-head:before {
+			content:"";
+			background-color:currentColor;
+			display:inline-block;
+			vertical-align: middle;
+			width:6px; height:6px;
+			transform: rotate3d(1, -1, 0, 45deg);
+			margin:-2px 12px 0;
+		}
+		.sample {border:1px solid antiquewhite; margin-bottom: 14px; padding:24px;} 
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<h1>WCAG sampling page</h1>
+		<article>
+			<h2 class="article-head">접근 가능한 이름 "Label in name"</h2>
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</article>
+		<article>
+			<h2 class="article-head"><a href="">aria-label</a></h2>
+			<ul>
+				<li>title 속성과 동일.</li>
+				<li>text는 간결해야 함. 설명은 aria-descibedby를 사용.</li>
+				<li>
+					<span>screen reader가 읽지 못하는 경우가 있음.</span>
+					<ul>
+						<li>ex/ p, i, u, del, span, div : aria-label이 아닌 text를 읽음.</li>
+					</ul>
+				</li>
+			</ul>
+			<div class="sample">
+				sample 1. 용도를 표기.
+				<div class="btn_wrap" ><button class="s-btn" type="button" aria-label="menu">button</button></div>
+			</div>
+			<div class="sample">
+				sample 2. IR 기법을 사용하지 않고 label로 표시할 수 있음.
+				<div class=""><em class="icon" aria-label="work">icon</em></div>
+			</div>
+		</article>
+	</div>
+</body>
+</html>

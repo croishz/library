@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		body {
+			/* background-color: #2B0059;
+			color: #fff; */
+			}
+
+			.glitch {
+			font-size: 130px;
+			line-height: 1;
+			font-family: 'Poppins', sans-serif;
+			font-weight: 700;
+			position: absolute;
+			top: 0%;
+			left: 0%;
+			margin: 0;
+			text-decoration: none;
+			color: #fff;
+			}
+			.glitch_wrap .order1 {
+			-webkit-animation: glitch 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+					animation: glitch 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+			}
+			.glitch_wrap .order2 {
+			-webkit-animation: glitch 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+				animation: glitch 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+			}
+
+			@-webkit-keyframes glitch {
+			0% {
+				-webkit-transform: translate(0);
+				transform: translate(0);
+				opacity:0;
+				filter:blur(1px);
+			}
+			20% {
+				-webkit-transform: translate(-5px, 5px);
+				transform: translate(-5px, 5px);
+			}
+			40% {
+				-webkit-transform: translate(-5px, -5px);
+				transform: translate(-5px, -5px);
+			}
+			60% {
+				-webkit-transform: translate(5px, 5px);
+				transform: translate(5px, 5px);
+			}
+			80% {
+				-webkit-transform: translate(5px, -5px);
+				transform: translate(5px, -5px);
+			}
+			to {
+				-webkit-transform: translate(0);
+				transform: translate(0);
+				opacity:1;
+				filter:blur(30px);
+			}
+			}
+
+			@keyframes glitch {
+			0% {
+				-webkit-transform: translate(0);
+				transform: translate(0);
+				opacity:0;
+			}
+			20% {
+				-webkit-transform: translate(-5px, 5px);
+				transform: translate(-5px, 5px);
+			}
+			40% {
+				-webkit-transform: translate(-5px, -5px);
+				transform: translate(-5px, -5px);
+			}
+			60% {
+				-webkit-transform: translate(5px, 5px);
+				transform: translate(5px, 5px);
+			}
+			80% {
+				-webkit-transform: translate(5px, -5px);
+				transform: translate(5px, -5px);
+			}
+			to {
+				-webkit-transform: translate(0);
+				transform: translate(0);
+				opacity:1;
+			}
+			}
+
+	</style>
+</head>
+<body>
+	<div class="glitch_wrap">
+		<img class="glitch order1" src="https://s3.amazonaws.com/images.gearjunkie.com/uploads/2018/05/matterhorn-3x21.jpg" alt="">
+		<img class="glitch order2" src="https://s3.amazonaws.com/images.gearjunkie.com/uploads/2018/05/matterhorn-3x21.jpg" alt="">
+	</div>
+</body>
+</html>

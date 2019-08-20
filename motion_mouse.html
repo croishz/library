@@ -6,11 +6,11 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Motion 3. mouse position</title>
 	<style>
-		body {margin:0; overflow: hidden;}
-		.log {padding-left: 40px; line-height:1.8;}
+		body {margin:0;}
+		.log {padding:18px; line-height:1.8; position:fixed; background-color:tan;}
 		.check-area {background-color:tan; border:1px solid #a03490; width:400px; height:300px; position: fixed; top:50%; left:50%; transform:translate(-25%, -25%);}
 		/* .canvas_wrap {position: relative;} */
-		.canvas {outline:1px solid #eee; outline-offset:-51px;}
+		.canvas {outline:1px solid #eee;}
 	</style>
 </head>
 <body>
@@ -22,9 +22,10 @@
 	</div>
 	<script>
 		const canvas = document.querySelector(".canvas");
-		canvas.width = innerWidth;
-		canvas.height = innerHeight;
-
+		// canvas.width = innerWidth;
+		canvas.height = innerHeight - 4;
+        canvas.width = document.querySelector('html').clientWidth;
+        // canvas.height = document.querySelector('html').offsetHeight;
 		const cx = canvas.getContext("2d");
 
 		const mouse = {
@@ -73,7 +74,7 @@
 			
 			mouse.x = event.offsetX;
 			mouse.y = event.offsetY;
-			// cx.clearRect(0,0,canvas.width, canvas.height);
+			cx.clearRect(0,0,canvas.width, canvas.height);
 			draw();
 			
 			if(  event.clientX > 1000 &&  event.clientY > 700 ){
