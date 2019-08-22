@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<style>
+		main {
+			height: 0;
+			overflow: hidden;
+		}
+		main, section, video {
+			display:block;
+		}
+	</style>
+	<main>
+		<section>
+			This should not be displayed
+			<video data-image="jsImgSlider/images/image-slider-1.jpg" controls="" style="display: block; position: absolute; width: 700px; height: 306px;">
+				<source data-src="prod/mcvideo.mp4" type="video/mp4" src="prod/mcvideo.mp4">
+				<source data-src="prod/mcvideo.ogg" type="video/ogg" src="prod/mcvideo.ogg">
+			</video>
+		</section>
+	</main>
+</body>
+</html>
