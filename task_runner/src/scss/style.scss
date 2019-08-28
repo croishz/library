@@ -1,0 +1,34 @@
+@import "./variable";
+
+body {
+	&:after{
+		content: $new;
+	}
+	padding: 0;
+	margin: 0;
+	div	{
+		.class{
+			@mixin at($color){
+				border:1p solid $color;
+			}
+			@include at(#fff);
+		}
+	}
+	h1 {
+		// color:transparent;
+		background-image:url(/images/57691915520042020.jpg);
+		background-position:50% 50%;
+		background-repeat: no-repeat;
+		// background-attachment: fixed;
+	}
+}
+@mixin background(){
+	background : {
+		position: $position;
+		size : $size;
+		image : $url;
+		color : $color;
+		repeat : $repeat;
+		attachment : $type;
+	}
+}
