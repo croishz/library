@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Loop performance checker</title>
+</head>
+<body>
+	<script>
+		const array =  [1,2,3];
+	
+		function timer(callback, loop){
+			console.log("start");
+			const before = Date.now();
+			
+			array[loop] = loop;
+			callback(loop);
+
+			const after = Date.now();
+			console.log((after - before) + "ms");
+			console.log("end");
+		}
+		function sample_for(){
+			console.log("for");
+			for (let i = 0; i < array.length; i++){
+				array[i] = i;
+			}
+			console.log(array);
+		}
+		function sample_forOf(){
+			console.log("for of");
+			for(var i of array) {
+				array[i] = i;
+			}
+			console.log(array);
+		}
+		function sample_forIn(){
+			console.log("for in");
+			for(var i in array) {
+				array[i] = i;
+			}
+			console.log(array);
+		}
+		function sample_forEach(){
+			console.log("for each");
+			array.forEach((e, i, array)=>{
+				array[i] = e;
+			})
+			console.log(array);
+		}
+		function sample_map(){
+			console.log("map");
+			array.map((datum, index)=>{
+				array[index] = datum;
+			});
+			console.log(array);
+		}
+		// timer(sample_for, 1000000);
+		// timer(sample_forOf, 1000000);
+		// timer(sample_forIn, 1000000);
+		timer(sample_forEach, 1000000);
+		// timer(sample_map, 1000000);
+	</script>
+</body>
+</html>
