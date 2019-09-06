@@ -11,61 +11,61 @@
     <!-- script -->
     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
     <script>
-        // window.onload = function(){
-        //     //by js
-        //     function ajaxTEST(){
-        //         var objAjax = new XMLHttpRequest(),
-        //             callUrl = "index.html";
-        //         objAjax.onreadystatechange = function(){
+        window.onload = function(){
+            //by js
+            function ajaxTEST(){
+                var objAjax = new XMLHttpRequest(),
+                    callUrl = "index.html";
+                objAjax.onreadystatechange = function(){
                     
-        //             if( objAjax.readyState === objAjax.DONE && objAjax.status === 200 ){
-        //                 document.getElementsByClassName("wrap")[0].innerHTML = objAjax.responseURL;
-        //             }
-        //             console.dir(  objAjax.getAllResponseHeaders() )
-        //             console.log(objAjax.status);
-        //             console.log(this);
-        //         };
+                    if( objAjax.readyState === objAjax.DONE && objAjax.status === 200 ){
+                        document.getElementsByClassName("wrap")[0].innerHTML = objAjax.response;
+                    }
+                    console.dir(  objAjax.getAllResponseHeaders() )
+                    console.log(objAjax.status);
+                    console.log(this);
+                };
 
-        //         objAjax.open("post", callUrl, true);
-        //         objAjax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        //         objAjax.send();
-        //     }
-        //     ajaxTEST();
-        // }
-        $(document).ready(function(){
-            console.log("ready");
+                objAjax.open("post", callUrl, true);
+                objAjax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                objAjax.send();
+            }
+            ajaxTEST();
+        }
+        // $(document).ready(function(){
+        //     console.log("ready");
 
             
-            //by jqeury
-            $.ajax({
-                type : "get",
-                beforeSend : function(xhr){
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                },
-                //data : "",
-                url : "index.html",
-                dataType : "html"
-            }).done(function(data){
-                $(".wrap").html(data);}
-            );
+        //     //by jqeury
+        //     $.ajax({
+        //         type : "get",
+        //         beforeSend : function(xhr){
+        //             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        //         },
+        //         //data : "",
+        //         url : "index.html",
+        //         dataType : "html"
+        //     }).done(function(data){
+        //         $(".wrap").html(data);}
+        //     );
 
-            // $.ajax({
-            //     type : "get",
-            //     url : "sam_1.json",
-            //     dataType : "json",
-            //     data : {
-            //         filter: "John", 
-            //         responsive: "Boston"
-            //     },
-            //     success : function(data){
-            //         $(".wrap").html(data);
-            //     }
-            // })
-            /*
-                통신방식을 post로 설정하면 405 오류를 반환하며 동작하지 않음. 미제.
+        //     // $.ajax({
+        //     //     type : "get",
+        //     //     url : "sam_1.json",
+        //     //     dataType : "json",
+        //     //     data : {
+        //     //         filter: "John", 
+        //     //         responsive: "Boston"
+        //     //     },
+        //     //     success : function(data){
+        //     //         $(".wrap").html(data);
+        //     //     }
+        //     // })
+        //     /*
+        //         통신방식을 post로 설정하면 405 오류를 반환하며 동작하지 않음. 미제.
                 
-            */
-        });
+        //     */
+        // });
     </script>
 </body>
 </html>
