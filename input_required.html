@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Required</title>
+	<style>
+		input:required {
+			box-shadow: 4px 4px 20px rgba(200, 0, 0, 0.85);
+		}
+		input:invalid {
+			background:steelblue;
+		}
+	</style>
+</head>
+<body>
+	<form novalidate>
+		<input type="text" required/>
+		<input id="username" type="text" pattern="[a-zA-Z0-9_-]{6,12}" autofocus required 
+       title="must be alphanumeric in 6-12 chars"> 
+		<input type="text" />
+		<span>required error message</span>
+		<button type="submit">전송</button>
+	</form>
+	<script>
+		document.querySelector("form").addEventListener("submit", (event) => {
+			event.preventDefault();
+			console.log(event);
+			if ( document.querySelector("input[required]").value !== ""){
+				console.log(document.querySelector("input[required]").value);
+			}else {
+				document.getElementsByTagName("span")[0].style.color = "tan"
+			}
+		})
+	</script>
+</body>
+</html>
