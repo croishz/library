@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Pop-up by time limit </title>
+	<style>
+		.ir-layer {display:none; position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);}
+	.ir-layer {width:90%;min-width:279px; height:50%;box-sizing:border-box;background-color:#fff;/*background-color:hsla(60, 1%, 99%, 1);*/border:1px solid #a5a5a5;box-shadow:1px 1px 0px 0px rgb(152, 150, 177, 0.3);padding:1.5rem ;font-size:16px;line-height:1.5;text-align:center;}
+	.ir-layer .dialog {
+		display:inline-block;
+		vertical-align:middle;
+		max-width:656px;
+		width:100%;
+		text-align: left;
+	}
+	.ir-layer:after {
+		content:"";
+		display:inline-block;
+		vertical-align:middle;
+		height:100%;
+
+	}
+	.ir-layer  .ir-btn__close__layer {height:0; text-align:right;}
+	.ir-layer .ir-btn__icon {position:relative;display:inline-block;vertical-align:top;width:24px;height:24px;white-space:nowrap;overflow:hidden; text-indent:9999px; color:transparent; margin:-0.75rem -0.75rem 0 0; background:none; border:none; cursor:pointer;}
+	.ir-layer .ir-btn__icon:before , .ir-layer .ir-btn__icon:after {
+		content:"";
+		position:absolute;
+		top:0; left:0; bottom:0; right:0;
+		margin:auto;
+		width:90%;
+		height:2px;
+		background-color:#000;
+		transform-origin:50% 50%;
+	}
+	.ir-layer .ir-btn__icon:before {transform:rotate(45deg);}
+	.ir-layer .ir-btn__icon:after {transform:rotate(-45deg);}
+	.ir-layer .ir-annoucement {margin:0 0 8px;}
+	.date {font-weight:bold;}
+	@media (min-width:1440px){
+		.ir-layer {font-size:16px;}
+	}
+	@media screen and (max-width:768px){
+		.ir-layer {height:auto;font-size:14px;padding:1.25rem;}
+	}
+	</style>
+	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+</head>
+<body>
+	<div class="ir-layer kr">
+		<div class="ir-btn__close__layer"><button class="ir-btn__icon">Close</button></div>
+		<div class="dialog">
+			<p class="ir-annoucement">
+				존경하는 삼성전자 주주 여러분,
+			</p>
+			<p class="ir-annoucement">
+				안녕하십니까? 항상 변함없는 사랑과 성원을 보내주시는 여러분께 깊은 감사의 말씀을 드립니다.
+				오는 <span class="date"></span>은 당사가 분기배당을 실시할 경우, 배당 받을 주주 확정을 위한 기준일이 됨을 안내드립니다.
+				단, 분기배당의 실시여부 및 배당률은 추후 이사회 결의를 통해 정해질 예정이오니 이 점 양지 바랍니다.
+			</p>
+			<p class="ir-annoucement">감사합니다.</p>
+		</div>
+	</div>
+	<!-- <div class="ir-layer en">
+		<div class="ir-btn__close__layer"><span class="ir-btn__icon">Close</span></div>
+		<div class="dialog">
+			<p class="ir-annoucement">
+				To our valued shareholders,
+			</p>
+			<p class="ir-annoucement">
+				We would like to announce that <span class="date">September 30, 2019</span> is the record date to determine which 
+				shareholders are eligible for dividends if quarterly dividends are distributed.
+				Details about the dividend will be finalized at an upcoming Board meeting.
+			</p>
+			<p class="ir-annoucement">As always, thank you for your trust and support.</p>
+		</div>
+	</div> -->
+	<script>
+		$(document).ready(function(){
+			var layer = document.querySelectorAll(".ir-layer");
+			if(layer.length < 0 ){return false}
+
+			// 0. 현재 시간 반환.
+				// 분기별-3,6,9,12 말일로부터 20일 전 혹은 10일 후 사이라는 조건에 현재 시간이 들어갈 시 레이어 띄우기.
+				// 노출되는 일자는 분기별 말일.
+			// 1. 분기별 말일 구하기.
+			// 2. 말일로부터 20일 전, 10일 후 조건 정의.
+			// 3. 현재 시간이 조건에 속할 시 1 값을 푸시하며 레이어 활성화.
+
+			// interface
+			var timeOpt = {
+				monthArr : [3,6,9,12],
+				arrange : {
+					before : 20,
+					after : 10
+				}
+			}
+
+			// Logic
+			function TimeChecker(eventElement, option){
+				this.$this = $(eventElement);
+				this.option = option;
+				this.date = new Date(Date.UTC(2019, 8, 15, 0, 0, 0));
+				this.year = this.date.getYear();
+				this.month = this.date.getMonth() + 1;
+				this.day = this.date.getDate();
+				this.date_standard = new Date(Date.UTC(this.year, (this.month - 1), this.lastDay, 0, 0, 0));
+				this.locale = {
+					kr : { month: 'long', day: 'numeric' },
+					en : { year: "numeric", month: "long", day: "numeric"},
+				};
+				this.date_standard_kr = this.date_standard.toLocaleString('ko-KR', this.locale.kr);
+				this.date_standard_en = this.date_standard.toLocaleString('en-US', this.locale.en);
+				this.lastDay = (function (){
+					var year = this.year,
+						month = this.month;
+
+					if(month === 4 || month === 6 || month === 9 || month === 11){
+						return 30;
+					}else if(month === 2){
+						return ( (year%100 !== 0 && year%4 === 0) || year%400 === 0 ) ? 29 : 28;
+					}else{
+						return 31;
+					}
+				})();
+
+				this.init = function(){
+					this.activeArrange(this.option.monthArr);
+					this.closeLayer();
+				}
+
+				this.activeArrange = function (array){
+					for (var value in array) {
+						if ( array[value] === this.month ){
+							console.log("quater");
+							if(this.day + this.option.arrange.before > this.lastDay){
+								console.log("arrange in");
+								this.noticeStandardTime();
+								return;
+							}
+						}else if( (array[value] + 1) === this.month ){
+							console.log("quater passed");
+							if(this.day <= this.option.arrange.after){
+								console.log("arrange in");
+								this.noticeStandardTime();
+								return;
+							}
+						}
+					}
+				}
+
+				this.noticeStandardTime = function (){
+					var $timeText = this.$this.find(".date");
+					if(this.$this.hasClass("kr")){
+						$timeText.text(this.date_standard_kr);
+					}else if(this.$this.hasClass("en")){
+						$timeText.text(this.date_standard_en);
+					}
+					this.$this.show();
+				}
+
+				this.closeLayer = function(){
+					layer.forEach(function(elem){
+						elem.addEventListener("click", function(){
+							console.log("click");
+						})
+					});
+				}
+
+				this.init();
+			}
+			// new one
+			var callLayer = new TimeChecker(layer, timeOpt);
+		});
+	</script>
+</body>
+</html>
