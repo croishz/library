@@ -107,15 +107,14 @@
 					return 31;
 				}
 			}
-			function TimeChecker(eventElement, option){
+			function LayerTimer(eventElement, option){
 				this.$this = $(eventElement);
 				this.option = option;
-				this.date = new Date(Date.UTC(2020, 0, 4, 0, 0, 0));
+				this.date = new Date(Date.UTC(2019, 8, 20, 0, 0, 0));
 				this.year = this.date.getYear();
 				this.month = this.date.getMonth() + 1;
 				this.day = this.date.getDate();
 				this.lastDay = lastday(this.year, this.month);
-				// console.log(this.month + "월 " + this.day + "일");
 
 				this.init = function(){
 					this.activeArrange(this.option.monthArr);
@@ -158,9 +157,13 @@
 					}else if(this.$this.hasClass("en")){
 						$timeText.text(date_standard_en);
 					}
-					this.$this.show();
+					this.showLayer();
 				}
 
+				this.showLayer = function(){
+					return this.$this.show();
+				}
+				
 				this.closeLayer = function(tg){
 					tg.each(function(i, elem){
 						var closeBtn = $(elem).find("button[data-btn='close']")
@@ -173,7 +176,7 @@
 				this.init();
 			}
 			// new one
-			var callLayer = new TimeChecker(layer, timeOpt);
+			var callLayer = new LayerTimer(layer, timeOpt);
 		});
 	</script>
 </body>
