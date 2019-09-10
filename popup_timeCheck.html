@@ -49,7 +49,7 @@
 </head>
 <body>
 	<div class="ir-layer kr">
-		<div class="ir-btn__close__layer"><button class="ir-btn__icon">Close</button></div>
+		<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
 		<div class="dialog">
 			<p class="ir-annoucement">
 				존경하는 삼성전자 주주 여러분,
@@ -62,8 +62,8 @@
 			<p class="ir-annoucement">감사합니다.</p>
 		</div>
 	</div>
-	<!-- <div class="ir-layer en">
-		<div class="ir-btn__close__layer"><span class="ir-btn__icon">Close</span></div>
+	<div class="ir-layer en">
+		<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
 		<div class="dialog">
 			<p class="ir-annoucement">
 				To our valued shareholders,
@@ -75,7 +75,7 @@
 			</p>
 			<p class="ir-annoucement">As always, thank you for your trust and support.</p>
 		</div>
-	</div> -->
+	</div>
 	<script>
 		$(document).ready(function(){
 			var layer = document.querySelectorAll(".ir-layer");
@@ -98,49 +98,42 @@
 			}
 
 			// Logic
+			function lastday(year, month){
+				if(month === 4 || month === 6 || month === 9 || month === 11){
+					return 30;
+				}else if(month === 2){
+					return ( (year%100 !== 0 && year%4 === 0) || year%400 === 0 ) ? 29 : 28;
+				}else{
+					return 31;
+				}
+			}
 			function TimeChecker(eventElement, option){
 				this.$this = $(eventElement);
 				this.option = option;
-				this.date = new Date(Date.UTC(2019, 8, 15, 0, 0, 0));
+				this.date = new Date(Date.UTC(2020, 0, 4, 0, 0, 0));
 				this.year = this.date.getYear();
 				this.month = this.date.getMonth() + 1;
 				this.day = this.date.getDate();
-				this.date_standard = new Date(Date.UTC(this.year, (this.month - 1), this.lastDay, 0, 0, 0));
-				this.locale = {
-					kr : { month: 'long', day: 'numeric' },
-					en : { year: "numeric", month: "long", day: "numeric"},
-				};
-				this.date_standard_kr = this.date_standard.toLocaleString('ko-KR', this.locale.kr);
-				this.date_standard_en = this.date_standard.toLocaleString('en-US', this.locale.en);
-				this.lastDay = (function (){
-					var year = this.year,
-						month = this.month;
-
-					if(month === 4 || month === 6 || month === 9 || month === 11){
-						return 30;
-					}else if(month === 2){
-						return ( (year%100 !== 0 && year%4 === 0) || year%400 === 0 ) ? 29 : 28;
-					}else{
-						return 31;
-					}
-				})();
+				this.lastDay = lastday(this.year, this.month);
+				// console.log(this.month + "월 " + this.day + "일");
 
 				this.init = function(){
 					this.activeArrange(this.option.monthArr);
-					this.closeLayer();
+					this.closeLayer(this.$this);
 				}
 
 				this.activeArrange = function (array){
-					for (var value in array) {
-						if ( array[value] === this.month ){
+					for (var index in array) {
+						if ( array[index] === this.month ){
 							console.log("quater");
 							if(this.day + this.option.arrange.before > this.lastDay){
 								console.log("arrange in");
 								this.noticeStandardTime();
 								return;
 							}
-						}else if( (array[value] + 1) === this.month ){
+						}else if( (array[index] + 1) > 12 ? (array[index] - 12 + 1) === this.month : (array[index] + 1) === this.month ){
 							console.log("quater passed");
+							
 							if(this.day <= this.option.arrange.after){
 								console.log("arrange in");
 								this.noticeStandardTime();
@@ -151,19 +144,28 @@
 				}
 
 				this.noticeStandardTime = function (){
-					var $timeText = this.$this.find(".date");
+					var $timeText = this.$this.find(".date"),
+						date_standard = new Date(Date.UTC(this.year, (this.month === 1 ? 11 : this.month - 1), this.lastDay, 0, 0, 0)),
+						locale = {
+							kr : { month: 'long', day: 'numeric' },
+							en : { year: "numeric", month: "long", day: "numeric"},
+						},
+						date_standard_kr = date_standard.toLocaleString('ko-KR', locale.kr),
+						date_standard_en = date_standard.toLocaleString('en-US', locale.en);
+
 					if(this.$this.hasClass("kr")){
-						$timeText.text(this.date_standard_kr);
+						$timeText.text(date_standard_kr);
 					}else if(this.$this.hasClass("en")){
-						$timeText.text(this.date_standard_en);
+						$timeText.text(date_standard_en);
 					}
 					this.$this.show();
 				}
 
-				this.closeLayer = function(){
-					layer.forEach(function(elem){
-						elem.addEventListener("click", function(){
-							console.log("click");
+				this.closeLayer = function(tg){
+					tg.each(function(i, elem){
+						var closeBtn = $(elem).find("button[data-btn='close']")
+						closeBtn.on("click", function(){
+							$(elem).hide();
 						})
 					});
 				}
