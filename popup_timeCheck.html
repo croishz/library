@@ -150,8 +150,8 @@
 				},
 				locale : {
 					langArray : ["kr", "en"], 
-					kr : { month: 'long', day: 'numeric' },
-					en : { year: "numeric", month: "long", day: "numeric"},
+					"kr" : ['ko-KR', { month: 'long', day: 'numeric' }],
+					"en" : ['en-US', { year: "numeric", month: "long", day: "numeric"}],
 				}
 			}
 			// Logic
@@ -205,13 +205,14 @@
 				}
 				this.noticeStandardTime = function (year, month){
 					var	langArray = this.date_standard_option.langArray,
-						date_standard = new Date(Date.UTC((year + 1900), (this.month === 1 ? 11 : this.month - 1), lastDay(this.year, this.month), 0, 0, 0)),
-						date_standard_kr = date_standard.toLocaleString('ko-KR', this.date_standard_option.kr),
-						date_standard_en = date_standard.toLocaleString('en-US', this.date_standard_option.en);
+						date_standard = new Date(Date.UTC((year + 1900), (this.month === 1 ? 11 : this.month - 1), lastDay(this.year, this.month), 0, 0, 0));
+
 					for(var i=0;i<this.$this.length;i++){
 						var tg = this.$this.eq(i);
 						if(tg.attr("class").indexOf(langArray[i]) > 0){
-							tg.find(".date").text(eval("date_standard_" + langArray[i]));
+							var time = this.date_standard_option[langArray[i]];
+							// console.log(time);
+							tg.find(".date").text( date_standard.toLocaleString(time[0], time[1]) );
 							this.showLayer(tg);
 						}
 					}
