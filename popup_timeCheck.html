@@ -10,30 +10,29 @@
 		main {height:200vh;background-color:tan;}
 		.gnb {width:100%;height:66px;background-color:lightcoral;}
 		/* .ir-layer {display:none;position:fixed;z-index:1000;top:10vh;left:10vw;right:10vw;bottom:10vh;box-sizing:border-box;background-color:#fff;border:1px solid #a5a5a5;font-size:20px;line-height:1.5;text-align:center;} */
-		
-.ir-layer {display:none;position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);-webkit-transform:translate(-50%, -50%);-o-transform:translate(-50%, -50%);width:74%;min-width:290px;height:50%;min-height:450px;box-sizing:border-box;background-color:#fff;border:1px solid #a5a5a5;font-size:20px;line-height:1.5;text-align:center;}
-.ir-layer .dialog-wrap {height:100%;padding:1.5rem;box-sizing:border-box;background-color:#fff;}
-.ir-layer .dialog-wrap:after {content:"";display:inline-block;vertical-align:middle;width:1px;height:100%;}
-.ir-layer .dialog {display:inline-block;vertical-align:middle;max-width:745px;width:calc(100% - 18px);text-align:left;}
-.ir-layer  .ir-btn__close__layer {height:0; text-align:right;}
-.ir-layer .ir-btn__icon {position:relative;display:inline-block;vertical-align:top;width:36px;height:36px;white-space:nowrap;overflow:hidden; text-indent:9999px; color:transparent; background:none; border:none; cursor:pointer;}
-.ir-layer .ir-btn__icon:before , .ir-layer .ir-btn__icon:after {content:"";position:absolute;top:0; left:0; bottom:0; right:0;margin:auto;width:90%;height:2px;background-color:#000;transform-origin:50% 50%;}
-.ir-layer .ir-btn__icon:before {transform:rotate(45deg);}
-.ir-layer .ir-btn__icon:after {transform:rotate(-45deg);}
-.ir-layer .ir-annoucement {margin:0 0 8px;}
+		.ir-layer {display:none;position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);-webkit-transform:translate(-50%, -50%);-o-transform:translate(-50%, -50%);width:74%;min-width:290px;height:50%;min-height:450px;box-sizing:border-box;background-color:#fff;border:1px solid #a5a5a5;font-size:20px;line-height:1.5;text-align:center;}
+		.ir-layer .dialog-wrap {height:100%;padding:1.5rem;box-sizing:border-box;background-color:#fff;}
+		.ir-layer .dialog-wrap:after {content:"";display:inline-block;vertical-align:middle;width:1px;height:100%;}
+		.ir-layer .dialog {display:inline-block;vertical-align:middle;max-width:724px;width:calc(100% - 18px);text-align:left;} /* 영문은 724, 국문은 765*/
+		.ir-layer  .ir-btn__close__layer {height:0; text-align:right;}
+		.ir-layer .ir-btn__icon {position:relative;display:inline-block;vertical-align:top;width:36px;height:36px;white-space:nowrap;overflow:hidden; text-indent:9999px; color:transparent; background:none; border:none; cursor:pointer;}
+		.ir-layer .ir-btn__icon:before , .ir-layer .ir-btn__icon:after {content:"";position:absolute;top:0; left:0; bottom:0; right:0;margin:auto;width:90%;height:2px;background-color:#000;transform-origin:50% 50%;}
+		.ir-layer .ir-btn__icon:before {transform:rotate(45deg);}
+		.ir-layer .ir-btn__icon:after {transform:rotate(-45deg);}
+		.ir-layer .ir-annoucement {margin:0 0 8px;}
 
-.ir-layer, .dimed {z-index:1000;}
-.dimed {display:none;position:fixed;top:66px;left:0;right:0;bottom:0;background-color:hsla(0, 0%, 0%, 0.5);}
-.date {font-weight:bold;}
+		.ir-layer, .dimed {z-index:1000;}
+		.dimed {display:none;position:fixed;top:66px;left:0;right:0;bottom:0;background-color:hsla(0, 0%, 0%, 0.5);}
+		.date {font-weight:bold;}
 
-@media (min-width:1440px){
-	.ir-layer {font-size:20px;}
-}
-@media screen and (max-width:768px){
-	.ir-layer {font-size:16px;}
-	.ir-layer .dialog-wrap {padding:1.25rem;}
-	.ir-layer .ir-btn__icon {width:24px; height:24px;}
-}
+		@media (min-width:1440px){
+			.ir-layer {font-size:20px;}
+		}
+		@media screen and (max-width:768px){
+			.ir-layer {font-size:16px;}
+			.ir-layer .dialog-wrap {padding:1.25rem;}
+			.ir-layer .ir-btn__icon {width:24px; height:24px;}
+		}
 	</style>
 	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
 </head>
@@ -41,28 +40,28 @@
 	<main>
 		<div class="gnb"></div>
 	</main>
-	<!-- popup -->
-	<div class="dimed"></div>
-	<div class="ir-layer kr">
-		<div class="dialog-wrap">
-			<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
-			<div class="dialog">
-				<span class="date">9월 30일</span>
-			</div>
+<!-- popup -->
+<div class="dimed"></div>
+<div class="ir-layer kr">
+	<div class="dialog-wrap">
+		<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
+		<div class="dialog">
+			<span class="date">&nbsp;</span>
 		</div>
 	</div>
-	<!--// popup -->
-	<!-- popup -->
-	<div class="dimed"></div>
-	<div class="ir-layer en">
-		<div class="dialog-wrap">
-			<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
-			<div class="dialog">
-				<span class="date">September 30, 2019</span>
-			</div>
+</div>
+<!--// popup -->
+<!-- popup -->
+<div class="dimed"></div>
+<div class="ir-layer en">
+	<div class="dialog-wrap">
+		<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
+		<div class="dialog">
+			<span class="date">&nbsp;</span>
 		</div>
 	</div>
-	<!--// popup -->
+</div>
+<!--// popup -->
 	<!-- <script>
 
 		// $('.vip-tabnavi').uxePositionFix({
@@ -167,7 +166,7 @@
 			function LayerTimer(eventElement, option){
 				this.$this = $(eventElement);
 				this.option = option;
-				this.date = new Date(Date.UTC(2019, 6, 5, 0, 0, 0));
+				this.date = new Date(Date.UTC(2019, 9, 5, 0, 0, 0));
 				this.year = this.date.getYear();
 				this.month = this.date.getMonth() + 1;
 				this.day = this.date.getDate();
