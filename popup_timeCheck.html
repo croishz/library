@@ -6,99 +6,151 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Pop-up by time limit </title>
 	<style>
-		.ir-layer {display:none; position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);}
-	.ir-layer {width:90%;min-width:279px; height:50%;box-sizing:border-box;background-color:#fff;/*background-color:hsla(60, 1%, 99%, 1);*/border:1px solid #a5a5a5;box-shadow:1px 1px 0px 0px rgb(152, 150, 177, 0.3);padding:1.5rem ;font-size:16px;line-height:1.5;text-align:center;}
-	.ir-layer .dialog {
-		display:inline-block;
-		vertical-align:middle;
-		max-width:656px;
-		width:100%;
-		text-align: left;
-	}
-	.ir-layer:after {
-		content:"";
-		display:inline-block;
-		vertical-align:middle;
-		height:100%;
+		html, body{padding:0; margin:0;}
+		main {height:200vh;background-color:tan;}
+		.gnb {width:100%;height:66px;background-color:lightcoral;}
+		/* .ir-layer {display:none;position:fixed;z-index:1000;top:10vh;left:10vw;right:10vw;bottom:10vh;box-sizing:border-box;background-color:#fff;border:1px solid #a5a5a5;font-size:20px;line-height:1.5;text-align:center;} */
+		
+.ir-layer {display:none;position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);-webkit-transform:translate(-50%, -50%);-o-transform:translate(-50%, -50%);width:74%;min-width:290px;height:50%;min-height:450px;box-sizing:border-box;background-color:#fff;border:1px solid #a5a5a5;font-size:20px;line-height:1.5;text-align:center;}
+.ir-layer .dialog-wrap {height:100%;padding:1.5rem;box-sizing:border-box;background-color:#fff;}
+.ir-layer .dialog-wrap:after {content:"";display:inline-block;vertical-align:middle;width:1px;height:100%;}
+.ir-layer .dialog {display:inline-block;vertical-align:middle;max-width:745px;width:calc(100% - 18px);text-align:left;}
+.ir-layer  .ir-btn__close__layer {height:0; text-align:right;}
+.ir-layer .ir-btn__icon {position:relative;display:inline-block;vertical-align:top;width:36px;height:36px;white-space:nowrap;overflow:hidden; text-indent:9999px; color:transparent; background:none; border:none; cursor:pointer;}
+.ir-layer .ir-btn__icon:before , .ir-layer .ir-btn__icon:after {content:"";position:absolute;top:0; left:0; bottom:0; right:0;margin:auto;width:90%;height:2px;background-color:#000;transform-origin:50% 50%;}
+.ir-layer .ir-btn__icon:before {transform:rotate(45deg);}
+.ir-layer .ir-btn__icon:after {transform:rotate(-45deg);}
+.ir-layer .ir-annoucement {margin:0 0 8px;}
 
-	}
-	.ir-layer  .ir-btn__close__layer {height:0; text-align:right;}
-	.ir-layer .ir-btn__icon {position:relative;display:inline-block;vertical-align:top;width:24px;height:24px;white-space:nowrap;overflow:hidden; text-indent:9999px; color:transparent; margin:-0.75rem -0.75rem 0 0; background:none; border:none; cursor:pointer;}
-	.ir-layer .ir-btn__icon:before , .ir-layer .ir-btn__icon:after {
-		content:"";
-		position:absolute;
-		top:0; left:0; bottom:0; right:0;
-		margin:auto;
-		width:90%;
-		height:2px;
-		background-color:#000;
-		transform-origin:50% 50%;
-	}
-	.ir-layer .ir-btn__icon:before {transform:rotate(45deg);}
-	.ir-layer .ir-btn__icon:after {transform:rotate(-45deg);}
-	.ir-layer .ir-annoucement {margin:0 0 8px;}
-	.date {font-weight:bold;}
-	@media (min-width:1440px){
-		.ir-layer {font-size:16px;}
-	}
-	@media screen and (max-width:768px){
-		.ir-layer {height:auto;font-size:14px;padding:1.25rem;}
-	}
+.ir-layer, .dimed {z-index:1000;}
+.dimed {display:none;position:fixed;top:66px;left:0;right:0;bottom:0;background-color:hsla(0, 0%, 0%, 0.5);}
+.date {font-weight:bold;}
+
+@media (min-width:1440px){
+	.ir-layer {font-size:20px;}
+}
+@media screen and (max-width:768px){
+	.ir-layer {font-size:16px;}
+	.ir-layer .dialog-wrap {padding:1.25rem;}
+	.ir-layer .ir-btn__icon {width:24px; height:24px;}
+}
 	</style>
 	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
 </head>
 <body>
+	<main>
+		<div class="gnb"></div>
+	</main>
+	<!-- popup -->
+	<div class="dimed"></div>
 	<div class="ir-layer kr">
-		<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
-		<div class="dialog">
-			<p class="ir-annoucement">
-				존경하는 삼성전자 주주 여러분,
-			</p>
-			<p class="ir-annoucement">
-				안녕하십니까? 항상 변함없는 사랑과 성원을 보내주시는 여러분께 깊은 감사의 말씀을 드립니다.
-				오는 <span class="date"></span>은 당사가 분기배당을 실시할 경우, 배당 받을 주주 확정을 위한 기준일이 됨을 안내드립니다.
-				단, 분기배당의 실시여부 및 배당률은 추후 이사회 결의를 통해 정해질 예정이오니 이 점 양지 바랍니다.
-			</p>
-			<p class="ir-annoucement">감사합니다.</p>
+		<div class="dialog-wrap">
+			<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
+			<div class="dialog">
+				<span class="date">9월 30일</span>
+			</div>
 		</div>
 	</div>
+	<!--// popup -->
+	<!-- popup -->
+	<div class="dimed"></div>
 	<div class="ir-layer en">
-		<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
-		<div class="dialog">
-			<p class="ir-annoucement">
-				To our valued shareholders,
-			</p>
-			<p class="ir-annoucement">
-				We would like to announce that <span class="date">September 30, 2019</span> is the record date to determine which 
-				shareholders are eligible for dividends if quarterly dividends are distributed.
-				Details about the dividend will be finalized at an upcoming Board meeting.
-			</p>
-			<p class="ir-annoucement">As always, thank you for your trust and support.</p>
+		<div class="dialog-wrap">
+			<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
+			<div class="dialog">
+				<span class="date">September 30, 2019</span>
+			</div>
 		</div>
 	</div>
+	<!--// popup -->
+	<!-- <script>
+
+		// $('.vip-tabnavi').uxePositionFix({
+		// 	'limitSelector': '.vip-tabwrap',
+		// 	'useBottomLimit': true,
+		// 	'bottomLimitSelector' : '.ad_vipgroup_wrap'
+		// });
+
+		// $('.vip-detailoption').uxePositionFix({
+		// 	'limitSelector': '.vip-tab_container',
+		// 	'ctrlTop': 61,
+		// 	'useBottomLimit': true,
+		// 	'bottomLimitSelector' : '.ad_vipgroup_wrap'
+		// });	
+		$.fn.uxePositionFix = function (options) {
+        var settings = $.extend({
+            'selector' : 'uxeposfix',
+            'limitSelector': '.uxeposfix_wrap',
+            'limitPlus': 0,
+            'fixClass': 'fixed',
+            'ctrlTop': 0,
+            'wrapHeightNeccessary' : false,
+            'useBottomLimit' : false,
+            'bottomLimitSelector' : '#footer'
+        },options);
+        return this.each(function(){
+            var $this = $(this);
+            $this.addClass(settings.selector);
+            var offsetTop = $this.offset().top;
+            var ctrlTop = settings.ctrlTop;
+            var $limitObj = $(settings.limitSelector);
+            if(settings.useBottomLimit === true ){
+                var $bottomlimitObj = $(settings.bottomLimitSelector);
+            };
+            var minusTop = 0;
+            var sTop = $(document).scrollTop();
+            var fixedCtrl = function(){
+                sTop = $(document).scrollTop();
+                var limit = $limitObj.offset().top - settings.ctrlTop;
+                if(settings.useBottomLimit === true) var bottomlimit = $bottomlimitObj.offset().top;
+
+                if(settings.useBottomLimit === true && $(window).height()  > bottomlimit - limit){
+                    $this.removeClass(settings.fixClass);
+                    minusTop = 0;
+                    if(ctrlTop !== 0){
+                        $this.css('top','');
+                    }
+                }
+                else if(settings.useBottomLimit === true && sTop > (bottomlimit-$(window).height()) && bottomlimit - limit > $(window).height()){
+                    minustop = (bottomlimit + settings.ctrlTop) - (sTop + $(window).height());
+                    $this.css('top', minustop).addClass(settings.fixClass);
+                }
+                else if(sTop < limit && $this.hasClass('on') == false){
+                    $this.removeClass(settings.fixClass);
+                    minusTop = 0;
+                    if(ctrlTop !== 0){
+                        $this.css('top','');
+                    }
+                }
+                else if (sTop >= limit){
+                    $this.addClass(settings.fixClass).css('top',settings.ctrlTop);
+                } else{}
+            }
+            fixedCtrl();
+            $(window).scroll(function(e){
+                fixedCtrl();
+            });
+        });
+    }
+	</script> -->
 	<script>
 		$(document).ready(function(){
 			var layer = document.querySelectorAll(".ir-layer");
 			if(layer.length < 0 ){return false}
-
-			// 0. 현재 시간 반환.
-				// 분기별-3,6,9,12 말일로부터 20일 전 혹은 10일 후 사이라는 조건에 현재 시간이 들어갈 시 레이어 띄우기.
-				// 노출되는 일자는 분기별 말일.
-			// 1. 분기별 말일 구하기.
-			// 2. 말일로부터 20일 전, 10일 후 조건 정의.
-			// 3. 현재 시간이 조건에 속할 시 1 값을 푸시하며 레이어 활성화.
-
 			// interface
 			var timeOpt = {
 				monthArr : [3,6,9,12],
 				arrange : {
-					before : 20,
-					after : 10
+					before : 14,
+					after : 7
+				},
+				LayerScroll : {
+					min : 0,
+					cutoff : 66	// sec는 63, global은 66
 				}
 			}
-
 			// Logic
-			function lastday(year, month){
+			function lastDay(year, month){
 				if(month === 4 || month === 6 || month === 9 || month === 11){
 					return 30;
 				}else if(month === 2){
@@ -106,45 +158,48 @@
 				}else{
 					return 31;
 				}
-			}
+			};
 			function LayerTimer(eventElement, option){
 				this.$this = $(eventElement);
 				this.option = option;
-				this.date = new Date(Date.UTC(2019, 8, 20, 0, 0, 0));
+				this.date = new Date(Date.UTC(2019, 6, 8, 0, 0, 0));
 				this.year = this.date.getYear();
 				this.month = this.date.getMonth() + 1;
 				this.day = this.date.getDate();
-				this.lastDay = lastday(this.year, this.month);
-
+				this.lastDay = lastDay(this.year, this.month);
 				this.init = function(){
+					var closeEvent = this.closeLayer;
+					var rollEvent = this.stickyLayer;
+					var limit = this.option.LayerScroll.min;
+					var cutoff = this.option.LayerScroll.cutoff;
+
+					// regist event					
 					this.activeArrange(this.option.monthArr);
-					this.closeLayer(this.$this);
+					this.$this.each(function(index, elem){
+						closeEvent(elem);
+						rollEvent(elem, limit, cutoff);
+					});
 				}
 
 				this.activeArrange = function (array){
 					for (var index in array) {
 						if ( array[index] === this.month ){
-							console.log("quater");
-							if(this.day + this.option.arrange.before > this.lastDay){
-								console.log("arrange in");
-								this.noticeStandardTime();
+							if(this.day + this.option.arrange.before >= this.lastDay){
+								this.noticeStandardTime(this.year, this.month);
 								return;
 							}
 						}else if( (array[index] + 1) > 12 ? (array[index] - 12 + 1) === this.month : (array[index] + 1) === this.month ){
-							console.log("quater passed");
-							
 							if(this.day <= this.option.arrange.after){
-								console.log("arrange in");
-								this.noticeStandardTime();
+								this.noticeStandardTime(this.year, (this.month - 1));
 								return;
 							}
 						}
 					}
 				}
 
-				this.noticeStandardTime = function (){
+				this.noticeStandardTime = function (year, month){
 					var $timeText = this.$this.find(".date"),
-						date_standard = new Date(Date.UTC(this.year, (this.month === 1 ? 11 : this.month - 1), this.lastDay, 0, 0, 0)),
+						date_standard = new Date(Date.UTC((year + 1900), (month === 1 ? 11 : month - 1), lastDay(year, month), 0, 0, 0)),
 						locale = {
 							kr : { month: 'long', day: 'numeric' },
 							en : { year: "numeric", month: "long", day: "numeric"},
@@ -155,24 +210,44 @@
 					if(this.$this.hasClass("kr")){
 						$timeText.text(date_standard_kr);
 					}else if(this.$this.hasClass("en")){
-						$timeText.text(date_standard_en);
+						$timeText.text(date_standard_en)
 					}
 					this.showLayer();
 				}
 
 				this.showLayer = function(){
-					return this.$this.show();
-				}
-				
-				this.closeLayer = function(tg){
-					tg.each(function(i, elem){
-						var closeBtn = $(elem).find("button[data-btn='close']")
-						closeBtn.on("click", function(){
-							$(elem).hide();
-						})
-					});
+					return (this.$this.show(), this.$this.prev().show());
 				}
 
+				this.closeLayer = function(layer){
+					var closeBtn = $(layer).find("button[data-btn='close']")
+					closeBtn.on("click", function(){
+						$(layer).hide();
+						$(layer).prev(".dimed").hide();
+						$(window).off(this.stickyLayer);
+					})
+				}
+
+				this.stickyLayer = function(layer, min, cutoff){
+					var scrPos, layerPos = 0;
+					var dimedLayer = layer.previousElementSibling;
+					if(layer.style.display === "block"){
+						$(window).on("scroll", function(){
+							scrPos = $(this).scrollTop();
+							layerPos = Number(window.getComputedStyle(dimedLayer, null).getPropertyValue("top").split("px")[0]);
+							console.log(layerPos);
+							if(layerPos > min || scrPos < (cutoff + 1)){
+								$(dimedLayer).css({
+									top : (cutoff + min)  - scrPos
+								});
+							}else if(layerPos < min){
+								$(dimedLayer).css({
+									top : min
+								});
+							}
+						})
+					}
+				}
 				this.init();
 			}
 			// new one
