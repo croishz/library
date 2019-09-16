@@ -147,11 +147,12 @@
 					min : 0,
 					cutoff : 66	// sec는 63, global은 66
 				},
-				locale : {
-					langArray : ["kr", "en"], 
-					"kr" : ['ko-KR', { month: 'long', day: 'numeric' }],
-					"en" : ['en-US', { year: "numeric", month: "long", day: "numeric"}],
-				}
+				// locale : {
+				// 	langArray : ["kr", "en"], 
+				// 	"kr" : ['ko-KR', { month: 'long', day: 'numeric' }],
+				// 	"en" : ['en-US', { year: "numeric", month: "long", day: "numeric"}],
+				// }
+				en_months : [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 			}
 			// Logic
 			function lastDay(year, month){
@@ -166,12 +167,16 @@
 			function LayerTimer(eventElement, option){
 				this.$this = $(eventElement);
 				this.option = option;
-				this.date = new Date(Date.UTC(2019, 9, 5, 0, 0, 0));
-				this.year = this.date.getYear();
+				this.date = new Date(Date.UTC(2020, 0, 17, 0, 0, 0));
+				this.year = this.date.getYear() + 1900;
 				this.month = this.date.getMonth() + 1;
 				this.day = this.date.getDate();
-				this.lastDay = lastDay(this.year, this.month);
-				this.date_standard_option = this.option.locale;
+				this.initlastDay = lastDay(this.year, this.month);
+				console.log(
+					this.year,
+					this.month, 
+					this.day
+				)
 				this.init = function(){
 					var closeEvent = this.closeLayer;
 					var rollEvent = this.stickyLayer;
@@ -181,7 +186,7 @@
 					// regist event					
 					this.activeArrange(this.option.monthArr);
 					this.$this.each(function(index, elem){
-						console.log(index, elem);
+						// console.log(index, elem);
 						closeEvent(elem);
 						rollEvent(elem, limit, cutoff);
 					});
@@ -189,38 +194,57 @@
 
 				this.activeArrange = function (array){
 					for (var index in array) {
-						if ( array[index] === this.month ){
-							if(this.day + this.option.arrange.before >= this.lastDay){
+						console.log(array[index], this.month);
+						if ( array[index] === this.month ){									// month condition
+							if(this.day + this.option.arrange.before >= this.initlastDay){	// day condition
 								this.noticeStandardTime(this.year, this.month);
 								return;
 							}
-						}else if( (array[index] + 1) > 12 ? (array[index] - 12 + 1) === this.month : (array[index] + 1) === this.month ){
+						}else if(array[index] + 1 === this.month) {
 							if(this.day <= this.option.arrange.after){
-								this.noticeStandardTime(this.year, (this.month - 1));
+								this.noticeStandardTime(this.year, this.month - 1);
+							}
+						// exception catch
+						}else if(array[index] === 12 && this.month === 1){
+							if(this.day <= this.option.arrange.after){
+								this.noticeStandardTime(this.year - 1, this.month);
 								return;
 							}
 						}
 					}
 				}
 				this.noticeStandardTime = function (year, month){
-					var	langArray = this.date_standard_option.langArray,
-						date_standard = new Date(Date.UTC((year + 1900), (this.month === 1 ? 11 : this.month - 1), lastDay(this.year, this.month), 0, 0, 0));
-
+					// use toLocaleString :: non cover ie 9, 10
+					// var	langArray = this.date_standard_option.langArray,
+					// 	date_standard = new Date(Date.UTC((year), (month === 1 ? 11 : month - 1), lastDay(year, month), 0, 0, 0));
+					// for(var i=0;i<this.$this.length;i++){
+					// 	var tg = this.$this.eq(i);
+					// 	if(tg.attr("class").indexOf(langArray[i]) > 0){
+					// 		var time = this.date_standard_option[langArray[i]];
+					// 		// console.log(time);
+					// 		tg.find(".date").text( date_standard.toLocaleString(time[0], time[1]) );
+					// 		this.showLayer(tg);
+					// 	}
+					// }
+					
+					// old type :: cover ie 9, 10
+					var time = "";
 					for(var i=0;i<this.$this.length;i++){
 						var tg = this.$this.eq(i);
-						if(tg.attr("class").indexOf(langArray[i]) > 0){
-							var time = this.date_standard_option[langArray[i]];
-							// console.log(time);
-							tg.find(".date").text( date_standard.toLocaleString(time[0], time[1]) );
-							this.showLayer(tg);
+						if(tg.hasClass("kr")){
+							time = (month === 1 ? 12 : month) + "월 " + lastDay(year, month) + "일";
+						}else if(tg.hasClass("en")){
+							time = this.option.en_months[(month === 1 ? 11 : (month - 1))] + " " + lastDay(year, month) + ", " + (year);
 						}
+						tg.find(".date").text(time);
+						this.showLayer(tg);
 					}
 				}
 
 				this.showLayer = function(layer){
 					return (
-						layer.show(), 
-						layer.prev().show()
+						layer.prev().show(),
+						layer.show() 
 					);
 				}
 
