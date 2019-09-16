@@ -147,6 +147,11 @@
 				LayerScroll : {
 					min : 0,
 					cutoff : 66	// sec는 63, global은 66
+				},
+				locale : {
+					langArray : ["kr", "en"], 
+					kr : { month: 'long', day: 'numeric' },
+					en : { year: "numeric", month: "long", day: "numeric"},
 				}
 			}
 			// Logic
@@ -162,11 +167,12 @@
 			function LayerTimer(eventElement, option){
 				this.$this = $(eventElement);
 				this.option = option;
-				this.date = new Date(Date.UTC(2019, 6, 8, 0, 0, 0));
+				this.date = new Date(Date.UTC(2019, 6, 5, 0, 0, 0));
 				this.year = this.date.getYear();
 				this.month = this.date.getMonth() + 1;
 				this.day = this.date.getDate();
 				this.lastDay = lastDay(this.year, this.month);
+				this.date_standard_option = this.option.locale;
 				this.init = function(){
 					var closeEvent = this.closeLayer;
 					var rollEvent = this.stickyLayer;
@@ -176,6 +182,7 @@
 					// regist event					
 					this.activeArrange(this.option.monthArr);
 					this.$this.each(function(index, elem){
+						console.log(index, elem);
 						closeEvent(elem);
 						rollEvent(elem, limit, cutoff);
 					});
@@ -196,27 +203,25 @@
 						}
 					}
 				}
-
 				this.noticeStandardTime = function (year, month){
-					var $timeText = this.$this.find(".date"),
-						date_standard = new Date(Date.UTC((year + 1900), (month === 1 ? 11 : month - 1), lastDay(year, month), 0, 0, 0)),
-						locale = {
-							kr : { month: 'long', day: 'numeric' },
-							en : { year: "numeric", month: "long", day: "numeric"},
-						},
-						date_standard_kr = date_standard.toLocaleString('ko-KR', locale.kr),
-						date_standard_en = date_standard.toLocaleString('en-US', locale.en);
-
-					if(this.$this.hasClass("kr")){
-						$timeText.text(date_standard_kr);
-					}else if(this.$this.hasClass("en")){
-						$timeText.text(date_standard_en)
+					var	langArray = this.date_standard_option.langArray,
+						date_standard = new Date(Date.UTC((year + 1900), (this.month === 1 ? 11 : this.month - 1), lastDay(this.year, this.month), 0, 0, 0)),
+						date_standard_kr = date_standard.toLocaleString('ko-KR', this.date_standard_option.kr),
+						date_standard_en = date_standard.toLocaleString('en-US', this.date_standard_option.en);
+					for(var i=0;i<this.$this.length;i++){
+						var tg = this.$this.eq(i);
+						if(tg.attr("class").indexOf(langArray[i]) > 0){
+							tg.find(".date").text(eval("date_standard_" + langArray[i]));
+							this.showLayer(tg);
+						}
 					}
-					this.showLayer();
 				}
 
-				this.showLayer = function(){
-					return (this.$this.show(), this.$this.prev().show());
+				this.showLayer = function(layer){
+					return (
+						layer.show(), 
+						layer.prev().show()
+					);
 				}
 
 				this.closeLayer = function(layer){
