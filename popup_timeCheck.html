@@ -172,11 +172,6 @@
 				this.month = this.date.getMonth() + 1;
 				this.day = this.date.getDate();
 				this.initlastDay = lastDay(this.year, this.month);
-				console.log(
-					this.year,
-					this.month, 
-					this.day
-				)
 				this.init = function(){
 					var closeEvent = this.closeLayer;
 					var rollEvent = this.stickyLayer;
@@ -186,7 +181,6 @@
 					// regist event					
 					this.activeArrange(this.option.monthArr);
 					this.$this.each(function(index, elem){
-						// console.log(index, elem);
 						closeEvent(elem);
 						rollEvent(elem, limit, cutoff);
 					});
@@ -194,7 +188,6 @@
 
 				this.activeArrange = function (array){
 					for (var index in array) {
-						console.log(array[index], this.month);
 						if ( array[index] === this.month ){									// month condition
 							if(this.day + this.option.arrange.before >= this.initlastDay){	// day condition
 								this.noticeStandardTime(this.year, this.month);
@@ -221,7 +214,6 @@
 					// 	var tg = this.$this.eq(i);
 					// 	if(tg.attr("class").indexOf(langArray[i]) > 0){
 					// 		var time = this.date_standard_option[langArray[i]];
-					// 		// console.log(time);
 					// 		tg.find(".date").text( date_standard.toLocaleString(time[0], time[1]) );
 					// 		this.showLayer(tg);
 					// 	}
@@ -264,7 +256,6 @@
 						$(window).on("scroll", function(){
 							scrPos = $(this).scrollTop();
 							layerPos = Number(window.getComputedStyle(dimedLayer, null).getPropertyValue("top").split("px")[0]);
-							console.log(layerPos);
 							if(layerPos > min || scrPos < (cutoff + 1)){
 								$(dimedLayer).css({
 									top : (cutoff + min)  - scrPos
