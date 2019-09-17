@@ -197,8 +197,8 @@
 							if(this.day <= this.option.arrange.after){
 								this.noticeStandardTime(this.year, this.month - 1);
 							}
-						// exception catch
-						}else if(array[index] === 12 && this.month === 1){
+						// exception catch :: january target
+						}else if(array[index] - 11 === this.month){
 							if(this.day <= this.option.arrange.after){
 								this.noticeStandardTime(this.year - 1, this.month);
 								return;
