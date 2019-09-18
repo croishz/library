@@ -147,11 +147,11 @@
 					min : 0,
 					cutoff : 66	// sec는 63, global은 66
 				},
-				// locale : {
-				// 	langArray : ["kr", "en"], 
-				// 	"kr" : ['ko-KR', { month: 'long', day: 'numeric' }],
-				// 	"en" : ['en-US', { year: "numeric", month: "long", day: "numeric"}],
-				// }
+				locale : {
+					langArray : ["kr", "en"], 
+					"kr" : ['ko-KR', { month: 'long', day: 'numeric' }],
+					"en" : ['en-US', { year: "numeric", month: "long", day: "numeric"}],
+				},
 				en_months : [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 			}
 			// Logic
@@ -167,7 +167,7 @@
 			function LayerTimer(eventElement, option){
 				this.$this = $(eventElement);
 				this.option = option;
-				this.date = new Date(Date.UTC(2020, 0, 17, 0, 0, 0));
+				this.date = new Date(Date.UTC(2020, 11, 30, 0, 0, 0));
 				this.year = this.date.getYear() + 1900;
 				this.month = this.date.getMonth() + 1;
 				this.day = this.date.getDate();
@@ -186,9 +186,10 @@
 					});
 				}
 
-				this.activeArrange = function (array){
+				var p = LayerTimer.prototype;
+				p.activeArrange = function (array){
 					for (var index in array) {
-						if ( array[index] === this.month ){									// month condition
+						if (array[index] === this.month){									// month condition
 							if(this.day + this.option.arrange.before >= this.initlastDay){	// day condition
 								this.noticeStandardTime(this.year, this.month);
 								return;
@@ -206,7 +207,7 @@
 						}
 					}
 				}
-				this.noticeStandardTime = function (year, month){
+				p.noticeStandardTime = function (year, month){
 					// use toLocaleString :: non cover ie 9, 10
 					// var	langArray = this.date_standard_option.langArray,
 					// 	date_standard = new Date(Date.UTC((year), (month === 1 ? 11 : month - 1), lastDay(year, month), 0, 0, 0));
@@ -231,16 +232,41 @@
 						tg.find(".date").text(time);
 						this.showLayer(tg);
 					}
+
+					// try switch :: can use return and be make repeated code
+					// var time = "";
+					// var langClass = "";
+					// var	langArray = this.option.locale.langArray;
+					
+					// for(var i = 0; i < this.$this.length; i++){
+					// 	var tg = this.$this.eq(i);
+					// 	langClass = tg.attr("class").split(" ")[1];
+					// 	console.log(langClass);
+					// 	switch(langClass){
+					// 		case "kr" :
+					// 			console.log("kr");
+					// 			time = (month === 1 ? 12 : month) + "월 " + lastDay(year, month) + "일";
+					// 			tg.find(".date").text(time);
+					// 			this.showLayer(tg);
+					// 		case "en" :
+					// 			console.log("en");
+					// 			time = this.option.en_months[(month === 1 ? 11 : (month - 1))] + " " + lastDay(year, month) + ", " + (year);
+					// 			tg.find(".date").text(time);
+					// 			this.showLayer(tg);
+					// 		default :
+					// 			console.log("default");
+					// 	}
+					// }
 				}
 
-				this.showLayer = function(layer){
+				p.showLayer = function(layer){
 					return (
 						layer.prev().show(),
 						layer.show() 
 					);
 				}
 
-				this.closeLayer = function(layer){
+				p.closeLayer = function(layer){
 					var closeBtn = $(layer).find("button[data-btn='close']")
 					closeBtn.on("click", function(){
 						$(layer).hide();
@@ -249,7 +275,7 @@
 					})
 				}
 
-				this.stickyLayer = function(layer, min, cutoff){
+				p.stickyLayer = function(layer, min, cutoff){
 					var scrPos, layerPos = 0;
 					var dimedLayer = layer.previousElementSibling;
 					if(layer.style.display === "block"){
@@ -272,6 +298,7 @@
 			}
 			// new one
 			var callLayer = new LayerTimer(layer, timeOpt);
+			console.log(callLayer);
 		});
 	</script>
 </body>
