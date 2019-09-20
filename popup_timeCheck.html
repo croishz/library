@@ -40,28 +40,28 @@
 	<main>
 		<div class="gnb"></div>
 	</main>
-<!-- popup -->
-<div class="dimed"></div>
-<div class="ir-layer kr">
-	<div class="dialog-wrap">
-		<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
-		<div class="dialog">
-			<span class="date">&nbsp;</span>
+	<!-- popup -->
+	<div class="dimed"></div>
+	<div class="ir-layer kr">
+		<div class="dialog-wrap">
+			<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
+			<div class="dialog">
+				<span class="date">&nbsp;</span>
+			</div>
 		</div>
 	</div>
-</div>
-<!--// popup -->
-<!-- popup -->
-<div class="dimed"></div>
-<div class="ir-layer en">
-	<div class="dialog-wrap">
-		<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
-		<div class="dialog">
-			<span class="date">&nbsp;</span>
+	<!--// popup -->
+	<!-- popup -->
+	<div class="dimed"></div>
+	<div class="ir-layer en">
+		<div class="dialog-wrap">
+			<div class="ir-btn__close__layer"><button class="ir-btn__icon" data-btn="close">Close</button></div>
+			<div class="dialog">
+				<span class="date">&nbsp;</span>
+			</div>
 		</div>
 	</div>
-</div>
-<!--// popup -->
+	<!--// popup -->
 	<!-- <script>
 
 		// $('.vip-tabnavi').uxePositionFix({
@@ -135,7 +135,8 @@
 	<script>
 		$(document).ready(function(){
 			var layer = document.querySelectorAll(".ir-layer");
-			if(layer.length < 0 ){return false}
+			if(layer.length < 0 ){return false};
+
 			// interface
 			var timeOpt = {
 				monthArr : [3,6,9,12],
@@ -153,7 +154,8 @@
 					"en" : ['en-US', { year: "numeric", month: "long", day: "numeric"}],
 				},
 				en_months : [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-			}
+			};
+
 			// Logic
 			function lastDay(year, month){
 				if(month === 4 || month === 6 || month === 9 || month === 11){
@@ -164,19 +166,22 @@
 					return 31;
 				}
 			};
+
 			function LayerTimer(eventElement, option){
-				this.$this = $(eventElement);
-				this.option = option;
-				this.date = new Date(Date.UTC(2020, 11, 30, 0, 0, 0));
-				this.year = this.date.getYear() + 1900;
-				this.month = this.date.getMonth() + 1;
-				this.day = this.date.getDate();
-				this.initlastDay = lastDay(this.year, this.month);
+
+				// constructor
 				this.init = function(){
-					var closeEvent = this.closeLayer;
-					var rollEvent = this.stickyLayer;
-					var limit = this.option.LayerScroll.min;
-					var cutoff = this.option.LayerScroll.cutoff;
+					this.$this = $(eventElement);
+					this.option = option;
+					this.date = new Date(Date.UTC(2020, 11, 30, 0, 0, 0));
+					this.year = this.date.getYear() + 1900;
+					this.month = this.date.getMonth() + 1;
+					this.day = this.date.getDate();
+					this.initlastDay = lastDay(this.year, this.month);
+					var closeEvent = this.closeLayer,
+						rollEvent = this.stickyLayer,
+						limit = this.option.LayerScroll.min,
+						cutoff = this.option.LayerScroll.cutoff;
 
 					// regist event					
 					this.activeArrange(this.option.monthArr);
@@ -186,6 +191,7 @@
 					});
 				}
 
+				// prototype method
 				var p = LayerTimer.prototype;
 				p.activeArrange = function (array){
 					for (var index in array) {
@@ -198,7 +204,7 @@
 							if(this.day <= this.option.arrange.after){
 								this.noticeStandardTime(this.year, this.month - 1);
 							}
-						// exception catch :: january target
+						// exception :: december - january target
 						}else if(array[index] - 11 === this.month){
 							if(this.day <= this.option.arrange.after){
 								this.noticeStandardTime(this.year - 1, this.month);
@@ -267,7 +273,7 @@
 				}
 
 				p.closeLayer = function(layer){
-					var closeBtn = $(layer).find("button[data-btn='close']")
+					var closeBtn = $(layer).find("button[data-btn='close']");
 					closeBtn.on("click", function(){
 						$(layer).hide();
 						$(layer).prev(".dimed").hide();
@@ -294,6 +300,7 @@
 						})
 					}
 				}
+
 				this.init();
 			}
 			// new one
