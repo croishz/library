@@ -69,8 +69,10 @@ const rufus = abstractCharater.create('governor', { name: 'rufus' });
 
 // sampling
 const companyFactory = (function(){
+	// papers
 	const department = {};
 	const employees = {};
+	// owner
 	return owner = {
 		confirm : function(information){
 			let employee = null;
@@ -78,43 +80,86 @@ const companyFactory = (function(){
 			employees[information.name] = employee;
 			return employee;
 		},
-		employment : function(){
-			
-		},
 		createTeam : function(Task, manager){
 			let team = new Task(manager);
 			department[Task.name] = team;
+			manager.teamTask = Task.name;
+			manager.job = "team management, projects leader";
 		},
 		getResource : function(){
 			return [ department, employees ];
-		}
+		},
 	}
 })();
 
-const design = function(member){
-	this.chief = member.position === "Team Manager" ? member.name : null;
-	this.work = ["UI design", "visual design", "proposal prototyping"];		
-	this.project = ["LG", "Gorvernent", "SK Telecom"];
-
-	design.prototype.responsibillity = function(member){
-		const allocation_running = Math.floor(Math.random() * this.project.length);
-		if(member.position !== "Team Manager"){
-			member.job = this.project[allocation_running];
-		}		
-	}
-}
-
-
-
-const Member = function(information){
+function Member(information){
 	this.name = information.name;
 	this.position = information.position;
 }
-const Jh = companyFactory.confirm({name : "Jh", position: "Team Manager", job : "team management, projects leader"});
 
-companyFactory.createTeam(design, Jh);
+const UIDesign = function design(member){
+	const keyword = "design";
+	this.work = ["UI design", "visual design"];
+	this.project = ["LG", "Gorvernent", "SK Telecom", "Doosan", "Lotte"];
 
-console.dir(Jh);
+	this.chief = member.position === "Team Manager" ? member.name : null;
+	this.chief.authority = design.prototype;
+
+	// this.members = Object.keys(crewList).filter( key => crewList[key].teamTask === keyword);
+
+	design.prototype.join = function(member){
+		member.teamTask = keyword;
+	}
+	design.prototype.assign = function(member){
+		const run_allocate = Math.floor(Math.random() * this.project.length);
+		console.log(run_allocate);
+		if(member.position !== "Team Manager"){
+			member.job = this.project[run_allocate];
+		}
+	}
+}
+const Frontend = function frontend(member){
+	const keyword = "frontend";
+
+	this.work = ["publishing", "incteractive dev"];
+	this.project = ["LG", "Gorvernent", "SK Telecom", "Samsung", "Hyundai"];
+
+	this.chief = member.position === "Team Manager" ? member.name : null;
+	this.chief.authority = frontend.prototype;
+
+	// this.members = Object.keys(crewList).filter( key => crewList[key].teamTask === keyword);
+
+	frontend.prototype.join = function(member){
+		
+		member.teamTask = keyword;
+	}
+	frontend.prototype.assign = function(member){
+		const run_allocate = Math.floor(Math.random() * this.project.length);
+		if(member.position !== "Team Manager"){
+			member.job = this.project[run_allocate];
+		}
+	}
+}
+// employment
+const Tom = companyFactory.confirm({name : "Tom", position: "Team Manager"});
+const Robert = companyFactory.confirm({name : "Robert", position: "Team Manager"});
+const Julia = companyFactory.confirm({name : "Julia", position: "Assistant Manager"});
+
+// create team;
+companyFactory.createTeam(UIDesign, Tom);
+companyFactory.createTeam(Frontend, Robert);
+
 const [department, crewList] = companyFactory.getResource();
 console.log("department :", department);
 console.log("employees :", crewList);
+
+department.frontend.join(Julia);
+department.frontend.assign(Julia);
+console.dir(Julia);
+
+/* 개선사항 
+1. 각 팀별 명단을 추출할 수 있도록. 
+2. 고용이 전제되어야 팀을 만들 수 있다. 팀 생성을 독립적으로. 
+3. 전출, 보직 변경에 대한 코드 추가 필요.
+4. 팀 별 공통의 코드를 지닌 객체가 필요.
+*/
