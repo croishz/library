@@ -1,0 +1,44 @@
+{
+    "ajaxerror": "Sorry! We were unable to load this page.",
+    "wheretobuy": {
+        "noResult": "Es gibt leider keine Ergebnisse zu den von Ihnen eingebenen Kriterien.",
+        "noArrival": "Händler auswählen.",
+        "noShopInfo": "Händler auswählen.",
+        "telephone": "Telefon",
+        "category": "Produktkategorien",
+        "direction": "Anweisungen bekommen",
+        "distance": "Entfernung",
+        "shopInfo": "Händlerinfo",
+        "call": "rufen Sie uns an",
+        "see": "Karte anzeigen ",
+        "name":"Händlername",
+        "address":"Adresse",
+        "ceo":"Kontaktperson",
+        "time":"Öffnungszeiten",
+        "contactNumber":"Kontaktnummer",
+        "products":"Erhältliche Produkte",
+        "close":"Schließen",
+        "noOnlineResult": "Keine Resultate",
+        "buyOnline": "Online kaufen",
+        "onllineTitle": "In einem neuen Fenster öffnen"
+    },
+    "common" : {
+        "previous" : "Zurück",
+        "next" : "Nächste",
+        "stop" : "stop",
+        "start" : "start",
+        "close" : "Schließen",
+        "open" : "öffnen"
+    },
+    "alternative": {
+        "prev": "Zurück",
+        "next": "Vor",
+        "pullopen": "Neues",
+        "pullclose": "Schließen",
+        "skipmain": "zum Inhalt",
+        "skipmenu": "zum nächsten Menü",
+        "close": "Schließen",
+        "datepicker" : "Datumsauswahl"
+    },
+    "eco" : "Dear Customers\n\nWe regret to inform you that this service will not be available due to server maintenance job\n\n Suspension Time\n .From %downtime% to %opentime% (GMT +09:00, Korean local time)\n\nWe apologize for this inconvenience\n\nThank you.\n\n\nAdministrator"
+}

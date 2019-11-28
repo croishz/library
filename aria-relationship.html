@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WAI ARIA Relationship Setting</title>
+</head>
+<body>
+    <!-- 
+        2. aria-owns
+        value 값은 중복으로 취하는 것이 가능하다. (exam1 마크업 참조) 
+        dom tree와 무관하게 보조기술로 읽는 문서체계를 따로 만든다.
+        
+        아래 예시의 경우,
+        
+        [ DOM ]
+        .visual + 
+        .text > 
+            #contents-header + 
+            .thumb-list + 
+            .btn-area 
+        
+        이지만,
+        
+        [ ARIA ]
+        .visual > 
+            figure + 
+            contents-header + 
+            btn-area + 
+            .thumb-list
+            
+        가 된다.
+
+        7. aria-conterols
+
+
+        3. aria-labelledby
+        4. aria-describedby
+
+
+        --------------------- 이하는 markup이 native list라 사용할 필요 없음.
+        1. role="list"
+
+        5. aria-posinset
+        6. aria-setsize
+    -->
+    <!-- exam1 -->
+    <div class="component" >
+        <div class="visual vdo-type" aria-owns="contents-header linkbox">
+            <a href="https://vdo.page">
+                <figure>
+                    <img src="" alt="vdo head or description">
+                    <!-- <figcaption class="vdo-title">video title</figcaption> -->
+                </figure>
+            </a>
+        </div>
+        <div class="text">
+            <section>
+                <header id="contents-header">
+                    <h2 class="head">title head</h2>
+                    <p class="desc">description</p>
+                </header>
+                <!-- <ul class="thumb-list" tabindex="0" role="listbox" aria-activedescendant="option2">
+                    <li id="option1" role="option" aria-posinset="1" aria-setsize="4"><button type="button" aria-label="thumbnail1"><img src="" alt="" /></button></li>
+                    <li id="option2" role="option" aria-posinset="2" aria-setsize="4"><button type="button" aria-label="thumbnail2"><img src="" alt="" /></button></li>
+                    <li id="option3" role="option" aria-posinset="3" aria-setsize="4"><button type="button" aria-label="thumbnail3"><img src="" alt="" /></button></li>
+                    <li id="option4" role="option" aria-posinset="4" aria-setsize="4"><button type="button" aria-label="thumbnail4"><img src="" alt="" /></button></li>
+                </ul> -->
+                <ul class="thumb-list">
+                    <li><a href="#" role="button" aria-label="thumbnail01">thumbnmail01</a></li>
+                    <li><a href="#" role="button" aria-label="thumbnail02">thumbnmail02</a></li>
+                    <li><a href="#" role="button" aria-label="thumbnail03">thumbnmail03</a></li>
+                    <li><a href="#" role="button" aria-label="thumbnail04">thumbnmail04</a></li>
+                </ul>
+                <div class="btn-area" id="linkbox">
+                    <a href="#" aria-label="TVs List page">primary</a>
+                    <a href="#" aria-label="Applience List page">secondary</a>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll(".thumb-list").forEach( (elem)=>{
+            elem.addEventListener("click", (e)=>{
+                let optionIdentity = e.target.parentElement.parentElement.getAttribute("id");
+                elem.setAttribute("aria-activedescendant", optionIdentity);
+            } );
+        });
+    </script>
+</body>
+</html>
+
+<!-- 5. the roles model
+
+role과 이것이 지원하는 특성, 상태, property, 그리고 방법의 정의-아마도 이것이 마크업에 사용되는-는 규범(표준)으로 간주됩니다.  RDF/OWL 형상은 분류를 모델링하는데 유익한 것으로 이해됩니다.
+RDF/OWL 분류는 WAI ARIA를 확장하는 방법의 하나로 사용될 수 있다. 미래에. 또는 도구 생산자에 의해 검증한다. 적용할 수 있는 role마다 정의된 상태와 property를. 
+
+role은 요소 타입이며, 작업자가 값을 변경해선 안된다. 사용자의 행동이나 동적으로-시간이 지남에 따라- <= role은 고정된 값을 취한다. 
+작업자가 role을 바꾸기를 원하면, 반드시 관련 요소와 그 자식 요소들을 제거하고 적절한 role을 가진 새로운 요소로 그를 대체해야 한다.
+일반적으로 "플랫폼 접근성 api"는 방법을 제공하지 않는다. 교체한 role 값을 "보조기술"에 알리는. 따라서 "보조기술"도 그들의 캐시-새로운 role의 속성 값을 지닌-를 업데이트하지 않아도 된다.
+
+DOM의 내용을 반영하기 위해, user agents는 role 속성을 map한다. 수행하는 접근성 api에 적절한 값으로. 그리고 user agents는 role 속성이 변경되었을 때 매핑을 업데이트한다.
+
+--------------
+role이 지원하는 특성, 상태, property와 마크업에서 사용될 방법의 정의는 규범으로 여겨진다. RDF/OWL representation은 분류를 모델링하는데 유익한 것으로 이해되어, 미래에는 WAI-ARIA를 확장하는 방법으로 사용될 수 있으며, (이 개념에 바탕한) tool 제작자에 의해 적용하는 role마다 그것이 가진 상태와 property를 검증할 수 있을 것이다.
+
+role은 요소 유형으로, 작성자가 시간이 경과함에 따라 혹은 사용자의 행동을 (받아) 값을 변경해선 안된다. role을 바꾸려면 반드시 관련 요소와 그 하위의 자식들을 제거하고 적절한 role을 가진 새로운 요소로 대체한다. 일반적으로 "플랫폼 접근성 api"는 교체한 role을 "보조기술"에 알리는 방법을 제공하지 않으므로, 이에 대해 업데이트하지 않아도 된다. 
+
+user agents는 DOM에 내용을 반영하기 위해 role 속성을 구현된 "접근성 api"에 적절한 값으로 매핑하며, role 값이 바뀌었을 때에 업데이트한다. 
+
+--------------
+요약. role 속성은 정의된 스펙을 따르며, 웹에선 알아서 구조를 구성하고, 외부 플랫폼에 별도의 작업을 요구하지 않는다.
+
+
+================================================
+5.1 Relationships between concepts
+
+role 분류 체계는 다음의 관계를 사용한다. WAI-ARIA의 서로 간의 role과 HTML, XForms등의 별도 스펙들의 개념에 관련시켜.
+
+superclass role
+
+상속은 RDF 스키마 1.1의 subclassOf 속성을 사용하여 표현된다. <= java의 클래스 구조와 동일.
+
+이 role은 현재 subclass된 role이 분류 체계를 확장한 것.( = instance가 있는 role) 이 확장은 야기한다. superclass role의 모든 property와 제약이 subclass role로 전파하는. 
+잘 알려진 안정적인 사양 외의 다른 것과 상속은 제한한다. 이 사양 안에서 정의된 항목을. 그래서 외부 항목은 바꾸거나 영향을 줄 수 없다. 상속된 클래스들에.
+
+subclass role
+
+이 role이 superclass role인 정보 전달 목록. ( = instance가 없는 role의 집합) 사양의 이해를 알기쉽도록 해주지만 새로운 정보를 추가하지 않는다.
+
+Related Concepts
+
+서로 다른 스펙의 유사하거나 연관된 아이디어에 관한 정보 전달 데이터. 관련되었으나 반드시 동일하지 않은 개념. Related concepts은 서로 간에 property를 상속하지 않는다. 따라서 가령 한 개념의 정의가 변화하더라도 연관 개념의 정의, 동작, property에는 영향을 주지 않는다. 
+
+예를 들어, 프로그레스바는 "상태" 표시기과 같다. 그러므로 progressbar 위젯은 "상태"를 포함한 연관 개념 값을 가진다. 반면 "상태"의 정의가 수정된다해도 프로그레스 바는 영향을 받지 않는다. 
+
+base concepts
+
+role의 프로토타입으로 여겨지는 객체에 관한 정보 전달 데이터. 유형이 유사하나, 제약과 property의 상속은 가지지 않는다. 외부 개념들의 상속을 대신하기 위해 설계되었다. Related concepts과 비슷하다. base concepts이 role 정의가 거의 같다는 걸 제외하면.
+
+예를 들어, 체크박스는 이 문서에서 정의된다. HTML에서 정의된 체크박스와 유사한 기능성과 예상가능한 동작을 가질 것으로. 
+그러므로 체크박스는 HTML 체크박스의 기본 개념을 가진다. 반면에, 원래 HTML 체크박스의 기본개념의 정의가 수정되면 이 문서의 체크박스는 영향을 받지 않는다. 각 유형에 실질적인 상속이 없기에.
+
+role의 특성.
+
+-------------------------------------------------------------
+요약.
+role의 분류 체계는 클래스 구조를 가진다. 구조도 :: https://www.w3.org/TR/wai-aria/img/rdf_model.svg
+
+instance를 가지지 않는 role은 subclass role, instance를 만들어 분류 체계를 넓힐 수 있는 role은 superclass role로 정의하며, 두 종류 모두 네이티브 스펙만을 가지므로 추가할 수 없으며, 외부 항목에 영향을 주지도 않는다. wai aria 이외의 html등의 개념들과 서로 호응하거나 그 개념을 참조하지만, html등의 변화가 role의 정의에 영향을 주지 않는다. 모든 것은 태초에 만들어져 있는 고대로만 간다.
+
+================================================
+5.2 Characteristics of Roles
+
+role은 그것의 특성에 의해 설명되고 정의된다. 특성은 role의 구조 기능- 그것에 깔려있는 개념과 role의 인스턴스-를 정의하는데 포함될 수 있거나 포함되야 한다. 위젯의 경우, 이는 또한 포함한다. 이것이 user agent - html이나 xform과 맴핑한 것에 기반한- 와 어떻게 호응할 것인지. role이 지원하는 WAI-ARIA의 상태와 property도 표시된다. 
+
+role의 분류 체계는 다음의 특성을 정의한다. 이 특성들은 role이 설명하는 OWL 클래스의 속성으로서 RDF에서 구현된다.
+
+- Abstract Roles
+
+"추상 역할"은 모든 다른 WAI-ARIA role이 만든 것에 기초한다. 내용 작성자는 "추상 역할"을 사용해선 안된다. 그들은 api 바인딩에서 구현될 수 없으므로. user agents도 접근성 api의 일반적인 role의 동작원리에 매핑해서는 안된다. 추상 역할은 다음을 돕는 것을 제공한다. 
+1. role 분류 체계를 구성하고, 알려진 개념의 맥락에서 의미를 가지는 role을 제공한다.
+2. 필요한 특징을 포함한 role의 추가를 간소화하다.
+
+- Required States and Properties
+
+
+
+
+- Required Owned Elements
+어떤 요소- 이 role을 가진 요소에 의해 소유될 것인 -. 
+예를 들어, [list] role을 가진 요소는 최소한 [group]이나 [listitem] role을 가진 요소를 하나는 가질 것이다.
+
+다중의 role이 어떤 role을 위한 "필수 소유 요소"에 의해 정의될 때, 하나의 "필수 소유 요소"의 최소한 하나의 인스턴스가 기대된다. 이 정의는 요구하지 않는다. 어떤 인스턴스-각각의 나열된 소유 역할들의-. 예를 들어, [menu]는 최소한 [menuitem], [menucheckbox], [menuradiobox] 중 하나의 인스턴스를 가져야 한다. [menu] role은 각각마다 하나의 인스턴스가 필요하진 않다. 
+
+"필수 소유 요소"가 사라질 수 있다. 일테면 편집 중이거나, 데이터 세트를 불러오는 중에. 
+위젯이 스크립트 실행이나 로딩으로 "필수 소유 요소"를 잃어버리면, 작성자는 반드시 aria-busy가 true인 컨테이닝 요소를 표시해야한다.
+예를 들어 어떤 페이지가 완전히 초기화되었다 완료될 때까지 작성자는 문서 요소를 동작 중(as busy)라고 표시할 수 있다. 
+
+note1.
+
+
+note2.
+"필수 소유 요소"의 subclass role을 지닌 요소는 이 요구를 만족하지 않는다. 예를 들어, [list] role은 요소-[listitem]이나 [group] role을 사용한-의 소유권을 필요로 한다. [group] role이 [row]의 superclass [row]이라 [row]을 가진 소유 요소를 더하여도 요구조건은 만족하지 않으며, [list]가 [listitem]이나 [group]을 소유해야 한다. <= 요소 정의가 하부 -> 상부가 아니라 상부 -> 하부 구조.
+
+note3.
+어떤 요소- 적절히 암시된 WAI-ARIA 의미를 가진- 이 요구를 만족한다.
+
+- Required Context Role
+
+"필수 문맥 역할"은 이 role이 허용되는 소유 컨테이너를 정의한다. 어떤 role이 요구되는 상황이 있다면, 작성자는 반드시 명확하게 해야한다. "필수 문맥 역할"을 가진 요소(에 의해 소유되거나) 안에 들어가 있는 role을 지닌 요소로. 
+
+예를 들어, [listitem] role은 오직 의미가 있다. [list] role을 지닌 요소(에 의해 소유되거나) 안에 들어가 있을 때에. 
+
+note1.
+
+
+note2.
+어떤 요소- 적절히 암시된 WAI-ARIA 의미를 가진- 이 요구를 만족한다.
+-------------------------------------------------------------
+요약 :
+
+===================================
+- Accessible Name Calculation
+# 다음 중에 하나의 값을 따른다.
+1. 작성자 : 이름은 작성자가 명시적으로 마크업 특징-aria-label, aria-labelledby 속성이나 html의 alt, title같은 호스트 언어 레이블링 매커니즘-에서 제공한 값에서 가져온다. HTML의 title 속성은 가장 낮은 우선권을 갖는다. 텍스트 대체를 지정하기 위한. <= aria 속성이 html의 속성보다 우선되며, title은 그 앞에 어떤 속성도 없을 때에 사용된다.
+
+2. 내용 : 이름은 요소 노드의 텍스트 값에서 가져온다. 일부 역활에서는 위의 것 외에 이 기능이 허용될 수 있지만, 우선순위가 높은 위 기능이 제공되지 않은 경우에만 내용에 사용된다. 우선순위는 텍스트 대체 계산 알고리즘에 의해 정의된다.
+
+# Name Computation은 접근가능한 이름과 사양 설명에서 정의된다.
+# Description Computation은 접근가능한 이름과 사양 설명에서 정의된다.
+# Text Alternative Computation 은 접근가능한 이름과 사양 설명에서 정의된다.
+
+# Roles Supporting Name from Author 
+모든 role은 작성자로부터 이름을 지원한다. 두가지 예외사항을 가지고. 그 롤-작성자로부터 이름을 지원하지 않는-은  presentation과 none이다. 
+
+# Roles Supporting Name from Content
+https://www.w3.org/TR/wai-aria/#namefromcontent <= 해당 리스트.
+
+[reference]
+https://www.w3.org/TR/accname-1.1/
+-------------------------------------------------------------
+요약 : 
+접근가능한 이름이 취하는 우선순위.
+작성자가 aria-label이니 aria-labelledby를 사용한 경우는 그 값을 사용하지만, 
+html에서조차 이런 형태의 명명 속성으로 취할 거리가 없으면, 일부 특정 스펙의 role은 자기자신이 가진 기본값을 내준다.  -->
+
+<div style="margin:40px 0 20px; border:1px solid tan; padding:20px;">
+    <style scoped>
+        [role="checkbox"], 
+        [type="checkbox"] {display:block; height:20px; margin-bottom: 4px;}
+    </style>
+    <!-- input 기본 -->
+    <input type="checkbox" name="test contents role"/>
+    <!-- input with aria-label -->
+    <input type="checkbox" name="test contents role" aria-label="input checkbox"/>
+    
+    <!-- role checkbox  -->
+    <span tabindex=0 role="checkbox" style="display:inline-block; width:100px; height:40px; background-color:lightcoral"></span>
+    <!-- role checkbox width text -->
+    <span tabindex=0 role="checkbox">role checkbox from text</span>
+    <!-- role checkbox width text & aria-label -->
+    <span tabindex=0 role="checkbox" aria-label="span checkbox">role checkbox from text</span>
+    
+    <!-- input with 오만 거 -->
+    <input type="text" name="test contents role" title="혼종5" value="혼종" role="checkbox" id="rjkr" aria-label="혼종3"/>
+    <label for="rjkr" aria-label="혼종4">혼종2</label>
+</div>
+<div style="border:1px solid tan;padding:20px 0;">
+    <span style="padding-left:23px;">테스트 결과 :</span> 
+    <ol style="line-height:1.5; margin-top:7px">
+        <li>checkbox role은 role의 값을 이름으로 제공한다. </li>
+        <li>author 루트를 따른 경우의 우선순위는 다음과 같다.
+            <ul style="font-size:14px; color:#333">
+                <li>aria-label > label element의 text 값 > value, textnode > role</li>
+                <li>특이하게도 title이 있으면 문서 내용과 달리 같이 읽는다. (두가지 값이 모두 있으면 {value} + checkbox + {title}로 읽음)</li>
+            </ul>
+        </li>
+        <li>aria-label도 우선순위가 있다. label의 aria-label보다 input의 aria-label이 우선된다.</li>
+        <li>input의 name 속성에서 값을 취하는 경우는 모두 없었다.</li>
+    </ol>
+</div>
+
+<!-- ====================================
+- Presentational Children
+
+DOM의 자손들은 가시설명-presentational-적이다. user agents는 플랫폼 접근성 api를 통해 이 요소의 자손을 노출해선 안된다.
+user agents가 자손 노드들을 숨기지 않는다면, 어떤 정보는 중복되어 읽힐 것이다.
+
+- Implicit Value for Role
+
+많은 states와 property가 기본값을 가지는데, 가끔 기본값-어떤 주어진 role이 사용된-은 표준 기본값과 달라야 한다.
+state나 property가 요구되는 비표준 기본값을 가진 role은 "role에 관한 암시적 값(Implicit Value for Role)"에서 그것을 표시한다.
+이것은 -state나 property name은 새로운 기본값이다... 라는-form으로 표현된다. 
+이것을 정의하는 role은 state나 property에 관한 새로운 값을 갖는다. 작성자가 명시적인 값을 제공하지 않은 경우에.
+
+-------------------------------------------------------------
+요약 : 뭔 말인지 모르겠다.
+
+===================================
+
+5.3 Categorization of Roles
+현재 사용자 시나리오를 지원하기 위해, 이 스펙은 사용자 인터페이스 위젯(sliders, tree control...)를 정의한 role과 페이지의 구조(sections, navigation...))를 정의한 role을 분류한다.
+주목! 어떤 보조 기술은 application이나 document role이 마크된 영역을 위한 인터랙션을 가진 특별한 모드들을 제공한다.
+role은 다음과 같이 분류된다.
+    # 추상 역할 Abstract Roles
+    다음의 role은 WAI-ARIA의 role 분류체계를 지원하기 위해 사용된다. 일반적인 role 개념을 정의하려는 목적으로.
+    https://www.w3.org/TR/wai-aria/#abstract_roles
+
+    #structure 
+    문서 구조 요소.
+    문서 구조를 위한 role로, 정적 문서 컨텐츠에 비겨 동적 컨텐츠를 결정하는 보조기술의 도움을 받아 동적인 웹 컨텐츠의 접근성을 지원한다.
+    이 롤은 그 자체가 접근성 api들에 모두 매핑하지 않지만, 위젯 role을 만들거나 보조 기술을 위한 컨텐츠 적응을 보조하는 데에 사용된다.
+
+
+    위젯 역할 Widget Roles
+    다음의 role은 단독의 사용자 인터페이스 위젯으로서나 더 큰 것-복합적인 위젯-의 일부로서 동작한다.
+    https://www.w3.org/TR/wai-aria/#widget_roles
+    다음의 role은 동작한다. 복합 UI 위젯으로서. 이러한 role은 일반적으로 다른 위젯을 관리하거나 포함하는 컨테이너로서 동작한다.
+    https://www.w3.org/TR/wai-aria/#widget_roles
+
+    문서 구조 역할 Document Structure Roles
+    다음의 role은 페이지 내의 내용을 구성하는 구조를 설명한다. 문서 구조는 보통 상호작용하지 않는다.
+    https://www.w3.org/TR/wai-aria/#document_structure_roles
+
+    자리표시 역할 Landmark Roles
+    다음의 role은 -안내 표시로서 의도된- 페이지의 영역이다. 
+    이 role에 속하는 것들은 landmark base type으로부터 상속받으며, 모두 role-attribute라는 role 속성으로부터 불러와진다. 이 role은 여기에 포함한다. 그것들을 WAI-ARIA role 분류체계의 일부를 명확하게 만들기 위해.
+
+    실시간 영역 역할 Live Region Roles
+    다음의 role은 라이브 영역들로 라이브 영역 속성을 통해 수정될 수 있다.
+    https://www.w3.org/TR/wai-aria/#live_region_roles
+    * Live regions : https://www.w3.org/TR/wai-aria/#dfn-live-region
+    라이브 영역은 감지 가능한 - 사용자 초점이 어떤 곳에 있을 대에 외부 이벤트의 결과로, 일반적으로 업데이트되는 -웹 페이지의 영역이다. 이 영역은 항상 사용자 상호작용의 결과로 업데이트되지 않는다. 이 관습은 ajax의 사용의 증가와 함께 보편화되었다.
+    라이브 영역의 예로로는, 채팅 로그, 주식 시세표, 또는 게임 스탯을 반영하기 위해 주기적으로 업데이트되는 스포츠 점수판이 있다. 
+    이러한 비동기 영역은 사용자 영역의 초점 바깥에서 업데이트될 것을 기대하므로, 스크린리더같은 보조 기술은 그들 존재를 알지 못하거나, 사용자를 위한 그들의 진행을 할 수 없다. WAI-ARIA는 작성자가 이러한 라이브 영역을 식별하고 그것들을 진행하도록 허용한 property 집합-aria-live, aria-relevant, aria-atomic, aria-busy-을 제공한다.  
+
+    창 역할 Window Roles
+    다음의 role은 동작한다. 브라우저나 어플리케이션 안의 창으로서.
+    https://www.w3.org/TR/wai-aria/#window_roles -->

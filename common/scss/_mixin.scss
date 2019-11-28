@@ -1,6 +1,29 @@
 // non margin
 @mixin non_margin {padding:0; margin:0;}
-
+@mixin reset__outerbox($cutLine : content){
+    @if($cutLine == "content"){
+        padding: 0; 
+        margin: 0;
+    }@else if($cutLine == "border"){
+        margin: 0;
+    }
+}
+@mixin reset__diet-font {
+    font-size:1rem;
+    font-weight:normal;
+}
+@mixin nz__collapse-prevent{
+    box-sizing:border-box;
+    border:1px solid transparent;
+    & > * {
+        @content;
+    }
+}
+@mixin nz__ui_elements{
+    display:inline-block;
+    vertical-align:middle;
+    cursor:pointer;
+}
 // remove or covering
 @mixin blind($type:absolute) {
     position:$type;
@@ -89,16 +112,16 @@ $imgBarrack : "/lg5-common/images/component/component-psp-download/";
         }
     }
 }
-.test-block {
-    @include iconMaker($tgClass);
-}
+// .test-block {
+//     @include iconMaker($tgClass);
+// }
 
 // variable type check
 $color:red;
 $v:$color;
-.teskk {
-    content:type-of($v);
-}
+// .teskk {
+//     content:type-of($v);
+// }
 
 
 @function screenType($type){
@@ -122,7 +145,7 @@ $tablet : 991px;
 $desktop : 1440px;
 $apple-biggest: $mobile - 352px; // 416px;
 
-@mixin _screen($max-point, $min-point:null, $horizon:false){
+@mixin screen($max-point, $min-point:null, $horizon:false){
     
     // option =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     // screen type add.
@@ -146,35 +169,35 @@ $apple-biggest: $mobile - 352px; // 416px;
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= end option
 
     //output set
-    // @media #{$type} #{$min-width} and (max-width:$max-point){
-    //     @content;
-    // }
+    @media #{$type + $min-width} and (max-width:$max-point){
+        @content;
+    }
 }
 
-//media query sample
-.class1{
-    @include _screen($desktop){
-        display:none;
-    }
-}
-.class2{
-    @include _screen($desktop, $tablet){
-        display:none;
-    }
-}
-.class2-1{
-    @include _screen($desktop - 100px, $tablet+ 100px){
-        display:none;
-    }
-}
-.class3{
-    @include _screen($desktop, $tablet, true){
-        display:none;
-    }
-}
-.class4{
-    @include _screen($desktop, null, true){
-        display:none;
-    }
-}
+// media query sample
+// .class1{
+//     @include screen($desktop){
+//         display:none;
+//     }
+// }
+// .class2{
+//     @include screen($desktop, $tablet){
+//         display:none;
+//     }
+// }
+// .class2-1{
+//     @include screen($desktop - 100px, $tablet+ 100px){
+//         display:none;
+//     }
+// }
+// .class3{
+//     @include screen($desktop, $tablet, true){
+//         display:none;
+//     }
+// }
+// .class4{
+//     @include screen($desktop, null, true){
+//         display:none;
+//     }
+// }
 

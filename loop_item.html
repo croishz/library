@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>loop item</title>
+    <style>
+        button {background:none; border:none;}
+        body, ul, a, button {margin: 0;padding: 0;}
+        li {list-style: none;}
+        a, a:hover {text-decoration:none;}
+        .wrap {  max-height:calc(35px * 4); border:1px solid lightcoral; max-width:1080px; margin:auto; /*transform:translateY(175px);*/}
+        .list {
+            transform: translateY(-35px);
+            text-align: center;
+        }
+        /* .list li:first-child {display:none;} */
+        .list li button {font-size:16px; line-height: 35px; height:35px; }
+        .current + * > button {color:tan;}
+        #dd {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="dd">blur check</div>
+    <div class="wrap">
+        <ul class="list" role="menu">
+            <li class="current" role="menuitem" data-searchTerm="true" data-index="1"><button type="button">item1</button></li>
+            <li role="menuitem" data-searchTerm="true" data-index="2"><button type="button">item2</button></li>
+            <li role="menuitem" data-searchTerm="true" data-index="3"><button type="button">item3</button></li>
+            <li role="menuitem" data-searchTerm="true" data-index="4"><button type="button">item4</button></li>
+            <li role="menuitem" data-searchTerm="true" data-index="5"><button type="button">item5</button></li>
+
+            <!-- <li role="menuitem" data-searchTerm="true" data-index="1"><button type="button" disabled="true" aria-disabled="true">item1</button></li>
+            <li role="menuitem" data-searchTerm="true" data-index="2"><button type="button" disabled="true" aria-disabled="true">item2</button></li>
+            <li role="menuitem" data-searchTerm="true" data-index="3"><button type="button" disabled="true" aria-disabled="true">item3</button></li>
+            <li role="menuitem" data-searchTerm="true" data-index="4"><button type="button" disabled="true" aria-disabled="true">item4</button></li>
+            <li role="menuitem" data-searchTerm="true" data-index="5"><button type="button" disabled="true" aria-disabled="true">item5</button></li> -->
+        </ul>
+    </div>
+    <button>blur check</button>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script>
+    $(document).ready(function(){
+        console.log("ready");
+        var $list = $(".list");
+        var keyword = $(".current").text();
+        $("#dd").text(keyword);
+        function rolling(){
+            var calltime = 2;
+            var rollItemLength = $list.children().length/2;
+            setInterval(function(){
+                var currentItem = $list.find(".current");
+                var currentCopy = currentItem.clone().removeClass("current");
+                positioning(calltime);
+                currentItem.removeClass("current").children().attr({
+                    "disabled" : true,
+                    "aria-disabled" : "true"
+                });
+                currentItem.next().addClass("current");
+                console.log(calltime);
+                $list.children().eq((calltime - 1) + (rollItemLength - 1)).children().removeAttr("disabled aria-disabled");
+                $list.append(currentCopy);
+                $list.children().last().children().attr({
+                    "disabled" : true,
+                    "aria-disabled" : "true"
+                });
+                var keyword = $(".current").text();
+                $("#dd").text(keyword);
+                calltime++;
+                if(calltime - 1 > rollItemLength){
+                    setTimeout(reset, 400);
+                    
+                    return calltime = 2;
+                }
+                
+            }, 3000);
+        }
+        function positioning(position){
+            var distance = -Number(window.getComputedStyle(document.querySelectorAll(".list li")[0], null).getPropertyValue("height").replace("px", ""));
+            console.log(position, distance);
+            $list.css({
+                "transform" :  "translateY(" + position * distance + "px)",
+                "transition" : "transform 400ms ease"
+            })
+        }
+        function reset(){
+            console.log("reset");
+            $list.css({
+                "transform" :  "translateY(-35px)",
+                "transition" : ""
+            })
+            $list.children().slice(0, 5).remove();
+        }
+        // rolling();
+        $list.on("click", "li", function(e){
+            var idx = $(this).index() - $list.find(".current").index() + 1;
+            positioning(idx);
+            var keyword = $(this).text();
+            $("#dd").text(keyword);
+        })
+        function cutoff(elem){
+            console.log(elem);
+            console.log($(".wrap").offset().top);
+            console.log($(elem).offset().top);
+            if( $(".wrap").offset().top > $(elem).offset().top ) {
+                $("#dd").text(keyword);
+            }
+        }
+        function noDummyRolling(){
+            console.log("rolling");
+            setInterval(function(){
+                var currentItem = $list.find(".current");
+                var currentCopy = currentItem.clone().removeClass("current");
+                $list.append(currentCopy);
+                setTimeout(function(){
+                    $list.children().css({
+                        "transform" :  "translateY(-35px)",
+                        "transition" : "transform 400ms ease"
+                    });
+                    setTimeout(function(){
+                        $list.children().css({
+                            "transform" :  "translateY(0)",
+                            "transition" : ""
+                        });
+                        currentItem.removeClass("current");
+                        currentItem.next().addClass("current");
+                        currentItem.remove();
+                    }, 400)
+                }, 400);
+            }, 3000);
+        }
+        noDummyRolling();
+    });
+    </script>
+</body>
+</html>

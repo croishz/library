@@ -1,0 +1,30 @@
+{
+    "Ajax error" : "Sorry, We unabled to load page",
+    "articles" : [
+        {
+            "head" : "IFA 2018: SIGNATURE KITCHEN SUITE makes its mark on Europe",
+            "description" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit posuere nunc, non interdum massa ornare in. Mauris viverra sagittis dictum. Maecenas ut arcu nunc. Curabitur imperdiet nullam.",
+            "date" : "11/02/2018"
+        },
+        {
+            "head" : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit",
+            "description" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit posuere nunc, non interdum massa ornare in. Mauris viverra sagittis dictum. Maecenas ut arcu nunc. Curabitur imperdiet nullam.",
+            "date" : "11/02/2018"
+        },
+        {
+            "head" : "Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet",
+            "description" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit posuere nunc, non interdum massa ornare in. Mauris viverra sagittis dictum. Maecenas ut arcu nunc. Curabitur imperdiet nullam.",
+            "date" : "11/02/2018"
+        },
+        {
+            "head" : "Sed consequat, leo eget bibendum sodales, augue velit cursus nunc",
+            "description" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit posuere nunc, non interdum massa ornare in. Mauris viverra sagittis dictum. Maecenas ut arcu nunc. Curabitur imperdiet nullam.",
+            "date" : "11/02/2018"
+        },
+        {
+            "head" : "Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim a",
+            "description" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit posuere nunc, non interdum massa ornare in. Mauris viverra sagittis dictum. Maecenas ut arcu nunc. Curabitur imperdiet nullam.",
+            "date" : "11/02/2018"
+        }
+    ]
+}

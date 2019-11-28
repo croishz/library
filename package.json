@@ -1,0 +1,22 @@
+{
+  "name": "reference",
+  "version": "1.0.0",
+  "description": "",
+  "main": "4.0.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/croishz/library.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/croishz/library/issues"
+  },
+  "homepage": "https://github.com/croishz/library#readme",
+  "dependencies": {
+    "node-sass": "^4.13.0"
+  }
+}

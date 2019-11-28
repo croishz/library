@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>flexible list</title>
+    <style>
+        body, ul, p, button {padding: 0;margin: 0;}
+        button {cursor:pointer; border:none; background-color:transparent; font-size:14px;}
+        li {list-style:none;}
+        .wrap {
+            position: fixed;
+            top:0; left:0;
+            width:100%;
+            height:100vh;
+            overflow:auto;
+            background-color:#fefefe;
+        }
+        .wrap::before {
+            content:"";
+            display:block;
+            width:100%;
+            height:11.566vh;
+            background-color: aliceblue;
+        }
+        .exposal-area {
+            max-width:1084px;
+            padding:0 30px;
+            margin:0 auto;
+        }
+        .exposal-area .top {
+            text-align: center;
+            font-size:36px;
+            text-transform: capitalize;
+            padding:50px 0;
+            border-bottom:2px solid lightcoral;
+            margin-bottom:13px;
+        }
+        .exposal-area .bottom {
+            display:flex;
+            flex-wrap:wrap;
+            flex-direction:row;
+        }
+        .exposal-area .bottom > * {
+            
+        }
+        .exposal-area .left {
+            width:65%;
+            box-sizing:border-box;
+           
+        }
+        .exposal-area .left .all {
+            font-size:20px;
+            margin-bottom: 16px;
+        }
+        .exposal-area .left .list {
+            display:inline-block;
+            vertical-align: top;
+        }
+        .exposal-area .left .list .item {
+            position: relative;
+            float:left;
+            width:calc(50% - 10px);
+            outline:1px solid tan;
+            outline-offset:-1px;
+            background-color:#f8f8f8;
+            margin-bottom: 20px;
+            padding:10px;
+            box-sizing:border-box;
+        }
+        
+        .exposal-area .left .list .item img {
+            position:absolute;
+            top:50%; transform:translateY(-50%);
+            left:10px;
+            width:70px;
+            height:70px;
+        }
+        
+        .exposal-area .left button {color:lightcoral; text-align: left;}
+        .exposal-area .left button:not(:last-child) {margin-right:10px;}
+        .exposal-area .left button:after {
+            content:">";
+            margin-left:7px;
+        }
+        .summary {
+            padding-left:85px;
+            font-size:16px; 
+            line-height: 1.5em;
+            word-break:break-word;
+        }
+        .summary .mdn {}
+        .summary .ufn {
+            display:-webkit-box; 
+            -webkit-line-clamp:2; 
+            -webkit-box-orient:vertical;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            max-height:3em;
+        }
+        .summary .mdn {}
+        .exposal-area .right {
+            position:relative;
+            width:35%;
+            margin-top: 43px;
+            box-sizing:border-box;
+            padding-left:34px;
+            background-color:lightsalmon;
+        }
+        .exposal-area .right:before {
+            content:"";
+            position:absolute;
+            top:0;
+            left:0;
+            width:1px;
+            height:100%;
+            background-color:tan;
+        }
+        .exposal-area .right ul {
+            padding-top:20px;
+        }
+        .exposal-area .right li {}
+        .exposal-area .right li:not(:last-child) {margin-bottom: 16px;}
+        .exposal-area .right li a {color:#616161; text-decoration:none; font-size:20px; line-height:1.5em; display:block; width:100%; box-sizing:border-box; :14px 20px;}
+        .exposal-area .right li a.active {color:lightcoral;}
+        @media screen and (min-width:768px) {
+            .exposal-area .left .list {
+                height:388px;
+                overflow-y: auto;
+                padding-right:24px;
+            }
+            .exposal-area .left .list .item:nth-child(5),
+            .exposal-area .left .list .item:nth-child(6) {margin-bottom: 0;}
+            .exposal-area .left .list .item:nth-child(odd) { margin-right:20px;}
+            .exposal-area .left .list .item:nth-child(odd):before {
+                content:"";
+                position:absolute;
+                top:-10px;
+                left:0;
+                width:210%;
+                height:1px;
+                background-color:lightseagreen;
+            }
+        }
+        @media screen and (max-width:767px) {
+            .exposal-area .bottom > *,
+            .exposal-area .left .list .item {
+                width:100%;
+            }
+            .exposal-area .left .list .item:nth-child(3) ~ * {
+                display:none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="exposal-area">
+            <div class="top">fixed Area</div>
+            <div class="bottom">
+                <div class="left">
+                    <div class="all">See all results (<span>56</span>)</div>
+                    <ul class="list">
+                        <li class="item">
+                            <img src="https://www.lg.com/us/images/tvs/md06065196/OLEDC9-B-350.jpg" alt="product image">
+                            <div class="summary">
+                                <div class="mdn">OLED77C9PUB</div>
+                                <div class="ufn">LG C9 77 inch Class 4K Smart OLED TV w/ AI ThinQ® (76.7'' Diag)</div>
+                                <div class="cta">
+                                    <button type="button">Add to Cart</button><button type="button">Where to buy</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item">
+                            <img src="https://www.lg.com/us/images/tvs/md06065196/OLEDC9-B-350.jpg" alt="product image">
+                            <div class="summary">
+                                <div class="mdn">OLED77C9PUB</div>
+                                <div class="ufn">LG C9 77 inch Class 4K Smart OLED TV w/ AI ThinQ® (76.7'' Diag)</div>
+                                <div class="cta">
+                                    <button type="button">Inquiry to buy</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item">
+                            <img src="https://www.lg.com/us/images/tvs/md06065196/OLEDC9-B-350.jpg" alt="product image">
+                            <div class="summary">
+                                <div class="mdn">OLED77C9PUB</div>
+                                <div class="ufn">LG C9 77 inch Class 4K Smart OLED TV w/ AI ThinQ® (76.7'' Diag)</div>
+                                <div class="cta">
+                                    <button type="button">Add to Cart</button><button type="button">Where to buy</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item">
+                            <img src="https://www.lg.com/us/images/tvs/md06065196/OLEDC9-B-350.jpg" alt="product image">
+                            <div class="summary">
+                                <div class="mdn">OLED77C9PUB</div>
+                                <div class="ufn">LG C9 77 inch Class 4K Smart OLED TV w/ AI ThinQ® (76.7'' Diag)</div>
+                                <div class="cta">
+                                    <button type="button">Add to Cart</button><button type="button">Where to buy</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item">
+                            <img src="https://www.lg.com/us/images/tvs/md06065196/OLEDC9-B-350.jpg" alt="product image">
+                            <div class="summary">
+                                <div class="mdn">OLED77C9PUB</div>
+                                <div class="ufn">LG C9 77 inch Class 4K Smart OLED TV w/ AI ThinQ® (76.7'' Diag)</div>
+                                <div class="cta">
+                                        <button type="button">Inquiry to buy</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item">
+                            <img src="https://www.lg.com/us/images/tvs/md06065196/OLEDC9-B-350.jpg" alt="product image">
+                            <div class="summary">
+                                <div class="mdn">OLED77C9PUB</div>
+                                <div class="ufn">LG C9 77 inch Class 4K Smart OLED TV w/ AI ThinQ® (76.7'' Diag)</div>
+                                <div class="cta">
+                                    <button type="button">Add to Cart</button><button type="button">Where to buy</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="right"><ul>
+                    <li><a href="#">Consumer Product</a></li>
+                    <li><a href="#">Business Product</a></li>
+                    <li><a href="#">Promotion</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Article</a></li>
+                    <li><a href="#">Review</a></li>
+                    <li><a href="#">....</a></li>
+                </ul></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

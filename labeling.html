@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document Labeling</title>
+	<style>
+		body {line-height:1.5rem;}	/*WCAG의 행간 권장안*/
+		.give_a_endorsement {display:flex;}
+		.give_a_endorsement .endorsement footer span {display:block; padding-left:16px;}
+		.layout-container {max-width:1440px; margin:auto;}
+	</style>
+</head>
+<body>
+	<!-- 문서 class naming 구조 
+	documnet > page > content
+
+	document-prologue
+	document-wrap
+		document-header
+			document-summary
+			document-order
+		document-main_contents
+			document-title
+				page-section
+					page-intro-summary
+						page-navigation
+					page-content
+						page-content-header
+						page-content-prologue
+						page-content-sub_context
+					page-end_content/page-epilogue
+		document-footer
+	-->
+	<div class="document-prologue || give_a_endorsement || first-screen isLoading" aria-hidden="false">	<!-- if loading complete, will change "true" -->
+		<!-- recommedation : 
+			blockquote : https://www.w3.org/TR/html52/grouping-content.html#the-blockquote-element 
+			cite : https://www.w3.org/TR/html52/textlevel-semantics.html#the-cite-element
+		-->
+		<blockquote class="endorsement" data-random-index="0">	<!-- length에 따라 random을 통해 찬조 서평 중 일부만 띄우기 위한 속성 선언 -->
+			<p>"독자 여러분의 프로토타이핑이 아이디어 탐색을 위해서거나, 혹은 소통을 위해 사용하더라도, 타드 자키 워플의 명석하고 접근성 좋은 가이드는 독자 여러분에게 필요한 툴을 제공할 것이다."</p>
+			<footer> - <cite>제시 제임스 캐럿<sup>Jasse James Garrett</sup></cite>
+				<span>Adaptive Path의 대표. The elements of User experience의 저자.</span>
+			</footer>
+		</blockquote>
+		<blockquote class="endorsement" data-random-index="1">
+			<p>"만약 애플리케이션을 디자인하고 있고, 태스크 플로나 와이어프레임에서 갇혀 있는 독자라면, 이책을 한 번 볼 것을 권한다. 타드는 실질적이고 체험 가능한 조언들을 통해 독자 여러분이 프로토타이핑을 진행하고, 실제 구현 이전에 정말 인터렉티브란 디자인을 만들 수 있도록 도와줄 것이다."</p>
+			<footer> - <cite>댄 새퍼<sup>Dan Saffer</sup></cite>
+				<span>Kicker Studio의 사장. Designing for Interaction, Designing Gestural Interaction의 저자.</span>
+			</footer>
+		</blockquote>
+		<blockquote class="endorsement" data-random-index="2">
+			<p>"타드는 프로토타이핑에 대한 가장 큰 의문, 예를 들어 어떻게 구체화할 것인가? 어떤 모양으로 구성할 것인가?에 대해 성공 원칙들과 실질적인 사례들을 통해 답을 던진다. 이 책을 몇 년 전에만 가질 수 있었어도 얼마나 좋았을까..."</p>
+			<footer> - <cite>빌 드루시<sup>Bill DeRouchey</sup></cite>
+				<span>Ziba Design의 선임 인터랙션 디자이너.</span>
+			</footer>
+		</blockquote>
+	</div>
+	<div class="document-wrap || layout-container">
+		<header class="document-header">
+			<div class="document-summary || gnb">
+				<h2 class="summary-title || non-expose-screen-element">개요</h2>
+				<!-- start :: chapter -->
+				<span><a href="javascript:;">서문</a></span>
+				<ul class="document-order">
+					<li>
+						<a href="#page-value_of_prototype">프로토타이핑의 가치</a>
+						<ul>
+							<li>프로토타이핑은 창의적 프로세스이다</li>
+							<li>프로토타이핑, 보여주기, 말하기 그리고 그 경험의 위력</li>
+							<li>프로토타이핑은 커뮤니케이션 오류가 발생할 가능성을 줄여준다</li>
+							<li>프로토타이핑은 시간, 노력, 비용을 효과적으로 절약한다</li>
+							<li>프로토타이핑은 자원의 낭비를 감소시킨다</li>
+							<li>프로토타이핑은 실제 가치를 제공해준다</li>
+							<li>요약</li>
+						</ul>
+					</li>
+					<li>
+						<a href="#page-prototype_process">프로토타이핑 프로세스</a>
+						<ul>
+							<li>디자인 스튜디오의 부재</li>
+							<li>프로토타이핑 프로세스는 어떤 단계들로 이루어져 있는가</li>
+							<li>요약</li>
+						</ul>
+					</li>
+					<li><a href="javascript:;">프로토타이핑의 유형</a></li>
+					<li><a href="javascript:;">프로토타이핑을 위한 여덞 가지 가이드</a></li>
+					<li><a href="javascript:;">프로토타입을 위한 툴</a></li>
+					<li><a href="javascript:;">페이퍼 및 아날로그 방법론과 툴들</a></li>
+					<li><a href="javascript:;">파워포인트와 키노트</a></li>
+					<li><a href="javascript:;">비지오 <span>Visio</span></a></li>
+					<li><a href="javascript:;">파이어웍스 <span>Fireworks</span></a></li>
+					<li><a href="javascript:;">Axure RP pro</a></li>
+					<li><a href="javascript:;">HTML</a></li>
+					<li><a href="javascript:;">프로토타입 테스팅</a></li>
+				</ul>
+				<!-- // end :: chapter -->
+			</div>
+		</header>
+		<aside>
+			<!-- 서문 -->
+		</aside>
+		<main class="document-main_contents">
+			<h1 class="document-title">Prototyping 프로토타이핑 <div>UX 디자이너가 반드시 알아야 할 프로토타이핑 기법</div></h1>
+			<!-- start :: section for value of prototype -->
+			<section id="page-value_of_prototype" class="page-section">
+				<header class="page-intro-summary">
+					<h2>프로토타이핑의 가치</h2>
+					<ul class="page-navigation || lnb">
+						<li>프로토타이핑은 창의적 프로세스이다</li>
+						<li>프로토타이핑, 보여주기, 말하기 그리고 그 경험의 위력</li>
+						<li>프로토타이핑은 커뮤니케이션 오류가 발생할 가능성을 줄여준다</li>
+						<li>프로토타이핑은 시간, 노력, 비용을 효과적으로 절약한다</li>
+						<li>프로토타이핑은 자원의 낭비를 감소시킨다</li>
+						<li>프로토타이핑은 실제 가치를 제공해준다</li>
+						<li>요약</li>
+					</ul>
+				</header>
+				<article class="page-content">
+					<h3>프로토타이핑은 창의적 프로세스이다</h3>
+					<p></p>
+				</article>
+				<article class="page-content">
+					<header class="page-content-header">
+						<h3>프로토타이핑, 보여주기, 말하기 그리고 그 경험의 위력</h3>
+						<blockquote>"무언가 설명할 것이 있다면, 스토리보드와 실제 상황을 함께 보여주라." <cite>로버트 호크만 주니어<sup>Robert Hoekman.Jr</sup></cite></blockquote>
+						<p>
+							디자인을 문서화하고, 커뮤니케이션하는 방법에는 
+								<ol>
+									<li>요구 사양서</li>
+									<li>와이어프레임</li>
+									<li>비주얼 컴포넌트,</li>
+									<li>그리고 프로토타입을 포함한 다양한 기법</li>
+								</ol>
+							들이 존재한다.
+						</p>
+					</header>
+					<div>
+						<h4>요구 사양서</h4>
+					</div>
+					<div>
+						<h4>와이어프레임</h4>
+					</div>
+					<div>
+						<h4>프로토타입</h4>
+						<article class="page-content-sub_context">
+							<!-- recommendation : 
+								dfn	: https://www.w3.org/TR/html52/textlevel-semantics.html#the-dfn-element
+								abbr : https://www.w3.org/TR/html52/textlevel-semantics.html#the-abbr-element
+							-->
+							<h4><abbr title="Asyncronaus javascript and XML">AJAX</abbr>와 <abbr title="Rich Internaet Application">RIA</abbr></h4>
+							AJAX와 또 다른 RIA를 조합하면 어떤 일이 벌어질까? 와이어프레임과 요구 사양서, 이 두가지 문서는 이런 상황 대처에 있어 매우 신뢰성이 낮다. 둘 중 어느 한가지도 풍부한 인터랙션과 화면전환에 대해 정확하게 스토리텔링을 할 수 없기 때문이다.
+							전통적인 '페이지'기반의 인터랙션과 비교했을 때, AJAX와 RIA는 계층 구조 기반의 인터랙션을 선보인다. 즉, 하나의 페이지 안에 여러 개의 타이틀과 위젯이 독립적으로 동작하며, 서로의 오퍼레이팅에 있어 영향을 끼치지 않게 설계하는 방식을 보여준다. 예를 들어, RSS 피드를 리프레싱하고자 할 때, 사용자는 전체 웹페이지를 '새로 고침'할 필요가 없다. RSS 위젯만 독립적으로 데이터를 업데이트할 뿐, 나머지 웹 구성요소들은 그대로 정지 상태에 있어도 기능 수행에 전혀 문제가 없다는 뜻이다. 이런 계층 구조 기반의 인터랙션의 등장으로 디자이너들 사이에서는 '페이지 디자인 패러다임'의 시대는 가고, '스크린 디자인' 혹은 '상황 디자인'의 새로운 패러다임이 등장했다는 인식이 보편화되어가고 있다. 
+							화면전환과 애니메이션은 또 다른 과제를 안겨 준다. 여러분은 '스스로 시스템을 복구하는 AJAX 화면전환'에 대해 문자로 기술할 수 있는가? 필자가 이 개념에 대해 할 수 있는 최선의 텍스트적 설명은 '두어 번의 의도적인 손동작을 취하면 마술봉을 휘두르는 것과 같이 화면전환 효과가 시뮬레이션되는 것'이다. 이처럼, 텍스트적인 설명으로는 화면전환 방법과 애니메이션 효과에 대해 정확히 설명할 수 없다. 오히려 의문점만 더 많이 생성할 뿐이다. 
+							AJAX와 RIA 기술이 점점 더 다양화되고 발전할수록, 디자인 커뮤니케이션 도구로서의 프로토타이핑의 가치와 필요성은 극적으로 높아질 것이다. 실제로 필자는 프로토타이핑이 성공적인 디자인을 위한 필수 사항이라고 생각한다.						
+						</article>
+					</div>
+				</article>
+				<article class="page-content">
+					<h3>프로토타이핑은 커뮤니케이션 오류가 발생할 가능성을 줄여준다</h3>
+					<p>
+						(전략)...,  그리고 텍스트 기반의 문서가 프로토타입보다 오해의 소지를 많이 남기는 것도 발견할 수 있었다.
+						<ul class="list || disadvantage_what_paper_based_text">
+							<li>그 어느 누구도 60~200장에 달하는 요구사항을 읽고 싶어하지 않는다. 재미라곤 눈꼽만큼도 찾아볼 수 없기 때문이다.</li>
+							<li>사람들이 그 문서를 읽기 싫어한다면, 여러분은 그들이 그 문서를 100퍼센트 완벽하게 이해하리라고 절대 기대해서는 안된다.</li>
+							<li>텍스트 기반으로 제작된 문서들은 여러분에게 '전체적인 그림'을 그릴 수 있게 도와주지 못한다. 대신 한 줄 한 줄 설명 사항들을 읽어 내려가는 것만 허용할 뿐이다.</li>
+							<li>'단어'들은 한 가지 뜻으로만 해석되지 않는다. 따라서, 다양한 해석들이 존재할 가능성이 높다.</li>
+						</ul>
+						반대, 프로토타입은 오해를 줄일 수 있는 장점을 지니고 있다.
+						<ul class="list advantage_with_prototyping">
+							<li>시스템 전체가 어떻게 작동해야 하는지에 대해 글을 읽는 것이 아니라, 온몸으로 경험할 수 있다.</li>
+							<li>프로토타입은 기본적으로 디자인을 '실제 구현해 보는'것을 가장 중요하게 생각한다. 프로토타입을 이용해 디자인을 구현하고 동작해봄으로써 다른 사람들에게 디자인을 더욱 쉽게 이해시킬 수 있다.</li>
+						</ul>
+					</p>
+				</article>
+				<article class="page-content">
+					<h3>프로토타이핑은 시간, 노력, 비용을 효과적으로 절약한다</h3>
+					<p class="page-content-prologue">
+						<span>"우리는 프로토타입을 만들 시간이 없어."</span>
+						<span>"프로토타입을 꼭 제작해야 하나요? 프로토타입에 투자할 예산이 없어요"</span>
+					</p>
+					<p>...궁극적으로는 디자인 및 개발 프로세스에서 발생하는 자원의 낭비를 감소시키는 역할도 한다.</p>
+				</article>
+				<article class="page-content">
+					<h3>프로토타이핑은 자원의 낭비를 감소시킨다</h3>
+					<div>
+						요구 사양서 위주의 디자인 프로세스는 아래 기술한 사항들을 포함한 여러 단점들을 지니고 있다.
+						<ol>
+							<li>
+								<em>부적합한 문서 작성자로 인한 커뮤니케이션 문제</em>
+								<p></p>
+							</li>
+							<li>
+								<em>상당한 시간과 노력의 소요</em>
+								<p></p>
+							</li>
+							<li>
+								<em>끝나지 않는 수정, 또 수정</em>
+								<p></p>
+							</li>
+							<li>
+								<em>잘못된 해석으로 인한 오해, 오류 상황 발생</em>
+								<p></p>
+							</li>
+							<li>
+								<em>중요도가 떨어지는 항목에 대한 설명들</em>
+								<p></p>
+							</li>
+							<li>
+								<em>뒤늦은 실수 발견</em>
+								<p></p>
+							</li>
+						</ol>
+					</div>
+					<div>
+						이와 반대로, 프로세스 내에 프로토타이핑을 실시할 경우에는, 소모적인 자원의 낭비를 막을 수있다는 장점과 함께, 아래와 같은 추가적인 이점도 누릴 수 있다.
+						<ol>
+							<li>
+								<em>적임자에 의한 의사결정</em>
+								<p>디자이너와 개발자들이 그들의 경험과 지식을 교류하며 프로세스를 진행하고, 디자인 과녈ㄴ 의사결정이 필요할 시, 적임자들로부터 확실한 결론을 이끌어 낼 수 있다.</p>
+							</li>
+							<li>
+								<em>가장 적합한 아이디어 발굴</em>
+								<p>다양한 아이디어들을 창조하고, 테스트하면서 해당 소프트웨어의 목적에 정확하게 부합하는 가장 강력한 아이디어를 찾아낼 수 있다.</p>
+							</li>
+							<li>
+								<em>수정 사항의 빠른 적용</em>
+								<p>프로토타입은 콘텐츠의 내용을 빠르게 수정하고 업데이트할 수 있어, 끊임없이 변화를 추구해야 하는 소프트웨어 개발 작업의 특성을 잘 뒷받침해준다.</p>
+							</li>
+							<li>
+								<em>해석상의 오류 최소화</em>
+								<p></p>
+							</li>
+							<li>
+								<em>목적에 부합하는 디자인</em>
+								<p></p>
+							</li>
+							<li>
+								<em>실수의 조기 발견</em>
+								<p></p>
+							</li>
+							<li>
+								<em>위험 요소 감소</em>
+								<p>프로토타이핑은 오류 사항을 감소시키고, 디자인 및 개발 프로세스 상의 문제점을 조기 발견할 수 있게 도와줌으로써, 결과적으로 전체 작업의 위험 요소들을 감소시킨다.</p>
+							</li>
+						</ol>
+					</div>
+					<p>
+						프로토타이핑이 요구 사양서 위주의 프로세스에서 발생하는 골치 아픈 문제를 전부 다 해결하지는 못한다. 그러나, 프로토타이핑은 통상적인 프로세스에서 발생할 수 있늡 비효율과 낭비 요소들을 줄이는 데는 확실히 기여한다.
+					</p>
+				</article>
+				<article class="page-content">
+					<h3>프로토타이핑은 실제 가치를 제공해준다</h3>
+				</article>
+				<article class="page-content-sub_context || backing-post">
+					<h3>제한된 예산과 일정이 다급한 시점에서의 프로토타이핑</h3>
+				</article>
+				<section class="page-end_content || page-epilogue">
+					<h3>요약</h3>
+					<div>
+						<p>프로토타이핑은 실제로 여러분의 개발 기간을 수개월에서 혹은 수년 단축할 수 있다. 더 이상 망설일 이유가 없지 않은가? 이제 여러분은 프로토타이핑의 가치에 대해 알게 되었다. 따라서, 여러분의 고객과 경영진에게 프로토타이핑을 시행해야 할 이유를 충분히 피력할 수 있어야 할 것이다. 아래의 키포인트를 다시 한 번 숙지하자.</p>
+						<ul>
+							<li>프로토타이핑은 창의적이다.</li>
+							<li>프로토타입은 "보여주기"와 "말하기"를 통해 커뮤니케이션 한다.</li>
+							<li>프로토타이핑은 시간과 노력, 그리고 비용을 절감시킨다.</li>
+							<li>프로토타이핑은 빠른 피드백 순환 구조를 생성하여, 궁극적으로는 프로젝트의 위험 부담을 줄여준다.</li>
+						</ul>
+					</div>
+					<p>다음 장에서는 필자가 사용하는 빠르고 반복적인 프로토타이핑 르로세스에 대해 살펴볼 것이다.</p>
+				</section>
+			</section>
+			<!-- // end :: section for value of prototype -->
+			<section id="page-prototype_process" class="page-section">
+				<header class="page-intro-summary">
+					<h2>프로토타이핑 프로세스</h2>
+					<ul>
+						<li>디자인 스튜디오의 부재</li>
+						<li>프로토타이핑 프로세스는 어떤 단계들로 이루어져 있는가</li>
+						<li>요약</li>
+					</ul>
+				</header>
+				<div class="page-content-prologue">
+					<blockquote>
+						건축과 제품 디자인에 프로토타이핑은 필수적이다. 하지만, 소프트웨어 개발에 있어서는, 상황에 따라 필요치 않을 수도 있다. <cite>앤더스 람제이<sup>Anders Ramsay</sup></cite>
+					</blockquote>
+					<p>프로토타이핑은 건축이나 제품 디자인과 같은 디자인 분야에서는 매우 보편적인 방법론이다. 그냥 사람들에게 쉽게 받아들여지는 수준이 아니라, "당연히 해야 할 것으로" 인식되는 방법론이다. 소프트웨어 개발에서도 프로토타이핑을 도입해 볼 수 있지 않을까? 소프트웨어 개발과 건축, 그리고 제품 디자인 간에는 여러 공통점이 있다. 아래는, 이 세 가지 분야가 가지고 있는 공통점에 대해 약술한 것이다.</p>
+					<ul>
+						<li>세 분야는 모두 '디자인 프로세스'를 거친다.</li>
+						<li>디자인 커뮤니케이션을 위한 수작업이 이루어진다.</li>
+						<li>세 분야의 디지인 결과물은 결국 실재하고, 경험하고, 사용할 수 있는 형태로 완성된다.</li>
+					</ul>
+					<p>
+						필자의 주관적인 생각에 비추어 볼 때, 소프트웨어 개발에 있어서 작업의 초점은 '디자인'보다는 '개발'에 치중되어 있다. 업계 역시 '소프트웨어 개발'이라는 명칭으로 작업을 정의하지, '소프트웨어 디자인'이라는 용어를 사용하지 않는다.
+						소프트웨어 분야에 디자인 개념이 보편화되지 못한 첫번째 이유로 소프트웨어 개발에 있어 디자인은 뒷전으로 밀리는 경우가 왕왕 발생한다는 점을 꼽을 수 있다. 테크놀러지나 프로그램 성능 자체에 치중할 뿐, 디자인에는 그다지 비중을 두지 않는다. 그러나 건축이나 제품 디자인의 경우, 작업의 초점은 '디자인'에 있다. 형태가 기능을 따른다는 인식이 지배적이기 때문이다.
+						두번째 이유로, 소프트웨어 개발이 '기계적인 작업'이라는 고정관념을 꼽을 수 있다. 이에 반해, 건축과 제품 디자인 부냐의 경우 자연스럽게 '공예 작업'으로 인식한다.
+						이렇게 각기 다른 접근이 이루어진 것은, 각 분야가 어떤 교육 분야로 분류되었는가도 한몫했으리라 추측해 볼 수 있을 것이다. 컴퓨터공학과는 학생들에게 테크놀로지를 가르치는 것에 중점을 두고, 건축 및 제품 디자인과는 디자인 원리와 '디자인 스튜디오'라 불리는 실기 수업에 집중하여 학생들을 가르치기 때문이다.
+					</p>
+				</div>
+				<article>
+					<h3>디자인 스튜디오의 부재</h3>
+					<p></p>
+				</article>
+				<article>
+					<h3>프로토타이핑 프로세스는 어떤 단계들로 이루어져 있는가</h3>
+					<div class="page-content-prologue">
+						<p>설명을 시작하기 전, 한가지 확실히 해둘 것이 있다.</p>
+						<ul>
+							<li>
+								<strong>첫째, '최고'의 프로토타이핑 프로세스는 존재하지 않는다.</strong>
+								<span>하나의 공식처럼 적용할 수 있는 최고의 프로토타이핑 프로세스는 존재하지 않는다. 그런 단순한 공식은 코카콜라에나 적용할 수 있을 뿐이다. 어떤 프로토타이핑을 하든 경험 속에서 축적된 신뢰할만한 원칙들이 우리를 인도한다.</span>
+							</li>
+							<li>
+								<strong>둘째, 어떤 종류의 프로토타이핑 프로세를 실시하든, 프로세는 '수단'일 뿐, '목적'이 아니라는 점을 잊어서는 안된다.</strong>
+								<span>프로토타이핑 중에 범할 수 있는 가장 흔한 실수가 프로세스를 진행하는 것에 너무 집착한 나머지, 프로젝트의 궁극적인 목적을 망각해 버리는 것이다. 프로세스에만 집중하게 되면 결코 최종 결과물이 성공적일 수 없다.</span>
+							</li>
+							<li>
+								<strong>셋째, 바람직한 프로토타이핑 프로세스는 프로젝트 구조에 대한 유연성과 밸런스를 동시에 고려하여 진행해야 한다.</strong>
+								<span>프로젝트의 유연성은 필요한 수정 사항들을 적시에 반영해야 하는 의사결정 단계에서 필요하다. 그리고 이러한 수정 작업을 실시할 때, 프로젝트 구조와의 밸런스를 유지해야 탄탄한 프로세스 진행이 가능하다.</span>
+							</li>
+							<li>
+								<strong>넷째, 좋은 프로토타이핑 프로세스는 성과물을 만들어낸다.</strong>
+								<span>따라서 제한적인 성과물을 목표로 프로세를 진행하게 되면, 향후 새로운 미션이 생기는 시점에 새로이 프로세스를 재진행해야 할 필요가 생긴다.</span>
+							</li>
+						</ul>
+						<div class="compare-example">
+							<p>스트라이다<sup>Strida</sup>의 접이식 자전거를 발명한 마크 샌더스<sup>Mark Anders</sup>는 그가 접이식 자전거를 디자인했던 프로세스를 유투브에 공개했다. 필자가 마크 샌더스의 동영상을 보며 발견한 몇 가지 통찰 포인트가 있다.</p>
+							<ul>
+								<li>그는 아이디어의 '좋고 나쁨'을 따지지 않았다. 대신, 그는 가능성이 있다고 판단한 모든 아이디어들을 스케치하여 구체화하였다.</li>
+								<li>스케치 작업이 마무리된 후, 그는 프로젝트의 '목적'에 기반을 두어 최선의 아이디어를 선별해냈다.</li>
+								<li>그에게 스케치는 아이디어를 요약해서 보내주는 방법일 뿐이다. 실제로 어떤 방식으로 아아디어들이 반영되어야 하는지에 대한 연구를 하기 위해서는, 모델링을 하거나 프로토타이핑을 해본다.</li>
+								<li>스케치는 본래 디자인을 수정하기 위한 매우 중요한 자료로 쓰인다.</li>
+							</ul>
+							<!-- start :: visual modeling markup for compare-->
+							<style scoped>
+								.layout-grid-flot {display:inline-block; padding:0 15px}
+								.layout-grid-flot .grid-column {position:relative;float:left;box-sizing:border-box;padding:0 14px 8px;border:1px solid tan;}
+								.layout-grid-flot .grid-column:before {content:attr(data-speaker);position:absolute;color:#f8f8f8;font-size:22px;line-height:1;font-style:oblique;background-color:chocolate;padding:4px 10px 4px 4px;border-radius: 7px 0 7px 0;}
+								.layout-grid-flot .grid-column .description {min-height:84px;}
+								
+								.layout-grid-flot .grid-column.column-order_1 {width:50%;box-shadow:-4px 5px 0px 0px hsla(0, 75%, 69%, 0.2);}
+								.layout-grid-flot .grid-column.column-order_2 {width:70%;margin-top:100px; margin-left:-20%;background-color:#f8f8f8;box-shadow:4px 5px 0px 0px hsla(0, 75%, 69%, 0.2);}
+								
+								.layout-grid-flot .grid-column.column-order_1:before {bottom:-40px; left:-5px;}
+								.layout-grid-flot .grid-column.column-order_2:before {top:-40px; right:-5px;}
+
+								.layout-grid-flot .grid-column.column-order_1 .gliciking-text:nth-child(1){animation-delay:0ms}
+								.layout-grid-flot .grid-column.column-order_1 .gliciking-text:nth-child(2){animation-delay:2000ms}
+								.layout-grid-flot .grid-column.column-order_1 .gliciking-text:nth-child(3){animation-delay:4000ms}
+								.layout-grid-flot .grid-column.column-order_1 .gliciking-text:nth-child(4){animation-delay:6000ms}
+								
+								.layout-grid-flot .grid-column.column-order_2 .gliciking-text:nth-child(1){animation-delay:1000ms}
+								.layout-grid-flot .grid-column.column-order_2 .gliciking-text:nth-child(2){animation-delay:3000ms}
+								.layout-grid-flot .grid-column.column-order_2 .gliciking-text:nth-child(3){animation-delay:5000ms}
+								.layout-grid-flot .grid-column.column-order_2 .gliciking-text:nth-child(4){animation-delay:7000ms}
+								.gliciking-text {
+									animation: glicky 1000ms;
+								}
+								@keyframes glicky {
+									0% {color:inherit}
+									25% {color:lightcoral}
+									75% {color:lightcoral}
+									100% {color:inherit}
+								}
+							</style>
+							<div class="layout-grid-flot">
+								<div class="grid-column column-order_1" data-speaker="Mark Sanders & In general">
+									<!-- original content capsule -->
+									<p class="description">동영상에서 마크 샌더스가 설명한 프로세스는 전형적인 프로토타이핑 과정이다. <br class="layout-line-changer">대개의 프로토타이핑 프로세스는 네가지 요소를 포함하고 있다.</p>
+									<ul>
+										<li class="gliciking-text">스케칭</li>
+										<li class="gliciking-text">평가</li>
+										<li class="gliciking-text">모델링</li>
+										<li class="gliciking-text">테스팅</li>
+									</ul>
+									<!-- // original content capsule -->
+								</div>
+								<div class="grid-column column-order_2" data-speaker="Writer">
+									<!-- original content capsule -->
+									<p class="description">필자가 재직 중인 Messagefirst에서는, 마크 샌더스가 설명하고 있는 것과 유사한 접근이나, 약간 변형된 프로토타이핑 프로세스를 진행한다. Messagefirst의 프로토타이핑 프로세스는 디자인 스튜디오 교육 과정에서 일부를 응용하고, 평가 단계에서 '프레젠테이션과 공개 평가-critique- 방법을 채용하고 있다. 따라서 아래와 같은 요소로 프로세스가 이루어진다.</p>
+									<ul>
+										<li class="gliciking-text">스케칭(화이트보드, 페이퍼, 코딩)</li>
+										<li class="gliciking-text">프레젠테이션과 공개 평가(크리티크)</li>
+										<li class="gliciking-text">모델링(프로토타이핑)</li>
+										<li class="gliciking-text">테스팅</li>	
+									</ul>
+									<!-- // original content capsule -->
+								</div>
+							</div>
+							<!-- // end :: visual modeling markup for compare-->
+							<p>
+								Messagefirst가 추구하는 디자인 프로세스 목표들 중 하나가 '빠른 반복과 진화'이기 때문에, 우리는 프로세스 앞단의 두 스테이지(스케칭, 프레젠테이션 및 공개 평가)에 많은 시간을 할애하지 않는다. 프로세스 전체의 소요 시간을 줄이고 여러번의 반복 작업을 거침으로써, 전체 프로젝트가 더욱 활기를 띠게 할 수 있다. 이처럼, 짧은 프로세스 진행 사이클은 프로토타이핑의 생산성을 더욱 풍부하게 한다<div class=""></div>
+								앞서 말한 것처럼, Messagefirst의 프로토타이핑 프로세스는 '반복 수정 친화적'으로 구성되어 있다. 스케치-프레젠테이션 및 공개 평가 - 모델링 -테스팅의 단꼐를 1차적으로 밟은 후, 또 다시 스케치 단계부터 프로세스를 재개한다. <a href="#viewData_2_1">(그림 2.1 참고)</a>
+							</p>
+							<div class="viewData" data-clip-index="2_1" id="viewData_2_1">
+								<span>그림 2.1</span>
+								<img src="" alt="반복적 디자인 및 공개 평가 프로세스를 표현한 다이어그램">
+							</div>
+							<p>
+								위의 그림에서 여러분은 첫 두 스테이지-스케칭, 그리고 프레젠테이션 및 공개 평가-에 대한 무한 반복이 명시되어 있는 것을 쉽게 알아차릴 수 있을 것이다. 스케칭은 사실, 첫 스테이지에 국한되지 않고, 프로토타이핑 프로세스 전체에서 꾸준히 쓰인다. 프로토타입을 내,외부 클라이언트에게 설명하거나 프로토타입을 평가할 때, 우리는 스케치를 통해 의견과 수정사항을 공유한다. 지금부터 프로토타이핑 프로세스를 첫 단계인 '스케칭'부터 찬찬히 뜯어보자.
+							</p>
+						</div>
+					</div>
+				</article>
+			</section>
+		</main>
+		<footer class="document-footer"></footer>
+	</div>
+</body>
+</html>

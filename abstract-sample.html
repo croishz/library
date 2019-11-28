@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .hide {display: none;}
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>Fruit API</h1>
+        <button type="button" id="btnLoad">fetch</button>
+        <button type="button" id="btnRemove">remove</button>
+        <div id="list">
+            <ul class="list__result"></ul>
+        </div>
+        <div id="loading" class="hide">
+            <span class="loading__icon">loading</span>
+        </div>
+    </div>
+    <script>
+        /**
+        * api service
+        */
+        var fruitApi = {
+            _mocks: ['apple', 'grape', 'melon'],
+            get: function() {
+                console.log('start HTTP GET:: /fruit');
+                var _this = this;
+                return (
+                    new Promise(function(resolve) {
+                        setTimeout(function() {
+                            console.log('end HTTP GET:: /fruit');
+                            resolve(_this._mocks);
+                        }, 2000);
+                    })
+                )
+            }
+        };
+
+        /**
+        * core modules
+        */
+        var coreModule = {
+            component: function(impl) {
+                return function(options) {
+                    return Object.assign({
+                        _options: {},
+                        init: function() {
+                            this._options = options;
+                            this.onInit();
+                            return this;
+                        },
+                        remove: function() {
+                            this.onRemove();
+                        }
+                    }, impl);
+                }
+            }
+        };
+
+        /**
+        * DOM Abstraction
+        * UI Components
+        **/
+        var ui = function(coreModule) {
+            var component = coreModule.component;
+            var loading = component({
+                onInit: function(options) {
+                    this._el = document.querySelector(this._options.rootSelector);
+                    this._icon = this._el.querySelector(this._options.iconSelector);
+                },
+                show: function() {
+                    this._el.classList.remove(this._options.classHide);
+                },
+                hide: function() {
+                    this._el.classList.add(this._options.classHide);
+                }
+                //implement methods of your own
+            });
+            var button = component({
+                onInit: function() {
+                    this._initElements();
+                    this._bindEvents();
+                },
+                _initElements: function() {
+                    this._el = document.querySelector(this._options.rootSelector);
+                },
+                _bindEvents: function() {
+                    this._el.addEventListener('click', function(e) {
+                        this._options.onClick(e);
+                    }.bind(this));
+                }
+            });
+            var list = component({
+                onInit: function() {
+                    this._el = document.querySelector(this._options.rootSelector);
+                    this._listWrapper = this._el.querySelector(this._options.listSelector);
+                    this._renderItem = this._options.template || this._renderItem;
+                },
+                _renderItem: function(value) {
+                    return '<li class="' + this._options.listItemClass + '">' + value + '</li>';
+                },
+                render: function(listModel) {
+                    this._listWrapper.innerHTML = listModel.reduce(function(acc, curr) {
+                        return acc + this._renderItem(curr);
+                    }.bind(this), '');
+                },
+                empty: function() {
+                    this._listWrapper.innerHTML = '';
+                }
+            });
+            return {
+                loading: loading,
+                button: button,
+                list: list
+            };
+        };
+
+        /**
+        * Application Code
+        */
+        var app = function(ui, http) {
+            var loading = ui.loading({
+                rootSelector: '#loading',
+                iconSelector: '.loading__icon',
+                classHide: 'hide'
+            });
+            var list = ui.list({
+                rootSelector: '#list',
+                listSelector: '.list__result'
+            });
+            var loadBtn = ui.button({
+                rootSelector: '#btnLoad',
+                onClick: function() {
+                    console.log('onClick');
+                    loading.show();
+                    http.get().then(function(fruitList) {
+                        loading.hide();
+                        list.render(fruitList);
+                    });
+                }
+            });
+            var removeBtn = ui.button({
+                rootSelector: '#btnRemove',
+                onClick: function() {
+                    list.empty();
+                }
+            });
+            loading.init();
+            list.init();
+            loadBtn.init();
+            removeBtn.init();
+        };
+        /**
+        * main bootstrapping
+        */
+        app(ui(coreModule), fruitApi);
+    </script>
+</body>
+</html>

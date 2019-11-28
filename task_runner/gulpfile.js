@@ -1,7 +1,7 @@
 // necessary check gulp version
 'use strict'
-// gulp ver4.0 style
 
+// gulp ver4.0 style
 /*-=-=-=-=-=-=-=-
 	packages
 -=-=-=-=-=-=-=-*/
@@ -15,7 +15,9 @@ const babel = require('gulp-babel');
 const sass = require('gulp-sass');
 // image
 const minify_img = require('gulp-imagemin');
-
+const fileSync = require('gulp-file-sync');
+const newer = require('gulp-newer');
+const syncy = require('syncy');
 // assistance
 const rename = require('gulp-rename');
 const browserSync = require('browser-sync');
@@ -27,13 +29,21 @@ const {
 	pipeline,
 	finished 
 } = require('readable-stream');
+const multiDest = require('gulp-multi-dest');
 
+// const destOptions = {mode : 0755};	return error : Octal literals are not allowed in strict mode. 
+/* error ref 
+	https://stackoverflow.com/questions/34358331/why-are-octal-numeric-literals-not-allowed-in-strict-mode-and-what-is-the-worka
+	https://stackoverflow.com/questions/23609042/how-to-avoid-octal-literals-are-not-allowed-in-strict-mode-with-createwritestr
+	https://stackoverflow.com/questions/36878850/octal-literals-are-not-allowed-in-strict-mode
+*/
 /*-=-=-=-=-=-=-=-
 	path
 -=-=-=-=-=-=-=-*/
 const path = {
 	js : 'dist/js',
 	css : 'dist/css',
+	css_sec : 'dist_sec/css',
 	img : 'dist/images'
 }
 
@@ -44,7 +54,6 @@ function start(done){
 	console.log("Getting started");
 	done();	// any callback is possible. 
 }
-
 function browser_sync(done){
 	browserSync.init({
 		server : {
@@ -70,7 +79,6 @@ function browser_sync(done){
 	});
 	done();
 }
-
 function js(){
 	return pipeline(	// replace gulp.pipe
 		src('src/js/*.js', {
@@ -83,7 +91,6 @@ function js(){
 		dest(path.js)
 	);
 }
-
 function scss(){
 	return pipeline(
 		src('src/scss/*.scss', {
@@ -97,10 +104,11 @@ function scss(){
 		rename({
 			suffix : '.min'
 		}),
-		dest(path.css)
+		multiDest(
+			[ path.css, path.css_sec ]
+		)
 	);
 }
-
 function imgMinify(){
 	return pipeline(
 		src('src/images/*',{
@@ -122,16 +130,36 @@ function imgMinify(){
 	);
 }
 
-function syncReload(done){
-	browserSync.reload();	// As a method be available.
+// update & sync
+function codeSyncReload(done){
+	browserSync.reload();	// Be available as a method.
 	done();
+}
+function assetSync(done){
+	syncy(['dist/images/**', 'dist_sec/images/**'], 'dest')
+	.then(() => {
+		console.log('Done!');
+		done();
+	})
+	.catch(() => {
+		console.log('Done!');
+		done();
+	});
+	// return pipeline(
+	// 	src("dist/images/**"),
+	// 	newer("dist_sec/images"),
+	// 	dest("dist_sec/images")
+	// );
 }
 
 function realtime_update(){
 	// one by one
-	watch('src/js/*.js', series(js, syncReload));
-	watch('src/scss/*.scss', series(scss, syncReload));
-	watch('src/images/*', series(imgMinify, syncReload));
+	watch('src/js/*.js', series(js, codeSyncReload));
+	watch('src/scss/*.scss', series(scss, codeSyncReload));
+	watch('src/images/*', series(imgMinify, codeSyncReload));
+		// asset sync
+		// watch('dist/images/*', series(assetSync, codeSyncReload));
+		// watch("dist/images/*", fileSync("dist/images", "dist_sec/images"));
 
 	// // use watch option with chokidar package
 	// const watcher = watch(['src/js/*.js', 'src/scss/*.scss', 'src/images/*'])
@@ -168,16 +196,27 @@ function realtime_update(){
 	// )
 }
 
-// task run
 exports.js = js;
 exports.scss = scss;
 exports.imgMinify = imgMinify;
-exports.default = series(
-	start, 
-	parallel(js, scss),
-	browser_sync,
-	realtime_update
-);
+// exports.default = series(
+// 	start,
+// 	assetSync,
+// 	parallel(js, scss), 
+// 	browser_sync, 
+// 	realtime_update
+// );
+
+function clean(cb) {
+	cb();
+}
+
+function build(cb) {
+	cb();
+}
+
+exports.test1 =  clean;
+exports.test2 = series(clean, build);
 
 // gulp ver3.0 style
 function gulp3(){

@@ -1,0 +1,14 @@
+@import "mixin";
+body {
+    @include reset__outerbox;
+}
+ul, ol {
+    @include reset__outerbox;
+}
+ul, ol, li {
+    list-style:none;
+}
+h1, h2, h3, h4, h5, h6 {
+    @include reset__outerbox(border);
+    @include reset__diet-font;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create method by prototype</title>
+</head>
+<body>
+    <!-- component : tab -->
+    <ul class="tab">
+        <li class="tab-item">itme01</li>
+        <li class="tab-item">itme02</li>
+        <li class="tab-item">itme03</li>
+        <li class="tab-item">itme04</li>
+    </ul>
+    <!-- // component : tab -->
+    <!-- component : modal -->
+    <div class="layer">
+        <div class="layer-menu">modal</div>
+    </div>
+    <!-- // component : modal -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script>
+        // tab
+        $(".tab-item").on("click", function(){
+            if( $(this).hasClass("active")){
+                $(this).removeClass("active");
+            }else{
+                $(".tab-item").removeClass("active");
+                $(this).addClass("active");
+            }
+        });
+
+        // modal
+        $(".layer").on("click", function(){
+            if( $(this).hasClass("show")){
+                $(this).removeClass("show");
+            }else{
+                $(".layer").removeClass("show");
+                $(this).addClass("show");
+            }
+        });
+
+        /*
+            과제 순서
+            1. 위의 두 컴포넌트의 이벤트를 하나의 함수로 바꾸세요.
+                hint : 매개변수
+            2. 바꾼 함수를 두 컴포넌트가 공유하도록 리팩토링 해보세요.
+                hint : 생성자, prototype method
+        */ 
+
+    </script>
+</body>
+</html>

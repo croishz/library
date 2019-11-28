@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Presentation</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        body {
+            color: #fff;
+            margin:0;
+            padding:0;
+            overflow-y: auto;
+        }
+
+        nav {
+            position: fixed;
+            display: flex;
+            width: 100%;
+            background: #000000;
+        }
+
+        nav  a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #ffffff;
+        }
+        nav a:hover {
+            background: #555
+        }
+
+        .section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #section-1 {
+            background:steelblue  
+        }
+        #section-2 {
+            background: lightsalmon 
+        }
+        #section-3 {
+            background: tan
+        }
+        #section-4 {
+            background: olivedrab
+        }
+        .section h1 {
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#section-1" class="btn">section 1 </a>
+        <a href="#section-2" class="btn">section 2 </a>
+        <a href="#section-3" class="btn">section 3 </a>
+        <a href="#section-4" class="btn">section 4 </a>
+    </nav>
+
+    <section id="section-1" class="section">
+        <h1>section-1</h1>
+    </section>
+
+    <section id="section-2" class="section">
+        <h1>section-2</h1>
+    </section>
+
+    <section id="section-3" class="section">
+        <h1>section-3</h1>
+    </section>
+
+    <section id="section-4" class="section">
+        <h1>section-4</h1>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        
+    </script>
+    <script>
+        var btns = document.querySelectorAll(".btn");
+
+        for(var i=0; i<btns.length; i++){
+            btns[i].addEventListener('click', function(e){
+                e.preventDefault();
+                var targetId = this.getAttribute('href');
+               
+                // Window.scrollTo()
+                // https://developer.mozilla.org/ko/docs/Web/API/Window/scrollTo
+                
+               
+                // $('html,body').stop().animate({
+                //     scrollTop: $(targetId).offset().top
+                // })
+
+                /**--------------------
+                 *  requestAnimationFrame
+                ---------------------*/
+                // window.requestAnimationFrame()
+                // https://developer.mozilla.org/ko/docs/Web/API/Window/requestAnimationFrame
+
+                var startPos = window.pageYOffset;
+                var targetPos = document.querySelector(targetId).offsetTop;
+                var distance = targetPos - startPos;
+                var duration = 200;
+
+                var start = null;
+
+                function step(timestamp) {
+                    if (!start) start = timestamp;
+                    var progress = timestamp - start;
+
+                    window.scrollTo(0, distance * (progress / duration) + startPos)
+                  
+                    if (progress <= duration) {
+                        window.requestAnimationFrame(step);
+                    }
+                }
+
+                window.requestAnimationFrame(step);
+            });
+        }
+
+
+    </script>
+</body>
+</html>

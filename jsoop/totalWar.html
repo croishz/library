@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>total war</title>
+</head>
+<body>
+	<script>
+		console.log("get started");	
+		function Faction(reader, armies, orbit, powerLevel, spec){
+			this.reader = reader;	
+			this.armies = armies;	
+			this.orbit = orbit;	
+			this.powerLevel = powerLevel;
+			this.spec = [
+				{
+					attPoint : 0.9,
+					defPoint : 0.78
+				}
+			];
+
+			let damage = 0;
+			const p = Faction.prototype;
+
+			p.attack = function(criticalCounter){
+				let attStrength = this.spec[0].attPoint;
+				if(criticalCounter){
+					attStrength = attStrength * 3;
+				};
+				return this.armies * this.powerLevel * attStrength
+			}
+			p.guard = function(){
+				return this.armies * this.powerLevel * this.spec[0].defPoint;
+			}
+		}
+
+		const theEmpire = new Faction("Carl Franz", 14, "south west side", 7, []);
+		console.log(theEmpire.attack(true));
+		console.log(theEmpire.guard());
+		theEmpire.spec = [0, 1];
+		console.log(theEmpire);
+	</script>
+</body>
+</html>
