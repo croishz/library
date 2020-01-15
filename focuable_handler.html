@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Focus handler vol.1</title>
+    <style>
+        body {padding: 0;margin: 0;}
+        .dynamic-showing {display:none;}
+    </style>
+</head>
+<body>
+    <div class="wrapper" data-focusable-frame="true">
+        <ul>
+            <li class="dynamic-showing"><a href="#">anker1</a></li>
+            <li><a href="#">anker2</a></li>
+            <li><input type="text"><label for="">input field</label></li>
+            <li><button type="button" disabled>button</button></li>
+            <li class="dynamic-showing"><span tabIndex="0" role="button">button by role specification</span></li>
+        </ul>
+        <button type="button">Show all</button>
+    </div>
+    <script>
+        const anker = document.querySelectorAll("a");
+        const input = document.querySelectorAll("input");
+        const button = document.querySelectorAll("button");
+        const author_specify = document.querySelectorAll("[tabIndex='0']");
+        const non_focusable = document.querySelectorAll("li");
+        
+        console.log("anker : ", anker[0].tabIndex);
+        console.log("input : ", input[0].tabIndex);
+        console.log("button : ", button[0].tabIndex);
+        console.log("specify : ", author_specify[0].tabIndex);
+        console.log("non focusable : ", non_focusable[0].tabIndex);
+
+        function ClosedCircuit(package){
+            /*
+                부모 요소를 지정.
+                부모 요소 내의 포커스 가능한 요소를 탐색하여 그루핑 : native ui element, tabindex=0, 1
+                그룹 내 첫번째 요소에서 포커스 아웃 시 그룹 내 마지막 요소로 포커싱.
+                그룹 내 마지막 요소에서 포커스 아웃 시 그룹 내 첫번째 요소로 포커싱.
+                동적으로 showing 된 - display:none => dispaly:anyting - 요소가 첫번째 혹은 마지막 요소인 경우까지 포함. 
+            */
+           
+            // constructor
+            const {elem} = package;
+            this.parent = elem;
+
+            // prototype methods
+            const p = ClosedCircuit.prototype;
+            p.find_focusable_elements = function(){
+                const focuable_elements = elem.forEach(element => {
+                    // tabindex를 0으로 반환하는 요소들 줄 동작 가능한 것을 필터링.
+                    element.querySelectorAll("input:not([disabled])", "a", "button:not([disabled])");
+                });
+                return(
+                    this.firstFocusableElem = focuable_elements[0],
+                    this.lastFocusableElem = focuable_elements[focuable_elements.length - 1]
+                )
+            }
+            p.refresh_check_elements = function(){
+                // display가 변경된 것을 tracking 하고 있거나, 변화되었다는 걸 암시하기 위한 표식이 필요함.
+                this.find_focusable_elements();
+            }
+        }
+        const test = new ClosedCircuit({
+            elem : document.querySelectorAll(".wrapper"),
+        });
+        test.find_focusable_elements();
+    </script>
+</body>
+</html>

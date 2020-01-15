@@ -60,11 +60,13 @@ h1, h2, h3, h4, h5, h6 {
   .navigation__menulist [role="menuitem"] a {
     display: block;
     transition: background 600ms ease; }
-    .navigation__menulist [role="menuitem"] a, .navigation__menulist [role="menuitem"] a:hover, .navigation__menulist [role="menuitem"] a:focus {
+    .navigation__menulist [role="menuitem"] a, .navigation__menulist [role="menuitem"] a:hover {
       color: #666;
       text-decoration: none; }
-    .navigation__menulist [role="menuitem"] a:hover, .navigation__menulist [role="menuitem"] a:focus {
+    .navigation__menulist [role="menuitem"] a:hover {
       background-color: rgba(251, 249, 248, 0.7); }
+  [data="key"] .navigation__menulist {
+    display: none; }
 
 .navigation__menulist-head {
   position: absolute;

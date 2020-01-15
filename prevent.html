@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body style="height:400vh">
+    <div class="class">jdjdjd</div>
+    <script>
+        window.addEventListener("scroll", function(e){
+            console.log("before");
+            console.log(e.currentTarget);
+            e.preventDefault();
+            console.log("after");
+            console.log(e.currentTarget);
+        });
+    </script>
+</body>
+</html>
