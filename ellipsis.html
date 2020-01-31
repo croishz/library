@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ui sampling - text ellipsis</title>
+    <style>
+        /* variable */
+        :root {
+            --text-font-size:16px;
+            --text-line-height:1.5em;
+            --bottom-padding:12px;
+        }
+
+        /* reset */
+        em {font-style:normal;}
+        body {padding: 0;margin: 0;}
+        /* .wrap {
+            display:flex;
+            flex-wrap:wrap;
+            flex-direction:row;
+        } */
+        .text-box {
+            position: relative;
+            display:inline-block;
+            vertical-align:top;
+            max-width:400px;
+            border-bottom:1px solid transparent;
+            font-size:16px;
+            line-height:1.5em;
+            margin-right:60px;
+            margin-bottom: 30px;
+        }
+        .paragraph {
+            overflow:hidden;
+            box-sizing:border-box;
+            color:#333;
+            max-height:calc(16px*1.5*2);
+            margin:0 0 var(--bottom-padding) 0;
+        }
+        .paragraph > span {display:block;}
+        .label {
+            opacity:0;
+            position: absolute;
+            bottom:var(--bottom-padding);
+            left: 100%;
+            margin: auto;
+            width:50px;
+            margin-left: -7px;
+            height:calc(16px*1.5 - 2px);
+            font-size:1.5em;
+            line-height:0.25em;
+            color: lightcoral;
+            box-sizing: border-box;
+            transition:opacity 200ms ease-out;
+        }
+        button[type="button"][role-description="expand contents"] {
+            position: absolute;
+            bottom:10px;
+            right:0;
+            width:40px;
+            height:40px;
+            background:none;
+            padding:0;
+            border:none;
+            cursor: pointer;
+            transition:transform 300ms ease;
+            transform-origin:45% 55%;
+        }
+        button[type="button"][role-description="expand contents"][disabled],
+        button[type="button"][role-description="expand contents"]:disabled {
+            display:none;
+        }
+        .bookends {
+            position: absolute;
+            bottom:0;
+            right:0;
+            width:10px;
+            height:10px;
+            border-right:2px solid lightcoral;
+            border-bottom:2px solid lightcoral;
+            transition:transform 300ms ease;
+            transform-origin:50% 50%;
+            background-color:transparent;
+        }
+        /* event */
+        button[type="button"][role-description="expand contents"]:focus {
+            outline:none;
+        }
+        button[type="button"][role-description="expand contents"]:focus .bookends {
+            border-color:#f12d2d;
+        }
+        .text-box:hover .paragraph:before {
+            opacity:0;
+        }
+        .text-box:hover button[type="button"][role-description="expand contents"] {
+            transform:rotate(45deg);
+        }
+        .text-box.free .label {display:none;}
+        /* steady n ready */
+        .text-box:not(.active) .paragraph:before {
+            content:"";
+            position:absolute;
+            right:0;
+            bottom:var(--bottom-padding);
+            width:calc(16px*1.5);
+            height:calc(16px*1.5);
+            background: linear-gradient(hsla(0, 100%, 100%, 0.2), hsla(0, 100%, 100%, 1));
+            transition:opacity 300ms;
+        }
+        .text-box:hover:not(.active) .label {
+            opacity: 1;
+            overflow: hidden;
+        }
+        .text-box:hover:not(.active) .label span {
+            display:inline-block;
+            margin:0 1px;
+            transform:translateY(0px);
+            animation:ellipsis 1600ms infinite;
+        }
+        .text-box:hover:not(.active) .label span:nth-child(1) {animation-delay:300ms;}
+        .text-box:hover:not(.active) .label span:nth-child(2) {animation-delay:700ms;}
+        .text-box:hover:not(.active) .label span:nth-child(3) {animation-delay:1100ms;}
+        @keyframes ellipsis {
+            0% {opacity:1; transform:translate3d(0, 0, 0);}
+            50% {opacity:0; transform:translate3d(-3px, -3px, 0);}
+            100% {opacity:1; transform:translate3d(0, 0, 0);}
+        }
+        /* active */
+        .text-box.active .paragraph {
+            max-height:none;
+        }
+        .text-box.active button[type="button"][role-description="expand contents"] {
+            bottom:8px;
+            right:-6px;
+        }
+        .text-box.active .bookends {
+            transform-origin:65% 70%;
+        }
+        .text-box.active:hover .bookends {
+            transform:rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="text-box">
+            <p class="paragraph"><span>Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla, pretium quis, sem. Nulla, pretiumquis</span></p>
+            <div class="label">
+                <!-- <em>More </em> -->
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+            <button data-id="1" class="button-area" type="button" role-description="expand contents"><span class="bookends"></span></button>
+        </div><!-- // text-box -->
+        <div class="text-box">
+            <p class="paragraph"><span>Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies</span></p>
+            <div class="label">
+                <!-- <em>More </em> -->
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+            <button data-id="2" class="button-area" type="button" role-description="expand contents"><span class="bookends"></span></button>
+        </div><!-- // text-box -->
+        <div class="text-box">
+            <p class="paragraph"><span>Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor.</span></p>
+            <div class="label">
+                <!-- <em>More </em> -->
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+            <button data-id="3" class="button-area" type="button" role-description="expand contents"><span class="bookends"></span></button>
+        </div><!-- // text-box -->
+        <div class="text-box">
+            <p class="paragraph"><span>Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies</span></p>
+            <div class="label">
+                <!-- <em>More </em> -->
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+            <button data-id="2" class="button-area" type="button" role-description="expand contents"><span class="bookends"></span></button>
+        </div><!-- // text-box -->
+        <div class="text-box">
+            <p class="paragraph"><span>Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla, pretium quis, sem. Nulla, pretiumquis</span></p>
+            <div class="label">
+                <!-- <em>More </em> -->
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+            <button data-id="1" class="button-area" type="button" role-description="expand contents"><span class="bookends"></span></button>
+        </div><!-- // text-box -->
+        <div class="text-box">
+            <p class="paragraph"><span>Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor.</span></p>
+            <div class="label">
+                <!-- <em>More </em> -->
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+            <button data-id="3" class="button-area" type="button" role-description="expand contents"><span class="bookends"></span></button>
+        </div><!-- // text-box -->
+    </div>
+    <script>
+        const tg = document.querySelectorAll(".button-area");
+        const container = document.querySelectorAll(".text-box");
+        const containerH = parseInt(window.getComputedStyle(container[0], null).getPropertyValue("height"));
+        const content = document.querySelectorAll(".paragraph span");
+
+        content.forEach( (elem, index)=>{
+            // caculate box
+            let elemH = parseInt(window.getComputedStyle(elem, null).getPropertyValue("height"));
+            if(elemH > containerH ){
+                return;
+            }else{
+                tg[index].setAttribute("disabled", true);
+                container[index].classList.add("free");
+            }
+        });
+
+        tg.forEach( (elem)=>{
+            // event resigt 
+            elem.activeChecker = false;
+
+            elem.addEventListener(
+                "click", function(){
+                    this.activeChecker = !this.activeChecker;
+                    this.activeChecker ? this.parentElement.classList.add("active") : this.parentElement.classList.remove("active");
+                }
+            );
+            // elem.addEventListener(
+            //     "mouseenter", function(){
+            //         console.log(this.activeChecker);
+            //         this.activeChecker ? this.parentElement.classList.remove("steady") : this.parentElement.classList.add("steady");
+            //     }
+            // );
+            // elem.addEventListener(
+            //     "mouseleave", function(){
+            //         console.log(this.activeChecker);
+            //         this.activeChecker ? this.parentElement.classList.add("steady") : this.parentElement.classList.remove("steady");
+            //     }
+            // );
+        })
+    </script>
+</body>
+</html>
