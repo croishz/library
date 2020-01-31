@@ -11,16 +11,19 @@
             --text-font-size:16px;
             --text-line-height:1.5em;
             --bottom-padding:12px;
+            --focus-color:#f12d2d;
         }
 
         /* reset */
         em {font-style:normal;}
         body {padding: 0;margin: 0;}
-        /* .wrap {
-            display:flex;
+        .wrap {
+            /* display:flex;
             flex-wrap:wrap;
-            flex-direction:row;
-        } */
+            flex-direction:row; */
+            padding:20px 0 0 20px;
+           
+        }
         .text-box {
             position: relative;
             display:inline-block;
@@ -30,7 +33,15 @@
             font-size:16px;
             line-height:1.5em;
             margin-right:60px;
-            margin-bottom: 30px;
+            margin-bottom:50px;
+            padding:12px 0 0 12px;
+        }
+        .text-box.edge {
+            border-top:1px solid #cecece;
+            border-left:1px solid #cecece;
+        }
+        .text-box.emboss {
+            box-shadow: -3px -3px 4px hsla(0,0%, 0%, 0.05);
         }
         .paragraph {
             overflow:hidden;
@@ -51,13 +62,13 @@
             height:calc(16px*1.5 - 2px);
             font-size:1.5em;
             line-height:0.25em;
-            color: lightcoral;
+            color: var(--focus-color);
             box-sizing: border-box;
             transition:opacity 200ms ease-out;
         }
         button[type="button"][role-description="expand contents"] {
             position: absolute;
-            bottom:10px;
+            bottom:5px;
             right:0;
             width:40px;
             height:40px;
@@ -90,10 +101,13 @@
         }
         button[type="button"][role-description="expand contents"]:focus .bookends {
             border-color:#f12d2d;
+            border-color:#ffa656;
+            border-color:var(--focus-color);
         }
         .text-box:hover .paragraph:before {
             opacity:0;
         }
+        .text-box:hover .bookends {border-color:var(--focus-color);}
         .text-box:hover button[type="button"][role-description="expand contents"] {
             transform:rotate(45deg);
         }
@@ -124,7 +138,7 @@
         .text-box:hover:not(.active) .label span:nth-child(3) {animation-delay:1100ms;}
         @keyframes ellipsis {
             0% {opacity:1; transform:translate3d(0, 0, 0);}
-            50% {opacity:0; transform:translate3d(-3px, -3px, 0);}
+            50% {opacity:0; transform:translate3d(0, -1px, -6px);}
             100% {opacity:1; transform:translate3d(0, 0, 0);}
         }
         /* active */
@@ -145,7 +159,7 @@
 </head>
 <body>
     <div class="wrap">
-        <div class="text-box">
+        <div class="text-box emboss">
             <p class="paragraph"><span>Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla, pretium quis, sem. Nulla, pretiumquis</span></p>
             <div class="label">
                 <!-- <em>More </em> -->
@@ -153,7 +167,7 @@
             </div>
             <button data-id="1" class="button-area" type="button" role-description="expand contents"><span class="bookends"></span></button>
         </div><!-- // text-box -->
-        <div class="text-box">
+        <div class="text-box edge">
             <p class="paragraph"><span>Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies</span></p>
             <div class="label">
                 <!-- <em>More </em> -->
@@ -169,7 +183,7 @@
             </div>
             <button data-id="3" class="button-area" type="button" role-description="expand contents"><span class="bookends"></span></button>
         </div><!-- // text-box -->
-        <div class="text-box">
+        <div class="text-box emboss">
             <p class="paragraph"><span>Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies</span></p>
             <div class="label">
                 <!-- <em>More </em> -->
@@ -177,7 +191,7 @@
             </div>
             <button data-id="2" class="button-area" type="button" role-description="expand contents"><span class="bookends"></span></button>
         </div><!-- // text-box -->
-        <div class="text-box">
+        <div class="text-box edge">
             <p class="paragraph"><span>Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla, pretium quis, sem. Nulla, pretiumquis</span></p>
             <div class="label">
                 <!-- <em>More </em> -->
@@ -185,7 +199,7 @@
             </div>
             <button data-id="1" class="button-area" type="button" role-description="expand contents"><span class="bookends"></span></button>
         </div><!-- // text-box -->
-        <div class="text-box">
+        <div class="text-box edge">
             <p class="paragraph"><span>Lorem ipsum dolor sit amet, Aenean commodo ligula eget dolor.</span></p>
             <div class="label">
                 <!-- <em>More </em> -->
