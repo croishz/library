@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- original url 
+        http://vallierbistro.com/en/
+    -->
+    <!-- component design -->
+    div.page-frame_wrap
+    header.page-header>nav.navigation>.nav-selector-home+.nav-selector-links+(.nav-selector-contact_info>.conatact-info-social+address+.call_number)+.nav-selector-external+.nav-selector-for_ui>.toggle-tapper[role="tablist"]>span.menu-list-group-name#menu-group-name*2
+    div.page-first_screen
+    article.menu-table>(header.menu-header>.head+.description>.menu-time)+(.menu-list_by_group[data-recycle-component="true"][role="tabpanel"]>.list-head+ul.menu-list_wrap>li*n>dl>(div.menu-set[data-recycle-component="true"]>dt.menu-name+dd.price)+dd.menu-presentation)
+    div.presentaion>div.presentaion-box[data-recycle-component="true"]>div.presentaion-carousel[data-recycle-component="true"]+div.presentaion-description
+    div.contact>section.contact-information*4 ; find us, opening hours, reservations, map
+    <!-- 
+        The "dl" element represents a description list of zero or more term-description groups. 
+        dl 요소는 0 이상의 용어 설명 그룹의 설명 목록을 나타낸다. 
+        Each term-description group consists of one or more terms (represented by "dt" elements) possibly as children of a "div" element child, 
+        각 용어 설명 그룹은 가능한대로 div 자식 요소의 자식으로서 하나 이상의 용어(dt 요소로 나타낸다.)와 
+        and one or more descriptions (represented by "dd" elements possibly as children of a "div" element child), 
+        하나 이상의 설명(가능한대로 div 자식 요소의 자식으로서 dd 요소로 나타낸다.)으로 구성된다. 
+        ignoring any nodes other than "dt" and "dd" element children, and "dt" and "dd" elements that are children of "div" element children within a single "dl" element.
+        단일 dl 요소 안의 div 자식 요소의 자식인 dt와 dd 요소와 dt와 dd 자식 요소가 아닌 다른 어떤 요소도 무시한다.
+        (= dl 안에서는 div, dt, dd만 자식 요소로 허용한다.)
+     -->
+</body>
+</html>
