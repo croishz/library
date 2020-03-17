@@ -2,31 +2,32 @@
 // variable
 $line-color : rgb(241, 90, 53);
 $line-thickness : 6px;
-$protrude-radian : 10deg;
-body {
-    margin: 0;
-    padding: 0;
-    width:100vw;
-}
+$protrude-radian : 0deg;
+$pade-margin:17%;
+body {margin: 0;padding: 0;width:calc(100vw - 17px); height:100vh;}
 ul ol li {list-style:none;}
 .brick {
     display:inline-block;
-    width:85vw;
+    width:80vw;
     height:100%;
+    box-sizing:border-box;
     border-left:$line-thickness solid $line-color;
     text-align:left;
 }
-.wrap > div {text-align:right;}
-.wrap > div > div {text-align:left;}
+.wrap {
+    height:100%;
+    > div {text-align:right;}
+    > div > div {text-align:left;}
+}
 .top-area,
 .bottom-area {
     position:relative;
-    height:24vh;
-}
-.bottom-area .brick {
-    border-color:#eee;
+    box-sizing:border-box;
+    height:$pade-margin;
 }
 .main {
+    height:100% - ($pade-margin*2);
+    box-sizing:border-box;
     .brick {
         position: relative;
         border-top:$line-thickness solid $line-color;
@@ -51,13 +52,10 @@ ul ol li {list-style:none;}
             // transform-origin:-#{floor($line-thickness/2)} -#{floor($line-thickness/2)};
             transform-origin:0% 0%;
             width:$line-thickness;
-            height:20vh;
+            height:$pade-margin * 100%/(100% - ($pade-margin*2));
 
             transform: rotate($protrude-radian*2);
         }
-    }
-    .schedule {
-        padding-bottom:10vh;
     }
 }
 .protrude {

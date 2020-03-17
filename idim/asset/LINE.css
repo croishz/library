@@ -1,17 +1,22 @@
 body {
   margin: 0;
   padding: 0;
-  width: 100vw; }
+  width: calc(100vw - 17px);
+  height: 100vh; }
 
 ul ol li {
   list-style: none; }
 
 .brick {
   display: inline-block;
-  width: 85vw;
+  width: 80vw;
   height: 100%;
+  box-sizing: border-box;
   border-left: 6px solid #f15a35;
   text-align: left; }
+
+.wrap {
+  height: 100%; }
 
 .wrap > div {
   text-align: right; }
@@ -22,15 +27,17 @@ ul ol li {
 .top-area,
 .bottom-area {
   position: relative;
-  height: 24vh; }
+  box-sizing: border-box;
+  height: 17%; }
 
-.bottom-area .brick {
-  border-color: #eee; }
+.main {
+  height: 66%;
+  box-sizing: border-box; }
 
 .main .brick {
   position: relative;
   border-top: 6px solid #f15a35;
-  transform: rotate(-10deg);
+  transform: rotate(0deg);
   transform-origin: 0% 0%; }
 
 .main .brick:before, .main .brick:after {
@@ -44,24 +51,21 @@ ul ol li {
   transform-origin: 100% 0%;
   width: 100vw;
   height: 6px;
-  transform: rotate(13deg); }
+  transform: rotate(0deg); }
 
 .main .brick:after {
   left: -6px;
   transform-origin: 0% 0%;
   width: 6px;
-  height: 20vh;
-  transform: rotate(20deg); }
-
-.main .schedule {
-  padding-bottom: 10vh; }
+  height: 25.75758%;
+  transform: rotate(0deg); }
 
 .protrude {
   position: absolute;
   top: -204px;
   width: 30%;
   transform-origin: 0% 0%;
-  transform: rotate(3deg); }
+  transform: rotate(0deg); }
 
 /*# sourceMappingURL=LINE.css.map */
 
