@@ -4,7 +4,13 @@ $line-color : rgb(241, 90, 53);
 $line-thickness : 6px;
 $protrude-radian : 0deg;
 $pade-margin:17%;
-body {margin: 0;padding: 0;width:calc(100vw - 17px); height:100vh;}
+body {
+    margin: 0;
+    padding: 0;
+    width:calc(100vw - 17px); 
+    height:100vh;
+    overflow-y:scroll;
+}
 ul ol li {list-style:none;}
 .brick {
     display:inline-block;
