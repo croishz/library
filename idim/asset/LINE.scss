@@ -4,29 +4,43 @@ $line-color : rgb(241, 90, 53);
 $line-thickness : 6px;
 $protrude-radian : 0deg;
 $pade-margin:17%;
+$brickWidth:80vw;
+$scrollbar-width:17px;
+// reset
 body {
     margin: 0;
     padding: 0;
-    width:calc(100vw - 17px); 
-    height:100vh;
-    overflow-y:scroll;
 }
-ul ol li {list-style:none;}
+ul, ol, li {
+    list-style:none;
+}
+
+// common
+body {
+    width:100vw; 
+    height:100vh;
+    // overflow-x:hidden;
+    // overflow-y:scroll;
+    overflow:hidden;
+}
 .brick {
     display:inline-block;
-    width:80vw;
+    width:$brickWidth;
     height:100%;
     box-sizing:border-box;
     border-left:$line-thickness solid $line-color;
     text-align:left;
+    transform-style: flat;
+    transition:height 300ms, transform 300ms;
 }
 .wrap {
     height:100%;
     > div {text-align:right;}
     > div > div {text-align:left;}
 }
-.top-area,
-.bottom-area {
+
+// area
+.top-area   {
     position:relative;
     box-sizing:border-box;
     height:$pade-margin;
@@ -39,35 +53,25 @@ ul ol li {list-style:none;}
         border-top:$line-thickness solid $line-color;
         transform: rotate(-$protrude-radian);
         transform-origin:0% 0%;
-        &:before, &:after {
-            content:'';
-            position: absolute;
-            top:100%;
-            background-color:$line-color;
-        }
-        &:before {
-            right:100%;
-            transform-origin:100% 0%;
-            width:100vw;
-            height:$line-thickness;
-
-            transform: rotate($protrude-radian* 1.3);
-        }
-        &:after {
-            left:-$line-thickness;
-            // transform-origin:-#{floor($line-thickness/2)} -#{floor($line-thickness/2)};
-            transform-origin:0% 0%;
-            width:$line-thickness;
-            height:$pade-margin * 100%/(100% - ($pade-margin*2));
-
-            transform: rotate($protrude-radian*2);
-        }
     }
 }
-.protrude {
-    position:absolute;
-    top:-204px;
-    width:30%;
-    transform-origin:0% 0%;
-    transform: rotate($protrude-radian* 0.3);
-} 
+.bottom-area {
+    position:relative;
+    box-sizing:border-box;
+    height:$pade-margin;
+    .protrude {
+        width:100vw - $brickWidth;
+        border-top:$line-thickness solid $line-color;
+        box-sizing:border-box;
+        padding-left:$scrollbar-width;
+        transform-origin:100% 0%;
+        transform: rotate($protrude-radian* 0.3);
+        transition:transform 300ms;
+    }
+    .brick {
+        position:absolute;
+        bottom:0; right:0;
+        transform-origin:264px 100%;
+        transition:height 300ms, transform 300ms;
+    }
+}

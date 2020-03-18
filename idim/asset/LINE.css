@@ -1,12 +1,14 @@
 body {
   margin: 0;
-  padding: 0;
-  width: calc(100vw - 17px);
-  height: 100vh;
-  overflow-y: scroll; }
+  padding: 0; }
 
-ul ol li {
+ul, ol, li {
   list-style: none; }
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; }
 
 .brick {
   display: inline-block;
@@ -14,7 +16,9 @@ ul ol li {
   height: 100%;
   box-sizing: border-box;
   border-left: 6px solid #f15a35;
-  text-align: left; }
+  text-align: left;
+  transform-style: flat;
+  transition: height 300ms, transform 300ms; }
 
 .wrap {
   height: 100%; }
@@ -25,8 +29,7 @@ ul ol li {
 .wrap > div > div {
   text-align: left; }
 
-.top-area,
-.bottom-area {
+.top-area {
   position: relative;
   box-sizing: border-box;
   height: 17%; }
@@ -41,32 +44,26 @@ ul ol li {
   transform: rotate(0deg);
   transform-origin: 0% 0%; }
 
-.main .brick:before, .main .brick:after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  background-color: #f15a35; }
+.bottom-area {
+  position: relative;
+  box-sizing: border-box;
+  height: 17%; }
 
-.main .brick:before {
-  right: 100%;
+.bottom-area .protrude {
+  width: 20vw;
+  border-top: 6px solid #f15a35;
+  box-sizing: border-box;
+  padding-left: 17px;
   transform-origin: 100% 0%;
-  width: 100vw;
-  height: 6px;
-  transform: rotate(0deg); }
+  transform: rotate(0deg);
+  transition: transform 300ms; }
 
-.main .brick:after {
-  left: -6px;
-  transform-origin: 0% 0%;
-  width: 6px;
-  height: 25.75758%;
-  transform: rotate(0deg); }
-
-.protrude {
+.bottom-area .brick {
   position: absolute;
-  top: -204px;
-  width: 30%;
-  transform-origin: 0% 0%;
-  transform: rotate(0deg); }
+  bottom: 0;
+  right: 0;
+  transform-origin: 264px 100%;
+  transition: height 300ms, transform 300ms; }
 
 /*# sourceMappingURL=LINE.css.map */
 

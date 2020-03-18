@@ -38,106 +38,6 @@
                             blah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blah
                         </div>
                     </li><!-- // order1 -->
-                    <li class="schedule-article">
-                        <div class="schedule-header">
-                            <div class="date">
-                                <div>
-                                    Wednesday Sept
-                                </div>
-                                <div>7</div>
-                            </div>
-                            <div class="head">
-                                Jean Castex
-                            </div>
-                        </div>
-                        <div class="subtitle">
-                            blah blah blah blah blah blah blah blah
-                        </div>
-                        <div class="description"></div>
-                        <div class="body">
-                            blah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blah
-                        </div>
-                    </li><!-- // order1 -->
-                    <li class="schedule-article">
-                        <div class="schedule-header">
-                            <div class="date">
-                                <div>
-                                    Wednesday Sept
-                                </div>
-                                <div>7</div>
-                            </div>
-                            <div class="head">
-                                Jean Castex
-                            </div>
-                        </div>
-                        <div class="subtitle">
-                            blah blah blah blah blah blah blah blah
-                        </div>
-                        <div class="description"></div>
-                        <div class="body">
-                            blah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blah
-                        </div>
-                    </li><!-- // order1 -->
-                    <li class="schedule-article">
-                        <div class="schedule-header">
-                            <div class="date">
-                                <div>
-                                    Wednesday Sept
-                                </div>
-                                <div>7</div>
-                            </div>
-                            <div class="head">
-                                Jean Castex
-                            </div>
-                        </div>
-                        <div class="subtitle">
-                            blah blah blah blah blah blah blah blah
-                        </div>
-                        <div class="description"></div>
-                        <div class="body">
-                            blah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blah
-                        </div>
-                    </li><!-- // order1 -->
-                    <li class="schedule-article">
-                        <div class="schedule-header">
-                            <div class="date">
-                                <div>
-                                    Wednesday Sept
-                                </div>
-                                <div>7</div>
-                            </div>
-                            <div class="head">
-                                Jean Castex
-                            </div>
-                        </div>
-                        <div class="subtitle">
-                            blah blah blah blah blah blah blah blah
-                        </div>
-                        <div class="description"></div>
-                        <div class="body">
-                            blah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blah
-                        </div>
-                    </li><!-- // order1 -->
-                    <li class="schedule-article">
-                        <div class="schedule-header">
-                            <div class="date">
-                                <div>
-                                    Wednesday Sept
-                                </div>
-                                <div>7</div>
-                            </div>
-                            <div class="head">
-                                Jean Castex
-                            </div>
-                        </div>
-                        <div class="subtitle">
-                            blah blah blah blah blah blah blah blah
-                        </div>
-                        <div class="description"></div>
-                        <div class="body">
-                            blah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blah
-                        </div>
-                    </li><!-- // order1 -->
                 </ul>
                 <!-- // schedule article -->
             </div>
@@ -146,7 +46,7 @@
         <!-- Bottom -->
         <div class="bottom-area">
             <!-- Protrude -->
-            <div class="protrude">
+            <div class="protrude" id="Protrude">
                 <header id="Header">
                     <h1 class="title" id="title">Fall 2011</h1>
                     <div>Lecture Series</div>
@@ -162,11 +62,108 @@
                 </footer>
             </div>
             <!-- // Protrude -->
+            <div class="brick" id="Hinge"></div>
         </div>
         <!-- // Bottom -->
     </div>
     <script>
+        let distance = 300;
+        let rate1, rate2;
 
+        const protrude = document.getElementById('Protrude');
+        const contents = document.getElementById('Contents');
+        const hinge = document.getElementById('Hinge');
+        const hingeBrick = document.querySelectorAll('.bottom-area')[0].children[1];
+        // const rightAngle = ( (Math.PI/4) / Math.PI ) * 360;
+
+        const correction = Number(
+            window.getComputedStyle(Contents, null)
+                  .getPropertyValue('border-top-width').replace('px','')
+        );
+        console.log('borderWidth = correction', correction);
+        
+        const hingeCorrection = Number(
+            window.getComputedStyle(hingeBrick, null)
+                  .getPropertyValue('transform-origin').split('px')[0].replace('px','')
+        );
+        console.log(hingeCorrection)
+        // const a = Number(
+        //     window.getComputedStyle(Contents, null)
+        //           .getPropertyValue('height').replace('px','')
+        // );
+        // const b = 300;
+        // const c = rate1 = Math.sqrt( 
+        //     Math.pow(a, 2) +  Math.pow(b, 2)
+        // );
+        // console.log('Each tryangle side value', a, '/', b, '/', c);
+
+        // const rateRadian = Math.atan(b/a);
+        // const rateRadian2 = Math.atan2(b, a);
+        // const rateAngle = (rateRadian * 180) / Math.PI;
+        
+        // console.log(rate1);
+        // console.log(rateRadian, rateRadian2);
+        // console.log(rateAngle);
+
+        // document.addEventListener('click', function(){
+        //     // console.log('click document');
+        //     protrude.style.transform = 'translateX('+ (distance + 5) +'px) rotate(' + distance*0.015 +'deg)';
+
+        //     contents.style.height = (rate1 + 5) + 'px';
+        //     contents.style.transform = 'rotate('+ -rateAngle +'deg)';
+        // })
+
+        const tryangle1 = {
+            id : 'Contents',
+        }
+        const tryangle2 = {
+            id : 'Hinge',
+        }
+        function tryangle(id, putIntoDistance, reverse){
+            const tg = document.getElementById(id);
+            let side_A = Number(
+                    window.getComputedStyle(tg, null)
+                        .getPropertyValue('height').replace('px','')
+                ), 
+                side_B;
+
+            if(reverse) {
+                side_B = putIntoDistance;
+            }else{
+                side_A = side_A - correction;
+                side_B = putIntoDistance - hingeCorrection;
+            }
+            const side_C = Math.sqrt( 
+                Math.pow(side_A, 2) +  Math.pow(side_B, 2)
+            );
+            const rateRadian = Math.atan(side_B / side_A);
+            const rateRadian2 = Math.atan2(side_B, side_A);
+            const rateAngle = (rateRadian * 180) / Math.PI;
+
+            if(reverse) {
+                return(
+                    tg.style.height = (side_C + correction) + 'px',
+                    tg.style.transform = 'rotate('+ -rateAngle +'deg)'
+                );
+            }else{
+                 return(
+                    tg.style.height = (side_C + correction) + 'px',
+                    tg.style.transform = 'rotate('+ rateAngle +'deg) translateX('+ hingeCorrection + 'px)'
+                );
+            }
+        };
+        let time = true;
+        document.querySelector('.wrap').addEventListener('click', function(e){
+            console.log(e);
+            console.log(time);
+            if(time){
+                protrude.style.transform = 'translateX('+ (distance + 5) +'px) rotate(' + distance*0.015 +'deg)';
+
+                tryangle(tryangle1.id, distance, true);
+                tryangle(tryangle2.id, distance, false);
+            }
+            time = false;
+        });
     </script>
 </body>
 </html>
