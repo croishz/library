@@ -8,70 +8,81 @@ $brickWidth:80vw;
 $scrollbar-width:17px;
 // reset
 body {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 ul, ol, li {
-    list-style:none;
+	list-style:none;
 }
 
 // common
 body {
-    width:100vw; 
-    height:100vh;
-    // overflow-x:hidden;
-    // overflow-y:scroll;
-    overflow:hidden;
+	width:100vw; 
+	height:100vh;
+	// overflow-x:hidden;
+	// overflow-y:scroll;
+	overflow:hidden;
 }
 .brick {
-    display:inline-block;
-    width:$brickWidth;
-    height:100%;
-    box-sizing:border-box;
-    border-left:$line-thickness solid $line-color;
-    text-align:left;
-    transform-style: flat;
-    transition:height 300ms, transform 300ms;
+	display:inline-block;
+	width:$brickWidth;
+	height:100%;
+	box-sizing:border-box;
+	border-left:$line-thickness solid $line-color;
+	text-align:left;
+	transform-style: flat;
+	transition:transform 300ms;
 }
 .wrap {
-    height:100%;
-    > div {text-align:right;}
-    > div > div {text-align:left;}
+	height:100%;
+	background-color:#fffaf8;
+	> div {text-align:right;}
+	> div > div {text-align:left;}
 }
 
 // area
 .top-area   {
-    position:relative;
-    box-sizing:border-box;
-    height:$pade-margin;
+	position:relative;
+	box-sizing:border-box;
+	height:$pade-margin;
 }
 .main {
-    height:100% - ($pade-margin*2);
-    box-sizing:border-box;
-    .brick {
-        position: relative;
-        border-top:$line-thickness solid $line-color;
-        transform: rotate(-$protrude-radian);
-        transform-origin:0% 0%;
-    }
+	height:100% - ($pade-margin*2);
+	box-sizing:border-box;
+	.brick {
+		position: relative;
+		border-top:$line-thickness solid $line-color;
+		transform: rotate(-$protrude-radian);
+		transform-origin:0% 0%;
+	}
 }
 .bottom-area {
-    position:relative;
-    box-sizing:border-box;
-    height:$pade-margin;
-    .protrude {
-        width:100vw - $brickWidth;
-        border-top:$line-thickness solid $line-color;
-        box-sizing:border-box;
-        padding-left:$scrollbar-width;
-        transform-origin:100% 0%;
-        transform: rotate($protrude-radian* 0.3);
-        transition:transform 300ms;
-    }
-    .brick {
-        position:absolute;
-        bottom:0; right:0;
-        transform-origin:264px 100%;
-        transition:height 300ms, transform 300ms;
-    }
+	position:relative;
+	box-sizing:border-box;
+	height:$pade-margin;
+	.protrude {
+		width:100vw - $brickWidth;
+		border-top:$line-thickness solid $line-color;
+		box-sizing:border-box;
+		padding-left:$scrollbar-width;
+		transform-origin:100% 0%;
+		transform: rotate($protrude-radian* 0.3);
+		transition:transform 300ms, width 300ms;
+		// .inner {
+		// 	position:absolute;
+		// 	top:0; right:4vw;
+		// 	text-align:right;
+		// 	transform:translateY(17vh);
+		// 	transition:transform 300ms 400ms;
+		// 	&.pull-up {
+		// 		transform:translateY(0);
+		// 	}
+		// }
+	}
+	.brick {
+		position:absolute;
+		bottom:0; right:0;
+		// transform-origin:250px 100%;
+		transition:height 300ms, transform 300ms;
+	}
 }

@@ -1,169 +1,175 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>idim vol.01</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./asset/LINE.css">
+	<title>idim vol.01</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./asset/LINE.css">
 </head>
 <body>
-    <div class="wrap" aria-owns="Header Contents Footer">
-        <!-- Top -->
-        <div class="top-area">
-            <div class="brick"></div>
-        </div>
-        <!-- Top -->
-        <!-- Main -->
-        <div class="main" role="main" aria-labelledby="title">
-            <div class="brick contents" id="Contents">
-                <!-- schedule article -->
-                <ul class="schedule">
-                    <li class="schedule-article">
-                        <div class="schedule-header">
-                            <div class="date">
-                                <div>
-                                    Wednesday Sept
-                                </div>
-                                <div>7</div>
-                            </div>
-                            <div class="head">
-                                Jean Castex
-                            </div>
-                        </div>
-                        <div class="subtitle">
-                            blah blah blah blah blah blah blah blah
-                        </div>
-                        <div class="description"></div>
-                        <div class="body">
-                            blah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blah
-                        </div>
-                    </li><!-- // order1 -->
-                </ul>
-                <!-- // schedule article -->
-            </div>
-        </div>
-        <!-- // Main -->
-        <!-- Bottom -->
-        <div class="bottom-area">
-            <!-- Protrude -->
-            <div class="protrude" id="Protrude">
-                <header id="Header">
-                    <h1 class="title" id="title">Fall 2011</h1>
-                    <div>Lecture Series</div>
-                    <div class="writter">George Durean Arichtecture</div>
-                    <div>2011 Conference</div>
-                </header>
-                <footer id="Footer">
-                    <div class="copyright"></div>
-                    <div class="copy"></div>
-                    <ul class="complementary-info-group">
-                        <li></li>
-                    </ul>
-                </footer>
-            </div>
-            <!-- // Protrude -->
-            <div class="brick" id="Hinge"></div>
-        </div>
-        <!-- // Bottom -->
-    </div>
-    <script>
-        let distance = 300;
-        let rate1, rate2;
+	<div class="wrap" aria-owns="Header Contents Footer">
+		<!-- Top -->
+		<div class="top-area">
+			<div class="brick"></div>
+		</div>
+		<!-- Top -->
+		<!-- Main -->
+		<div class="main" role="main" aria-labelledby="title">
+			<div class="brick contents" id="Contents">
+				<!-- schedule article -->
+				<ul class="schedule">
+					<li class="schedule-article">
+						<div class="schedule-header">
+							<div class="date">
+								<div>
+									Wednesday Sept
+								</div>
+								<div>7</div>
+							</div>
+							<div class="head">
+								Jean Castex
+							</div>
+						</div>
+						<div class="subtitle">
+							blah blah blah blah blah blah blah blah
+						</div>
+						<div class="description"></div>
+						<div class="body">
+							blah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blahblah blah
+						</div>
+					</li><!-- // order1 -->
+				</ul>
+				<!-- // schedule article -->
+			</div>
+		</div>
+		<!-- // Main -->
+		<!-- Bottom -->
+		<div class="bottom-area">
+			<!-- Protrude -->
+			<div class="protrude" id="Protrude">
+				<div class="inner">
+					<header id="Header">
+						<h1 class="title" id="title">Fall 2011</h1>
+						<div>Lecture Series</div>
+						<div class="writter">George Durean Arichtecture</div>
+						<div>2011 Conference</div>
+					</header>
+					<footer id="Footer">
+						<div class="copyright"></div>
+						<div class="copy"></div>
+						<ul class="complementary-info-group">
+							<li></li>
+						</ul>
+					</footer>
+				</div>
+			</div>
+			<!-- // Protrude -->
+			<div class="brick" id="Hinge"></div>
+		</div>
+		<!-- // Bottom -->
+	</div>
+	<script>
+		const distance = 300;
+		const range = 5;
+		const protrude = document.getElementById('Protrude');
+		const contents = document.getElementById('Contents');
+		const hinge = document.getElementById('Hinge');
+		const hingeBrick = document.querySelectorAll('.bottom-area')[0].children[1];
+		// const rightAngle = ( (Math.PI/4) / Math.PI ) * 360;
+		const correction = computedStyleCatcher(contents, 'border-top-width');
+		const hingeCorrection = computedStyleCatcher(hingeBrick, 'transform-origin', 0);
+		const hingeCorrectionRate = (hingeCorrection/distance);
+		// console.log('borderWidth = correction', correction);
+		// console.log(hingeCorrection);
+		const tryangle1 = {
+			id : 'Contents',
+			a : computedStyleCatcher(contents, 'height'),
+		}
+		const tryangle2 = {
+			id : 'Hinge',
+			a : computedStyleCatcher(hinge, 'height'),
+		}
 
-        const protrude = document.getElementById('Protrude');
-        const contents = document.getElementById('Contents');
-        const hinge = document.getElementById('Hinge');
-        const hingeBrick = document.querySelectorAll('.bottom-area')[0].children[1];
-        // const rightAngle = ( (Math.PI/4) / Math.PI ) * 360;
+		const computedStyleCatcher = function(tg, value, valueIndex, measure = 'px'){
+			let catchValue = window.getComputedStyle(tg, null).getPropertyValue(value) ;
+			if(typeof valueIndex === 'number' && valueIndex === 'NaN'){
+				catchValue.split(measure)[valueIndex]
+			}
+			return Number( catchValue.replace(measure,'') );
+		}
+		const tryangle = function Tryangle(id, putIntoDistance, hinge){
+			
+			// prepare
+			const tg = document.getElementById(id);
 
-        const correction = Number(
-            window.getComputedStyle(Contents, null)
-                  .getPropertyValue('border-top-width').replace('px','')
-        );
-        console.log('borderWidth = correction', correction);
-        
-        const hingeCorrection = Number(
-            window.getComputedStyle(hingeBrick, null)
-                  .getPropertyValue('transform-origin').split('px')[0].replace('px','')
-        );
-        console.log(hingeCorrection)
-        // const a = Number(
-        //     window.getComputedStyle(Contents, null)
-        //           .getPropertyValue('height').replace('px','')
-        // );
-        // const b = 300;
-        // const c = rate1 = Math.sqrt( 
-        //     Math.pow(a, 2) +  Math.pow(b, 2)
-        // );
-        // console.log('Each tryangle side value', a, '/', b, '/', c);
+			let hingeLocation,
+				side_A = tryangle1.a;
+				side_B = putIntoDistance;
 
-        // const rateRadian = Math.atan(b/a);
-        // const rateRadian2 = Math.atan2(b, a);
-        // const rateAngle = (rateRadian * 180) / Math.PI;
-        
-        // console.log(rate1);
-        // console.log(rateRadian, rateRadian2);
-        // console.log(rateAngle);
+			if(hinge){
+				side_A = tryangle2.a;
+				side_B = putIntoDistance * ( (distance - hingeCorrection)/distance );
+			}
 
-        // document.addEventListener('click', function(){
-        //     // console.log('click document');
-        //     protrude.style.transform = 'translateX('+ (distance + 5) +'px) rotate(' + distance*0.015 +'deg)';
+			// calculate
+			const side_C = Math.sqrt( 
+				Math.pow(side_A, 2) +  Math.pow(side_B, 2)
+			);
 
-        //     contents.style.height = (rate1 + 5) + 'px';
-        //     contents.style.transform = 'rotate('+ -rateAngle +'deg)';
-        // })
+			// const rateRadian = Math.atan(side_B / side_A);
+			const rateRadian2 = Math.atan2(side_B, side_A);
+			const rateAngle = (rateRadian2 * 180) / Math.PI;
 
-        const tryangle1 = {
-            id : 'Contents',
-        }
-        const tryangle2 = {
-            id : 'Hinge',
-        }
-        function tryangle(id, putIntoDistance, reverse){
-            const tg = document.getElementById(id);
-            let side_A = Number(
-                    window.getComputedStyle(tg, null)
-                        .getPropertyValue('height').replace('px','')
-                ), 
-                side_B;
+			// log check
+			console.group();
+			console.log(id, '/', side_A, '/', side_B, '/', side_C);
+			console.log('%c%s','color: #333; background: lightcoral; padding:0 7px;', 'Radian :', rateRadian2);
+			console.log('%c%s','color: white; background: steelblue; padding:0 7px;', 'Angle :', rateAngle);
+			console.groupEnd();
 
-            if(reverse) {
-                side_B = putIntoDistance;
-            }else{
-                side_A = side_A - correction;
-                side_B = putIntoDistance - hingeCorrection;
-            }
-            const side_C = Math.sqrt( 
-                Math.pow(side_A, 2) +  Math.pow(side_B, 2)
-            );
-            const rateRadian = Math.atan(side_B / side_A);
-            const rateRadian2 = Math.atan2(side_B, side_A);
-            const rateAngle = (rateRadian * 180) / Math.PI;
+			// apply
+			if(hinge){
+				return(
+					tg.style.height = (side_C) + 'px',
+					tg.style.transform = 'rotate('+ rateAngle +'deg) translateX('+ (putIntoDistance * hingeCorrectionRate) + 'px)',
+					tg.style.transformOrigin = (putIntoDistance * hingeCorrectionRate) + 'px 100%'
+				);
+			}else{
+				return(
+					tg.style.height = (side_C + correction/2) + 'px',
+					tg.style.transform = 'rotate('+ -rateAngle +'deg)'
+				);
+			}
+		};
 
-            if(reverse) {
-                return(
-                    tg.style.height = (side_C + correction) + 'px',
-                    tg.style.transform = 'rotate('+ -rateAngle +'deg)'
-                );
-            }else{
-                 return(
-                    tg.style.height = (side_C + correction) + 'px',
-                    tg.style.transform = 'rotate('+ rateAngle +'deg) translateX('+ hingeCorrection + 'px)'
-                );
-            }
-        };
-        let time = true;
-        document.querySelector('.wrap').addEventListener('click', function(e){
-            console.log(e);
-            console.log(time);
-            if(time){
-                protrude.style.transform = 'translateX('+ (distance + 5) +'px) rotate(' + distance*0.015 +'deg)';
-
-                tryangle(tryangle1.id, distance, true);
-                tryangle(tryangle2.id, distance, false);
-            }
-            time = false;
-        });
-    </script>
+		// let time = true;
+		let move = 0;
+		document.addEventListener('keydown', function(e){
+			// console.log(e);
+			//
+			if(e.key === 'ArrowRight'){
+				move += range;
+			}else if(e.key === 'ArrowLeft'){
+				move -= range;
+			}else{
+				return;
+			}
+			console.log(move);
+			
+			// break check
+			if(distance < move){
+				move = distance;
+				return;
+			}else if(0 > move){
+				move = 0;
+				return;
+			// interaction
+			}else{
+				protrude.style.transform = 'translateX('+ (move + 5) +'px) rotate(' + move*0.015 +'deg)';
+				tryangle(tryangle1.id, move, false);
+				tryangle(tryangle2.id, move, true);
+			}
+		});
+	</script>
 </body>
 </html>
