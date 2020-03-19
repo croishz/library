@@ -75,12 +75,18 @@
 		const contents = document.getElementById('Contents');
 		const hinge = document.getElementById('Hinge');
 		const hingeBrick = document.querySelectorAll('.bottom-area')[0].children[1];
-		// const rightAngle = ( (Math.PI/4) / Math.PI ) * 360;
+		const rightAngle = ( (Math.PI/4) / Math.PI ) * 360;
+		const computedStyleCatcher = function(tg, value, valueIndex, measure = 'px'){
+			let catchValue = window.getComputedStyle(tg, null).getPropertyValue(value);
+			if(typeof valueIndex === 'number' && valueIndex !== 'NaN'){
+				catchValue = catchValue.split(measure)[valueIndex]
+			}
+			return Number( catchValue.replace(measure,'') );
+		}
+		const protrudeWidth = computedStyleCatcher(protrude, 'width');
 		const correction = computedStyleCatcher(contents, 'border-top-width');
 		const hingeCorrection = computedStyleCatcher(hingeBrick, 'transform-origin', 0);
-		const hingeCorrectionRate = (hingeCorrection/distance);
-		// console.log('borderWidth = correction', correction);
-		// console.log(hingeCorrection);
+		const hingeCorrectionRate = hingeCorrection/distance;
 		const tryangle1 = {
 			id : 'Contents',
 			a : computedStyleCatcher(contents, 'height'),
@@ -88,14 +94,6 @@
 		const tryangle2 = {
 			id : 'Hinge',
 			a : computedStyleCatcher(hinge, 'height'),
-		}
-
-		const computedStyleCatcher = function(tg, value, valueIndex, measure = 'px'){
-			let catchValue = window.getComputedStyle(tg, null).getPropertyValue(value) ;
-			if(typeof valueIndex === 'number' && valueIndex === 'NaN'){
-				catchValue.split(measure)[valueIndex]
-			}
-			return Number( catchValue.replace(measure,'') );
 		}
 		const tryangle = function Tryangle(id, putIntoDistance, hinge){
 			
@@ -115,8 +113,7 @@
 			const side_C = Math.sqrt( 
 				Math.pow(side_A, 2) +  Math.pow(side_B, 2)
 			);
-
-			// const rateRadian = Math.atan(side_B / side_A);
+			const rateRadian = Math.atan(side_B / side_A);
 			const rateRadian2 = Math.atan2(side_B, side_A);
 			const rateAngle = (rateRadian2 * 180) / Math.PI;
 
@@ -165,7 +162,10 @@
 				return;
 			// interaction
 			}else{
-				protrude.style.transform = 'translateX('+ (move + 5) +'px) rotate(' + move*0.015 +'deg)';
+				protrude.style.transform = 'translateX('+ (move) +'px) rotate(' + move*0.015 +'deg)';
+				// protrude.style.width = protrudeWidth + move +'px';
+				// protrude.style.transform = 'rotate(' + move*0.015 +'deg)';
+
 				tryangle(tryangle1.id, move, false);
 				tryangle(tryangle2.id, move, true);
 			}

@@ -67,7 +67,7 @@ body {
 		padding-left:$scrollbar-width;
 		transform-origin:100% 0%;
 		transform: rotate($protrude-radian* 0.3);
-		transition:transform 300ms, width 300ms;
+		transition:transform 300ms;
 		// .inner {
 		// 	position:absolute;
 		// 	top:0; right:4vw;
@@ -82,7 +82,7 @@ body {
 	.brick {
 		position:absolute;
 		bottom:0; right:0;
-		// transform-origin:250px 100%;
+		transform-origin:250px 100%;
 		transition:height 300ms, transform 300ms;
 	}
 }
