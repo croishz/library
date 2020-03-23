@@ -66,6 +66,7 @@
 			<!-- // Protrude -->
 			<div class="brick" id="Hinge"></div>
 		</div>
+		<div class="touch-area"></div>
 		<!-- // Bottom -->
 	</div>
 	<script>
@@ -74,6 +75,7 @@
 		const protrude = document.getElementById('Protrude');
 		const contents = document.getElementById('Contents');
 		const hinge = document.getElementById('Hinge');
+		const touchArea = document.getElementsByClassName('touch-area')[0];
 		const hingeBrick = document.querySelectorAll('.bottom-area')[0].children[1];
 		const rightAngle = ( (Math.PI/4) / Math.PI ) * 360;
 		const computedStyleCatcher = function(tg, value, valueIndex, measure = 'px'){
@@ -83,7 +85,7 @@
 			}
 			return Number( catchValue.replace(measure,'') );
 		}
-		const protrudeWidth = computedStyleCatcher(protrude, 'width');
+		let protrudeWidth = computedStyleCatcher(protrude, 'width');
 		const correction = computedStyleCatcher(contents, 'border-top-width');
 		const hingeCorrection = computedStyleCatcher(hingeBrick, 'transform-origin', 0);
 		const hingeCorrectionRate = hingeCorrection/distance;
@@ -133,17 +135,27 @@
 				);
 			}else{
 				return(
-					tg.style.height = (side_C + correction/2) + 'px',
+					tg.style.height = (side_C + correction * 0.5) + 'px',
 					tg.style.transform = 'rotate('+ -rateAngle +'deg)'
 				);
 			}
 		};
 
-		// let time = true;
+		function hingeInteraction(feed){
+			// protrude.style.transform = 'translateX('+ (feed) +'px) rotate(' + feed*0.015 +'deg)';
+			protrude.style.transform = 'rotate(' + feed*0.015 +'deg)';
+			protrude.style.width = protrudeWidth + feed +'px';
+			// protrude.style.transform = 'rotate(' + feed*0.015 +'deg)';
+			
+			tryangle(tryangle1.id, feed, false);
+			tryangle(tryangle2.id, feed, true);
+		}
+		// event listner
+		// by key
 		let move = 0;
 		document.addEventListener('keydown', function(e){
 			// console.log(e);
-			//
+			// key check
 			if(e.key === 'ArrowRight'){
 				move += range;
 			}else if(e.key === 'ArrowLeft'){
@@ -151,8 +163,7 @@
 			}else{
 				return;
 			}
-			console.log(move);
-			
+			console.log('key : ', move);
 			// break check
 			if(distance < move){
 				move = distance;
@@ -162,13 +173,112 @@
 				return;
 			// interaction
 			}else{
-				protrude.style.transform = 'translateX('+ (move) +'px) rotate(' + move*0.015 +'deg)';
-				// protrude.style.width = protrudeWidth + move +'px';
-				// protrude.style.transform = 'rotate(' + move*0.015 +'deg)';
-
-				tryangle(tryangle1.id, move, false);
-				tryangle(tryangle2.id, move, true);
+				hingeInteraction(move);
 			}
+		});
+
+		// by click
+		let toggle = true;
+		document.addEventListener('click', function(e){
+			console.log(toggle);
+			console.log(move);
+
+			toggle ? 
+			(
+				move = 300,
+				protrude.children[0].classList.add('pull-up'),
+				hingeInteraction(move)
+			) :
+			(
+				move = 0,  
+				protrude.children[0].classList.remove('pull-up'),
+				setTimeout(function(){
+					hingeInteraction(move)
+				}, 600)
+			);
+			
+			toggle = !toggle;
+			
+		})
+
+		// by mouseWheel
+		document.addEventListener('wheel', function(e){
+			// console.log(e);
+			// console.log(e.wheelDelta);
+
+			move += (e.wheelDelta/120) * range;
+			
+			// break check
+			if(distance < move){
+				move = distance;
+				return;
+			}else if(0 > move){
+				move = 0;
+				return;
+			}
+			console.log('wheel : ', move);
+			// interaction
+			hingeInteraction(move);
+		});
+
+		// by touch
+		const touchPosition = {
+			x : null,
+			y : null,
+			distance_x : 0,
+			distance_y : 0,
+			startPoint : [null, null],
+		}
+		touchArea.addEventListener('touchstart', function(e){
+			console.log('start', e);
+			this.classList.add('identify');
+			touchPosition.x = e.touches[0].screenX;
+
+			if(protrude.style.width !== protrudeWidth){
+				touchPosition.startPoint = [move , e.touches[0].screenY];
+			}else{
+				touchPosition.startPoint = [0, 0];
+			}
+		});
+		touchArea.addEventListener('touchmove', function(e){
+			// console.log('move', e);
+			let pointPosition_x = e.touches[0].screenX;
+			let distance_byTouch = pointPosition_x - touchPosition.x;
+			move = touchPosition.startPoint[0] + distance_byTouch;
+
+			console.log('%c%s','color: white;', 'ScreenX calc :', pointPosition_x, ' - ' ,touchPosition.x, "=", distance_byTouch);
+			console.log('%c%s','color: white;', 'Start point :', touchPosition.startPoint[0]);
+			console.log('touch : ', move);
+			
+			// break check
+			if(distance < move){
+				move = distance;
+				return;
+			}else if(0 > move){
+				move = 0;
+				return;
+			}
+			// interaction
+			hingeInteraction(move);
+
+		});
+		touchArea.addEventListener('touchend', function(e){
+			console.log('end', e);
+			this.classList.remove('identify');
+			
+			return this.ontouchmove = null;
+		});
+		touchArea.addEventListener('touchcancel', function(e){
+			console.log('cancel', e);
+		});
+
+		// by resize
+		window.addEventListener('resize', function(e){
+			// console.log('resize', e);
+			protrudeWidth = this.innerWidth * 0.2;
+			protrude.style.width = protrudeWidth + move + 'px';
+			console.log(protrudeWidth);
+			console.log('resize : ', move);
 		});
 	</script>
 </body>

@@ -21,7 +21,6 @@ body {
 	height:100vh;
 	// overflow-x:hidden;
 	// overflow-y:scroll;
-	overflow:hidden;
 }
 .brick {
 	display:inline-block;
@@ -30,12 +29,13 @@ body {
 	box-sizing:border-box;
 	border-left:$line-thickness solid $line-color;
 	text-align:left;
-	transform-style: flat;
-	transition:transform 300ms;
+	// transition-property:transform, height;
+	// transition-duration:300ms, 300ms;
 }
 .wrap {
 	height:100%;
 	background-color:#fffaf8;
+	overflow:hidden;
 	> div {text-align:right;}
 	> div > div {text-align:left;}
 }
@@ -67,22 +67,34 @@ body {
 		padding-left:$scrollbar-width;
 		transform-origin:100% 0%;
 		transform: rotate($protrude-radian* 0.3);
-		transition:transform 300ms;
-		// .inner {
-		// 	position:absolute;
-		// 	top:0; right:4vw;
-		// 	text-align:right;
-		// 	transform:translateY(17vh);
-		// 	transition:transform 300ms 400ms;
-		// 	&.pull-up {
-		// 		transform:translateY(0);
-		// 	}
-		// }
+		// transition-property:transform, width;
+		// transition-duration:300ms, 300ms;
+		.inner {
+			position:absolute;
+			top:0; right:4vw;
+			text-align:right;
+			transform:translateY(17vh);
+			transition:transform 300ms 300ms;
+			&.pull-up {
+				transform:translateY(0);
+			}
+		}
 	}
 	.brick {
 		position:absolute;
 		bottom:0; right:0;
 		transform-origin:250px 100%;
-		transition:height 300ms, transform 300ms;
+	}
+}
+.touch-area {
+	position:fixed;
+	left:0;
+	top:0; bottom:0;
+	width:23vw;
+	border-radius: 0 20em 7em 0 / 180em 180em;
+	transition:background-color 300ms;
+	// &:hover, 
+	&.identify {
+		background-color:rgba(255, 0, 0, 0.35);
 	}
 }

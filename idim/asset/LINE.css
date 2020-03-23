@@ -7,8 +7,7 @@ ul, ol, li {
 
 body {
   width: 100vw;
-  height: 100vh;
-  overflow: hidden; }
+  height: 100vh; }
 
 .brick {
   display: inline-block;
@@ -16,13 +15,12 @@ body {
   height: 100%;
   box-sizing: border-box;
   border-left: 6px solid #f15a35;
-  text-align: left;
-  transform-style: flat;
-  transition: transform 300ms; }
+  text-align: left; }
 
 .wrap {
   height: 100%;
-  background-color: #fffaf8; }
+  background-color: #fffaf8;
+  overflow: hidden; }
 
 .wrap > div {
   text-align: right; }
@@ -56,15 +54,36 @@ body {
   box-sizing: border-box;
   padding-left: 17px;
   transform-origin: 100% 0%;
-  transform: rotate(0deg);
-  transition: transform 300ms; }
+  transform: rotate(0deg); }
+
+.bottom-area .protrude .inner {
+  position: absolute;
+  top: 0;
+  right: 4vw;
+  text-align: right;
+  transform: translateY(17vh);
+  transition: transform 300ms 300ms; }
+
+.bottom-area .protrude .inner.pull-up {
+  transform: translateY(0); }
 
 .bottom-area .brick {
   position: absolute;
   bottom: 0;
   right: 0;
-  transform-origin: 250px 100%;
-  transition: height 300ms, transform 300ms; }
+  transform-origin: 250px 100%; }
+
+.touch-area {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 23vw;
+  border-radius: 0 20em 7em 0 / 180em 180em;
+  transition: background-color 300ms; }
+
+.touch-area.identify {
+  background-color: rgba(255, 0, 0, 0.35); }
 
 /*# sourceMappingURL=LINE.css.map */
 
