@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body {padding: 0;margin: 0;}
+		canvas {
+			position:fixed;
+			top:0;
+			left:0;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas">Your broswer do not supported canvas</canvas>
+	<script>
+		const canvas = document.getElementById('canvas');
+		const ctx = canvas.getContext('2d');
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+
+		const img  = new Image();
+		img.src = './asset/test_000000.121.jpg';
+		img.addEventListener('load', function(){
+			ctx.drawImage( img , 0, 0, 1600, 850);
+		});
+
+		window.addEventListener('resize', function(e){
+			console.log(e);
+			ctxWidth = window.innerWidth;
+			ctxHeight = window.innerHeight;
+		});
+
+		let dpi = 0;
+		const arr = [
+			'test_000000.121',
+			'test_000000.170',
+			'test_000000.204',
+			'test_000000.254',
+			'test_000000.287',
+			'test_000000.337',
+			'test_000000.371',
+			'test_000000.421',
+			'test_000000.454',
+			'test_000000.504',
+			'test_000000.538',
+			'test_000000.587',
+			'test_000000.621',
+			'test_000000.671',
+			'test_000000.704',
+			'test_000000.754',
+			'test_000000.788',
+			'test_000000.838',
+			'test_000000.871',
+			'test_000000.921',
+			'test_000000.955',
+			'test_000001.004',
+			'test_000001.038',
+			'test_000001.088',
+			'test_000001.121',
+			'test_000001.171',
+			'test_000001.205',
+			'test_000001.255',
+			'test_000001.288',
+			'test_000001.338',
+			'test_000001.372',
+			'test_000001.421',
+			'test_000001.455',
+			'test_000001.504',
+			'test_000001.538',
+			'test_000001.588',
+			'test_000001.622',
+			'test_000001.672',
+			'test_000001.705',
+			'test_000001.755',
+			'test_000001.788',
+			'test_000001.838',
+			'test_000001.872',
+			'test_000001.922',
+			'test_000001.955',
+			'test_000002.005',
+			'test_000002.039',
+			'test_000002.089',
+			'test_000002.122',
+			'test_000002.172',
+			'test_000002.206',
+			'test_000002.255',
+			'test_000002.289',
+			'test_000002.338',
+			'test_000002.372',
+			'test_000002.422',
+			'test_000002.458',
+			'test_000002.506',
+			'test_000002.539',
+			'test_000002.589',
+			'test_000002.623',
+			'test_000002.672',
+			'test_000002.706',
+			'test_000002.756',
+			'test_000002.789',
+			'test_000002.838',
+			'test_000002.873',
+			'test_000002.922',
+			'test_000002.957',
+			'test_000003.006',
+			'test_000003.040',
+			'test_000003.089',
+			'test_000003.123',
+			'test_000003.173',
+			'test_000003.205',
+			'test_000003.256',
+			'test_000003.290',
+			'test_000003.340',
+			'test_000003.373',
+			'test_000003.423',
+			'test_000003.457',
+			'test_000003.506',
+			'test_000003.540',
+			'test_000003.590',
+			'test_000003.622',
+			'test_000003.673',
+			'test_000003.707',
+			'test_000003.757',
+			'test_000003.790',
+			'test_000003.840',
+			'test_000003.872',
+			'test_000003.924',
+			'test_000003.958',
+			'test_000004.009',
+			'test_000004.041',
+			'test_000004.090',
+			'test_000004.124',
+			'test_000004.174',
+			'test_000004.209',
+			'test_000004.257',
+			'test_000004.291',
+			'test_000004.340',
+			'test_000004.374',
+			'test_000004.424',
+			'test_000004.458',
+			'test_000004.507',
+			'test_000004.541',
+			'test_000004.592',
+			'test_000004.624',
+			'test_000004.674',
+			'test_000004.708',
+			'test_000004.757',
+			'test_000004.791',
+			'test_000004.841',
+			'test_000004.875',
+			'test_000004.924',
+			'test_000004.958',
+			'test_000005.009',
+			'test_000005.041',
+			'test_000005.091',
+			'test_000005.125',
+			'test_000005.175',
+			'test_000005.209',
+			'test_000005.259',
+			'test_000005.291',
+			'test_000005.341',
+			'test_000005.375',
+			'test_000005.425',
+			'test_000005.459',
+			'test_000005.509',
+			'test_000005.541',
+			'test_000005.591',
+			'test_000005.625',
+			'test_000005.675',
+			'test_000005.709',
+			'test_000005.759',
+			'test_000005.791',
+			'test_000005.841',
+			'test_000005.875',
+			'test_000005.925',
+			'test_000005.959',
+			'test_000006.009',
+			'test_000006.043',
+			'test_000006.093',
+			'test_000006.126',
+			'test_000006.175',
+			'test_000006.209',
+			'test_000006.259',
+			'test_000006.343',
+			'test_000006.376',
+			'test_000006.425',
+			'test_000006.459',
+			'test_000006.509',
+			'test_000006.543',
+			'test_000006.593',
+			'test_000006.626',
+			'test_000006.675',
+			'test_000006.709',
+			'test_000006.759',
+			'test_000006.793',
+			'test_000006.843',
+			'test_000006.876',
+			'test_000006.926',
+			'test_000006.960',
+			'test_000007.010',
+			'test_000007.043',
+			'test_000007.093',
+			'test_000007.126',
+			'test_000007.179',
+			'test_000007.209',
+			'test_000007.259',
+			'test_000007.293',
+			'test_000007.343',
+			'test_000007.378',
+			'test_000007.429',
+			'test_000007.461',
+			'test_000007.509',
+			'test_000007.543',
+			'test_000007.593',
+			'test_000007.629',
+			'test_000007.679',
+			'test_000007.712',
+			'test_000007.759',
+			'test_000007.794',
+			'test_000007.843',
+			'test_000007.879',
+			'test_000007.929',
+			'test_000007.965',
+			'test_000008.011',
+			'test_000008.044',
+			'test_000008.093',
+			'test_000008.129',
+			'test_000008.179',
+			'test_000008.211',
+			'test_000008.261',
+			'test_000008.294',
+			'test_000008.343',
+			'test_000008.379',
+			'test_000008.429',
+		]
+		document.addEventListener('wheel', function(e){
+			console.log(e);
+			const speed = 1;
+			const limit = 199;
+			dpi += -(e.wheelDelta/120) * speed;
+			console.log(dpi);
+			if(limit <= dpi){
+				dpi = limit - 1;
+			}else if(0 >= dpi){
+				dpi = 0;
+			}
+			// ctx.clearRect(0, 0, innerWidth, innerHeight);
+			img.src = './asset/'+ arr[dpi] +'.jpg';
+			console.log(img.src);
+			ctx.drawImage( img , 0, 0, 1600, 850);
+		});
+
+		function animate(t){
+			requestAnimationFrame(animate);
+			console.log(t);
+		}
+	</script>
+</body>
+</html>
