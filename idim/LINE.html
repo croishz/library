@@ -119,11 +119,11 @@
 			const rateAngle = (rateRadian2 * 180) / Math.PI;
 
 			// log check
-			// console.group();
-			// console.log(id, '/', side_A, '/', side_B, '/', side_C);
-			// console.log('%c%s','color: #333; background: lightcoral; padding:0 7px;', 'Radian :', rateRadian2);
-			// console.log('%c%s','color: white; background: steelblue; padding:0 7px;', 'Angle :', rateAngle);
-			// console.groupEnd();
+			console.group();
+			console.log(id, '/', side_A, '/', side_B, '/', side_C);
+			console.log('%c%s','color: #333; background: lightcoral; padding:0 7px;', 'Radian :', rateRadian2);
+			console.log('%c%s','color: white; background: steelblue; padding:0 7px;', 'Angle :', rateAngle);
+			console.groupEnd();
 
 			// apply
 			if(hinge){
@@ -245,12 +245,12 @@
 			let registance = 1/(move + 1);
 			move = touchPosition.startPoint[0] + (distance_byTouch * registance);
 			
-			// console.log('%c%s','color: white;', 'ScreenX calc :', pointPosition_x, ' - ' ,touchPosition.x, "=", distance_byTouch);
-			// console.log('%c%s','color: white;', 'Start point :', touchPosition.startPoint[0]);
+			console.log('%c%s','color: white;', 'ScreenX calc :', pointPosition_x, ' - ' ,touchPosition.x, "=", distance_byTouch);
+			console.log('%c%s','color: white;', 'Start point :', touchPosition.startPoint[0]);
 			
 			// break check
 			if(distance < move){
-				// move = distance;
+				move = distance;
 			}else if(0 > move){
 				move = 0;
 			}
@@ -278,89 +278,6 @@
 			console.log('resize : ', move);
 
 		});
-	</script>
-	<script>
-		return;
-		$tabs.each(function () {
-		$(this).find('a').not('[aria-selected="true"]').attr('tabindex', -1);
-		$(this).find('a').on('click', function (e) {
-			// click tabs
-			e.preventDefault();
-			if ($(this).attr('href').indexOf('/') != -1) {
-				location.href = $(this).attr('href');
-			} else {
-				var target = '#' + $(this).attr('href').split('#')[1];
-				var $parent = $(this).closest('.tabs-type-liner, .tabs-type-rect');
-				// change tab design
-				$parent.find('a').not($(this)).removeClass('active').attr({
-					'aria-selected': false,
-					'tabindex': -1
-				});
-				$(this).addClass('active').attr({
-					'aria-selected': true,
-					'tabindex': 0
-				});
-				// toggle selected tab area
-				if (target != "#" && $(target).get(0)) {
-					var tclass = $(target).attr('class').replace(' active', '').split(' ')[0];
-					//console.log(tclass);
-					var target2 = ($parent.parent().find('.' + tclass).length > 0) ? $parent.parent().find('.' + tclass) : $parent.parent().parent().find('.' + tclass);
-					if (target2.length == 0 && $parent.closest('.tab-wrap').length > 0) {
-						var $parent2 = $parent.closest('.tab-wrap');
-						target2 = ($parent2.parent().find('.' + tclass).length > 0) ? $parent2.parent().find('.' + tclass) : $parent2.parent().parent().find('.' + tclass);
-					}
-					//console.log(target2);
-					var parentType = 1;
-					if ($parent.closest('.track-repair-signin').length > 0) {
-						// track repair signin
-						target2 = $parent.closest('.track-repair-signin').find('.' + tclass);
-						parentType = 2;
-					} else if ($parent.closest('.component').length > 0) {
-						// components (all)
-						parentType = 3;
-						target2 = $parent.closest('.component').find('.' + tclass);
-						if ($(target).find('.slick-slider').length > 0) {
-							setTimeout(function () {
-								$(target).css({"opacity": 0});
-								target2.removeClass('active');
-								$(target).addClass('active');
-								setTimeout(function () {
-									$(target).find('.slick-slider').css({'width': '100%'}).slick('setPosition');
-									$(target).animate({'opacity': 1}, 200);
-								}, 200);
-							}, 200);
-						} else {
-							target2.removeClass('active');
-							$(target).addClass('active');
-						}
-						if(typeof runBVStaticPLP != 'undefined') runBVStaticPLP($(target));
-					}
-					if (parentType < 3) {
-						target2.removeClass('active');
-						$(target).addClass('active');
-					}
-				}
-			}
-		});
-		$(this).find('[role="tab"]').on('keydown.test', function(e){
-			console.log(e.key, e.keyCode);
-			if(e.key === 'ArrowRight'){
-				console.log('right');
-				0 > $(this).parent().next().find('[role="tab"]').length && console.log(1), $(this).parent().next().find('[role="tab"]').focus().trigger('click');
-			}else if(e.key === 'ArrowLeft'){
-				console.log('left');
-				0 > $(this).parent().prev().find('[role="tab"]').length && console.log(2), $(this).parent().prev().find('[role="tab"]').focus().trigger('click');
-			}else if(e.keyCode === 36){
-				e.preventDefault();
-				console.log('home');
-				$(this).closest('[role="tablist"]').find('[role="tab"]').eq(0).focus().trigger('click');
-			}else if(e.keyCode === 35){
-				e.preventDefault();
-				console.log('end');
-				$(this).closest('[role="tablist"]').find('[role="tab"]').eq( $(this).closest('[role="tablist"]').find('[role="tab"]').length - 1 ).focus().trigger('click');
-			}
-		});
-	});
 	</script>
 </body>
 </html>
