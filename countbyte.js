@@ -42,3 +42,64 @@ var checkTextLength = function (obj, count) {
 		count.text(Math.max(0, max-byteTotal));
 	});
 };
+
+const offsetLeft = 0;
+const offsetRight = 0;
+if(parent.positioning === 'TopLeft'){
+	$selector.css({
+		"position" : "fixed",
+		"z-index" : 1,
+		"visibility" : "visible",
+		"top" : 0,
+		"left" : offsetLeft,
+	});
+}else if(parent.positioning === 'TopRight'){
+	$selector.css({
+		"position" : "fixed",
+		"z-index" : 1,
+		"visibility" : "visible",
+		"top" : 0,
+		"right" : offsetRight,
+	});
+}else if(parent.positioning === 'bottomLeft'){
+	$selector.css({
+		"position" : "fixed",
+		"z-index" : 1,
+		"visibility" : "visible",
+		"bottom" : 0,
+		"left" : offsetLeft,
+	});
+}else if(parent.positioning === 'bottomRight'){
+	$selector.css({
+		"position" : "fixed",
+		"z-index" : 1,
+		"visibility" : "visible",
+		"bottom" : 0,
+		"right" : offsetRight,
+	});
+}
+
+const parent = $selector.parent();
+let positionDirectionX = $selector.data('directionX');
+let positionDirectionY = $selector.data('directionY');
+parent.positioning = $selector.data('directionX').capitalizing() + $selector.data('directionY').capitalizing();
+
+const coordinate = {
+	top : 0,
+	bottom : 0,
+	"left": "20px",
+	"right": "100%",
+}
+
+function contentPositioning(condition, posX){
+	if(condition){
+		$selector.css({
+			"position" : "fixed",
+			"z-index" : 1,
+			"visibility" : "visible",
+			[positionDirectionX] : posX,
+			[positionDirectionY] : 0,
+		});
+	}
+}
+contentPositioning(parent.positioning, coordinate[positionDirectionY]);
