@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Idim vol.2 - Anagram</title>
+	<style>
+		.spelling-letter-group {
+			position:relative;
+			top:500px; left:500px;
+			width:50px;
+		}
+		.spelling-letter-group > .shape {
+			position: absolute;
+			background-color:#333;
+			color:transparent;
+			font-size:0;
+		}
+		.n > .shape:nth-child(2) {position:relative; width:5px; height:50px;}
+		.n > .shape:nth-child(3) {width:5px; height:65px; transform:rotate(45deg) translate3d(-7px, -5px, 0); left:50%; top:0;}
+		.n > .shape:nth-child(4) {width:5px; height:50px; top:0; right:0;}
+		.spelling-letter {
+			position:absolute;
+			width:1px;
+			height:1px;
+			clip:rect(0,0,0,0);
+			overflow: hidden;
+		}
+	</style>
+	<style>
+		.matchGame {
+			background:linear-gradient(90deg, #2eb8ce 0%, #953c96 85%);
+			max-width:50%;
+			box-sizing: border-box;
+			padding:30px;
+		}
+		.matchGame > * {
+			display: inline-block;
+			vertical-align: top;
+			box-sizing: border-box;
+			font-size:20px;
+			color:hsla(0, 100%, 100%, 0.8);
+			padding:12px;
+		}
+		.matchGame > *.typing-word {
+			text-transform: uppercase;
+			font-weight:bold;
+			color:#333;
+		}
+		[data-align="center"] {text-align:center;}
+		[id*=inputField] {
+			font-size: 20px;
+			text-align:right;
+			vertical-align: top;
+			width: 50%;
+			box-sizing: border-box;
+			padding: 0.5em 0.75em;
+			border:none;
+			border-bottom:1px solid #ccc;
+			background:linear-gradient(180deg, hsla(0, 100%, 100%, 0.02) 32%, hsla(125, 18%, 80%, 0.45) 97%);
+		}
+		.wrapper-matchGame {
+			position:relative;
+		}
+		.wrapper-matchGame .log-window {
+			position: absolute;
+			right: 30%;
+			top: 0;
+			display:flex;
+			width: 20%;
+			height: 100%;
+			background: #fff;
+			box-sizing: border-box;
+			border:1px solid #953c96;
+			border-left:none;
+		}
+		.wrapper-matchGame .log-window ul {
+			display:flex;
+			flex-direction: column;
+			flex-basis:100%;
+			justify-content:start;
+			overflow-y:auto;
+			list-style: none;
+			padding:10px 10px 5px 0;
+			margin:0;
+		}
+		.wrapper-matchGame .log-window .log {
+			font-size: 14px;
+			text-transform: capitalize;
+			margin-bottom: 0.35em;
+			line-height: 1.5em;
+			padding-left:10px;
+		}
+		.wrapper-matchGame .log-window .log:last-child {
+			margin-top:auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="spelling-letter-group n">
+		<span class="spelling-letter">N</span>
+		<div class="shape">1</div>
+		<div class="shape">2</div>
+		<div class="shape">3</div>
+	</div>
+	<script src="./word.js"></script>
+</body>
+</html>
