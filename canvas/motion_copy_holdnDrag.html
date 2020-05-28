@@ -120,6 +120,9 @@
 			ctx.closePath();
 		}
 		
+		let lastMouseX = 0;
+		let lastMouseY = 0;
+
 		function redraw(mouseX, mouseY){
 			lastMouseX = mouseX;
 			lastMouseY = mouseY;
@@ -142,7 +145,10 @@
 			canvas.height = innerHeight;
 
 			return (canvas.width, canvas.height);
-		})
+		});
+		addEventListener("mousedown", function(event){
+
+		});
 	</script>
 	<!-- <script>
 		let start = null;

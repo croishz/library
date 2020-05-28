@@ -53,7 +53,7 @@ function CirclePointer(opt){
 
 const circlePointer = new CirclePointer(circle);
 console.log(circlePointer);
-// circlePointer.animate();
+circlePointer.animate();
 // circlePointer.pointercheck(180);
 
 // console.log(window.innerHeight);

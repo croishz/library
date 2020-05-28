@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>caption-side</title>
+	<style>
+		.information-wrap {display:inline-block; width:100%;}
+		.area.visual img {max-width:100%}
+		.area {box-sizing: border-box}
+		@media screen and (min-width:641px){
+			.area {width:50%}
+			.area:not(.visual) {float:right;}
+			.area.visual {float:left; padding-right:24px;}
+		}
+		@media screen and (max-width:640px){
+			/*  Note
+				부모의 display가 table로 선언되지 않으면 table-row-group의 너비는 가지고 있는 컨텐츠 박스의 크기만큼만 가져간다. 
+				이 코드의 맹점. 그래서 순서가 바뀌는 요소들만 하나의 부모로 묶어야 한다. 
+			*/
+			.order-reverse {display:table; width:100%;}
+			.area {width:100%;}
+			.area.visual + .area {display:table-row-group}
+			.area.visual {display:table-caption; caption-side:bottom}
+		}
+	</style>
+</head>
+<body>
+	<div class="information-wrap">
+		<div class="order-reverse">
+			<div class="area visual">
+				<img src="./idim/3d69c752d0d6a36799265c65a453df06.jpg" alt="visual">
+			</div>
+			<!-- // area order1 -->
+			
+			<div class="area summary">
+				<div class="headline">head</div>
+				<ul class="roaster">
+					<li>1</li>
+					<li>2</li>
+					<li>3</li>
+					<li>4</li>
+				</ul>
+			</div>
+			<!-- // area order2 -->
+		</div>
+		
+		<div class="area detail">Detail area</div>
+		<!-- // area order3 -->
+	</div>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		[role="tablist"] {}
+		[role="tablist"] [role="tab"] {display:inline-block;vertical-align:top;padding:14px 20px;}
+		[role="tablist"] [role="tab"]:nth-child(odd) {background-color:lightcoral}
+		[role="tablist"] [role="tab"]:nth-child(even) {background-color:gainsboro}
+		[role="tablist"] [role="tab"][aria-selected="true"] {background-color:#333; color:#fff;}
+
+	</style>
+</head>
+<body>
+	<div id="tab" role="tablist">
+		<div class="scrollContainer" >
+			<div role="tab" aria-selected="false">tab01</div>
+			<div role="tab" aria-selected="false">tab02</div>
+			<div role="tab" aria-selected="true">tab03</div>
+			<div role="tab" aria-selected="false">tab04</div>
+			<div role="tab" aria-selected="false">tab05</div>
+			<div role="tab" aria-selected="false">tab06</div>
+			<div role="tab" aria-selected="false">tab07</div>
+		</div>
+	</div>
+	<script>
+		const start = document.getElementById("tab");
+		function find(el){
+			let findTg = null;
+			let treeNestedDepth = 0;
+			
+			const findTgElement = ()=>{
+				if (
+					el.children[0].attributes.getNamedItem("role") !== null && 
+					el.children[0].attributes.getNamedItem("role").value === "tab"
+				){
+					findTg = el.children;
+					return findTg, treeNestedDepth;
+				}else{
+					let rebind = el.children[0];
+					treeNestedDepth++;
+					find.call(document, rebind);
+				}
+			}
+			findTgElement();
+		};
+		function uiElementChecker(tgElements){
+			console.log(tgElements);
+			Array.map.call(tgElements, (el)=>{
+				console.dir(el);
+				el.tabIndex !== 0 && el.setAttribute("tabindex", 1);
+			});
+		};
+		// scenario
+		/*
+		role=tablist를 root element로 하는 dom tree를 생성 또는 인지.
+		screen fit에 맞춰 리사이징.
+		한줄 정렬 시 스크롤 ui 제공.
+		현재 탭의 위치 표시 및 index 리턴. by mouse, keyboard, touch, scroll.
+		arrow, wheel로 스크롤 이동 시 
+		index를 이용한 callback 사용 제공.
+		index를 이용한 history stack 생성. 
+		라이프 사이클 api 제공.
+		커스텀 함수를 추가하여 확장가능하도록 최소 기능으로 한정.
+		console.log를 통해 wai-aria의 맞지 않거나 미진한 부분을 작성자에게 전달.
+		이후 carousel 케이스 추가.
+		*/
+		function interaction(eventObject, dispatch){
+			const object = eventObject || {};
+			if( 0 <= eventObject.type.indexOf("key")){
+				object.type = "keyboardEvent"; 
+			}
+			return object;
+		}
+
+		function TabUI([
+			root,
+			direction,
+			mediaMatches
+		]){
+			this.root = document.querySelectorAll(root);
+			this.componentRoot =  this.root.forEach((el)=>{return el});
+			this.direction = direction,
+			this.mediaQuery = mediaMatches
+			;
+			const init = ()=>{
+				focusable();
+			}
+			// static field
+			const accessibilityError = (flag)=>{
+				if(flag === false || flag === undefined) return flag;
+
+				console.group();
+				if(this.root.children().getAttribute("role") === tab && this.root.children().getAttribute("aria-labelledBy") === undefined ){
+					console.log("accessible name을 지정해주세요.");
+				}
+				console.groupEnd();
+			};
+			const focusable = ()=>{
+				console.log("focusable");
+				console.log(this.componentRoot);
+				document.querySelectorAll(root + " [role=tab]").forEach((children)=>{
+					if(children.tabIndex !== 1) children.tabIndex = 1; 
+				});
+			};
+			// 
+			const interface = TabUI.prototype; 
+			interface.positioning = (pos)=>{
+
+			};
+			interface.addEventListener = (eventType, callback)=>{
+				return window.addEventListener.call(this.root[0], eventType, (eventObject) => {
+					callback();
+				});
+			}
+			interface.keyEvent = (callback)=>{
+				window.addEventListener.call(this.root[0], "keydown", (event)=>{
+					console.log(event);
+
+					const actionType = interaction(event);
+					console.log(actionType);
+					if(event.__proto__.initKeyboardEvent){
+						console.log(event.keyCode);
+					}
+				})
+			}
+			init();
+		}
+		const tab1 = new TabUI([
+			"#tab",	// root
+			"ltr",
+			768
+		]);
+		tab1.keyEvent()
+	</script>
+</body>
+</html>

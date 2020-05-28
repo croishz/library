@@ -107,4 +107,107 @@ h1, h2, h3, h4, h5, h6 {
 .navigation__chapter .chapter-name {
   text-align: left; }
 
+.border-animation {
+  position: relative;
+  width: 200px;
+  background-color: rgba(167, 173, 133, 0.4);
+  margin: 100px auto;
+  text-align: center;
+  font-size: 16px; }
+  .border-animation > * {
+    display: block;
+    width: 100%;
+    height: 100%; }
+  .border-animation :before,
+  .border-animation :after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    background-color: tan;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite; }
+  .border-animation .vertical-pseudo:before, .border-animation .vertical-pseudo:after {
+    width: 2px;
+    height: 100%; }
+  .border-animation .vertical-pseudo:before {
+    top: 0;
+    left: 0;
+    animation-name: line-od1;
+    animation-duration: 2000ms; }
+  .border-animation .vertical-pseudo:after {
+    bottom: 0;
+    right: 0;
+    animation-name: line-od3;
+    animation-duration: 2000ms; }
+  .border-animation .button {
+    border: none;
+    background: none;
+    padding: 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    line-height: 1em; }
+    .border-animation .button:before, .border-animation .button:after {
+      width: 100%;
+      height: 2px; }
+    .border-animation .button:before {
+      bottom: 0;
+      left: 0;
+      animation-name: line-od2;
+      animation-duration: 2000ms; }
+    .border-animation .button:after {
+      top: 0;
+      right: 0;
+      animation-name: line-od4;
+      animation-duration: 2000ms; }
+
+@keyframes line-od1 {
+  0% {
+    height: 0; }
+  20% {
+    height: 100%; }
+  50% {
+    height: 100%; }
+  75% {
+    height: 100%; }
+  100% {
+    height: 100%; } }
+
+@keyframes line-od2 {
+  0% {
+    width: 0; }
+  20% {
+    width: 0; }
+  50% {
+    width: 100%; }
+  75% {
+    width: 100%; }
+  100% {
+    width: 100%; } }
+
+@keyframes line-od3 {
+  0% {
+    height: 0; }
+  25% {
+    height: 0; }
+  50% {
+    height: 0; }
+  75% {
+    height: 100%; }
+  100% {
+    height: 100%; } }
+
+@keyframes line-od4 {
+  0% {
+    width: 0; }
+  25% {
+    width: 0; }
+  50% {
+    width: 0; }
+  75% {
+    width: 0; }
+  99% {
+    width: 100%; } }
+
 /*# sourceMappingURL=mausoleum.css.map */
