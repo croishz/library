@@ -169,9 +169,15 @@ $apple-biggest: $mobile - 352px; // 416px;
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= end option
 
     //output set
+<<<<<<< HEAD:common/scss/_mixin.scss
+    @media #{$type + $min-width} and (max-width:$max-point){
+        @content;
+    }
+=======
     // @media #{$type} #{$min-width} and (max-width:$max-point){
     //     @content;
     // }
+>>>>>>> 0a3138f... dummy delete:common/_mixin.scss
 }
 
 // media query sample
