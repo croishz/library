@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{title}}</title>
+</head>
+<body>
+	<h1>{{head}}</h1>
+	<!-- test remove comment -->
+	<div class="image-set">
+		<img src="#id1" data-src="#" data-srcset="#" class="{{imgClass}}">
+		<img src="#id2" data-src="#" data-srcset="#" class="{{imgClass}}">
+		<img src="#id3" data-src="#" data-srcset="#" class="{{imgClass}}">
+		<textarea name="templateContent" id="templateContent" style="width:700px;height:500px">{{templateContent}}</textarea>
+		<hr>
+		<br /><span>  text   </span>
+	</div>
+	<script>
+		window.onload = function(param){
+			console.log(param);
+			console.log("ready");
+		}
+	</script>
+</body>
+</html>
