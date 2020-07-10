@@ -5,27 +5,367 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
 	<style>
-		[role="tablist"] {}
-		[role="tablist"] [role="tab"] {display:inline-block;vertical-align:top;padding:14px 20px;}
-		[role="tablist"] [role="tab"]:nth-child(odd) {background-color:lightcoral}
-		[role="tablist"] [role="tab"]:nth-child(even) {background-color:gainsboro}
+		
+		[role="tablist"] {margin-top:20px;}
+		[role="tablist"] > .scrollContainer {
+			/* overflow-x: scroll; */
+			overflow: hidden;
+			border:1px solid #000;
+			box-sizing: border-box;
+		}
+		[role="tablist"] .scroller {
+			display:flex;
+			margin:0 -6px;
+			will-change:contents;
+		}
+		[role="tablist"] [role="tab"] {padding:14px 20px; margin:0 6px;}
+		[role="tablist"] [role="tab"]:nth-child(odd) {background-color:lightcoral; flex-basis:140px; max-width:140px;}
+		[role="tablist"] [role="tab"]:nth-child(even) {background-color:gainsboro; flex-basis:auto;}
 		[role="tablist"] [role="tab"][aria-selected="true"] {background-color:#333; color:#fff;}
-
+		[role="tabpanel"].active {background-color:tan;}
+		/* ui elements */
+		[role="tablist"] button {border:none; padding:0; margin:0; font:1rem inherit inherit;}
+		[role="tablist"] .quiver button {padding:4px 10px;}
 	</style>
 </head>
 <body>
-	<div id="tab" role="tablist">
-		<div class="scrollContainer" >
-			<div role="tab" aria-selected="false">tab01</div>
-			<div role="tab" aria-selected="false">tab02</div>
-			<div role="tab" aria-selected="true">tab03</div>
-			<div role="tab" aria-selected="false">tab04</div>
-			<div role="tab" aria-selected="false">tab05</div>
-			<div role="tab" aria-selected="false">tab06</div>
-			<div role="tab" aria-selected="false">tab07</div>
+
+	<div id="tab1" role="tablist">
+		<div class="scrollContainer" style="width:45%; min-width:500px;">
+			<div class="scroller">
+				<button type="button" role="tab" aria-selected="false">tab01</button>
+				<button type="button" role="tab" aria-selected="false">tab02</button>
+				<button type="button" role="tab" aria-selected="false">tab03</button>
+				<button type="button" role="tab" aria-selected="false">tab04</button>
+				<button type="button" role="tab" aria-selected="false">tab05</button>
+				<button type="button" role="tab" aria-selected="false">tab06</button>
+				<button type="button" role="tab" aria-selected="false">tab07</button>
+			</div>
+			<div class="quiver">
+				<button type=button>Prev</button>
+				<button type=button>Next</button>
+			</div>
 		</div>
 	</div>
+	<!-- if native HTML sementic, declarate role=none -->
+	<ul role="none">
+		<li role="tabpanel" class="active">Panel-01</li>
+		<li role="tabpanel">Panel-02</li>
+		<li role="tabpanel">Panel-03</li>
+		<li role="tabpanel">Panel-04</li>
+	</ul>
+
+	<div id="tab2" role="tablist">
+		<div class="scrollContainer">
+			<div class="scroller">
+				<div role="tab" aria-selected="false">tab01</div>
+				<div role="tab" aria-selected="false">tab02</div>
+				<div role="tab" aria-selected="false">tab03</div>
+				<div role="tab" aria-selected="false">tab04</div>
+				<div role="tab" aria-selected="false">tab05</div>
+				<div role="tab" aria-selected="false">tab06</div>
+				<div role="tab" aria-selected="false">tab07</div>
+			</div>
+		</div>
+	</div>
+	<!-- if native HTML sementic, declarate role=none -->
+	<ul role="none">
+		<li role="tabpanel" class="active">Panel-01</li>
+		<li role="tabpanel">Panel-02</li>
+		<li role="tabpanel">Panel-03</li>
+		<li role="tabpanel">Panel-04</li>
+	</ul>
 	<script>
+		// scenario
+		/*
+			dom을 탐색하여 tablist 요소를 선택한다
+			선택한 요소의 dom tree를 확인하다
+				- ul/ol이 쓰였을 때 :
+				- role=tablist와 role=tab이 직접적인 부모 자식이었을 때 :
+				- role=tab이 role=tablist의 자손이었을 때 :
+			
+		*/
+		const tabUI = document.querySelectorAll("[role=tablist]");
+		// console.log(tabUI);
+
+		// constructor
+		function Tab(config){
+			// destructuring config object
+			const {rootElement, scrollingSelector, direction, useWA, callbacks, debug} = config;
+			const {scrollAnimate} = callbacks;
+			
+			// pre-setting 
+			this.rootElement = rootElement;
+			this.direction = direction ? -1 : 1;
+			this.useWA = useWA;
+			this.scrollingSelector = scrollingSelector
+			this.scrollBoundRange = null;
+
+			this.callbacks = {
+				scrollAnimate : scrollAnimate,
+			};
+			this.debug = {
+				calculate : false || debug.calculate
+			};
+
+			// prototype filed
+			const p = Tab.prototype;
+			// CRUD
+			p.create = ()=>{
+				this.init();
+			};
+			p.read = (request)=>{
+				console.log(this);
+				return eval(`this.${request}`);
+			};
+			p.update = ()=>{
+				console.log(update);
+			};
+			p.delete = ()=>{
+				this.init = null;
+			};
+
+			// common methods
+			p.init = ()=>{
+				// All null value are initialize
+				this.scrollBoundRange = this.calculate.scrollBoundRange(this.calculate.scrollContainerWidth(this.debug.calculate), this.debug.calculate);
+
+				// Call API
+				this.scrollLifeCycleAPI();
+
+				// method chaining base
+				return p;
+			}
+			p.calculate = {
+				scrollContainerWidth : (debugFlag)=>{
+					const width = this.rootElement.querySelector(".scrollContainer").offsetWidth;
+
+					if(debugFlag){
+						console.log(width);
+					}
+					
+					return width;
+				},
+				scrollBeltWidth : (debugFlag)=>{ 
+					const scrollItem = this.rootElement.querySelectorAll("[role=tab]");
+					const scrollItemMargin = parseInt(window.getComputedStyle(scrollItem[0], null).getPropertyValue("margin-left").replace("px", ""));
+					const baseWidth = scrollItemMargin * 2 * (scrollItem.length - 1);
+					const totalWidth = Array.prototype.reduce.call(scrollItem, (total, _tab)=> total + _tab.offsetWidth, baseWidth);
+
+					if(debugFlag){
+						console.group();
+						console.log(`scrollItem : ${scrollItem}`);
+						console.log(`scrollItemMargin : ${scrollItemMargin}`);
+						console.log(`baseWidth : ${scrollItemMargin}`);
+						console.log(`totalWidth : ${scrollItemMargin}`);
+						console.groupEnd();
+					}
+
+					return totalWidth;
+				},
+				scrollBoundRange : (containerWidth, debugFlag)=>{
+					const leftRange = Math.floor( containerWidth * 0.15 );
+					const rightRange = Math.floor( ( containerWidth - p.calculate.scrollBeltWidth(this.debug.calculate) ) * 1.85 );
+
+					if(debugFlag){
+						console.log(`leftRange : ${leftRange}`);
+						console.log(`rightRange : ${rightRange}`);
+					}
+
+					return [leftRange, rightRange];
+				}
+			}
+			/*
+				lifecycle
+				action => create => render => action => [update] => render
+				action => create => render => action => [delete] => render(remove on view)
+				
+				- controller
+				1. controller(user action, handlers:[START, MOVE, END], options, target:rootElement);
+					- user action의 type에 따라 handler를 선택하며, 각기 수행한 이벤트의 정보를 반환한다.
+						# createEvent(handlers:START[, options]) return event data
+						# updateView(handlers:MOVE, options) return event data
+						# deleteEvent(handlers:END) return event data
+				- model
+				1. model(event data) return data for render;
+					- 이벤트 정보를 받아 view를 렌더링하기 위한 정보를 생성/가공한다.
+
+				- render
+				1. render(renderer, data:[calculate value, model])
+					- 모델로부터 정보를 받아 view를 만든다.
+				
+
+				user action => scroll Event Triggered => mouse/touch point move => view re-action => user action stop/end => re-rendering n correction
+				마우스 다운 => 스크롤 이벤트 등록 => 마우스 좌표 기반 계산값을 요소에 반영 => css transition => 마우스 업 => 요소 위치 결정 및 보정 (direction, over scroll....);
+			*/
+			p.scrollLifeCycle = (
+				userAction = {
+					"START" : ["touchstart", "mousedown"],
+					"MOVE" : ["touchmove", "mousemove"],
+					"END" : ["touchend", "mouseup"]
+				}, 
+				handlers, 
+				options, 
+				target = this.rootElement
+			)=>{
+				// controller
+				const API = this.scrollLifeCycleAPI
+				let eventData = null;
+
+				switch(userAction){
+					case "START" :
+						eventData = API.createEvent(userAction, handlers["START"], target, options = false);
+						break;
+					case "MOVE" :
+						eventData = API.updateView(userAction, handlers["MOVE"], options);
+						break;
+					case "END" : 
+						eventData = API.deleteEvent(userAction, handlers["END"]);
+						break;
+					default : 
+						return error("This is not defined action.(정의된 동작이 아닙니다)");
+				}
+			}
+			p.scrollLifeCycleAPIs = {
+				createEvent : (action, handler, target, options)=>{
+					target.addEventListener(action, handler(options));
+				},
+				updateView : ()=>{
+
+				},
+				deleteEvent : ()=>{
+				},
+				modeling : ()=>{
+
+				},
+				render : ()=>{
+
+				}
+			}
+
+			p.scrollLifeCycleAPI = ()=>{
+				const target = this.rootElement;
+				const START = "mousedown";
+				const END = "mouseup";
+				const MOVE = "mousemove";
+				const getPosition = (position = [])=>{
+					const [X, Y] = position;
+					return {
+						x : X,
+						y : Y
+					};
+				}
+				let beforePosition = 0;
+				const setPosition = (scroller, distance)=>{
+					// element.style.transform = `translate3d(${distance}px, 0px, 0px)`;
+					scroller.style.transform = `matrix(1, 0, 0, 1, ${distance}, 0)`;
+				}
+				const callback = (triggerEvent)=>{
+					// console.log(triggerEvent);
+					const {currentTarget} = triggerEvent;
+					const element = currentTarget.querySelector(`${this.scrollingSelector}`);
+					const startX = triggerEvent.touches ? triggerEvent.touches[0].screenX : triggerEvent.screenX;
+					return (moveEvent)=>{
+						const movePosX = moveEvent.touches ? moveEvent.touches[0].screenX : moveEvent.screenX;
+						// console.group();
+						// console.log(`${MOVE}`);
+						// console.log(currentTarget);
+						// console.log(element);
+						// console.log(movePosX);
+						// console.groupEnd();
+
+						let distance = (startX - movePosX) * this.direction;
+						// const [leftRange, rightRange] = this.scrollBoundRange;
+
+						// console.group();
+						// console.log(distance);
+						// console.log(leftRange);
+						// console.log(rightRange);
+						// console.groupEnd();
+
+						// if(0 <= distance && leftRange < distance) distance = leftRange;
+						// if(0 > distance && rightRange > distance) distance = rightRange;
+						setPosition(element, distance);
+					};
+				};
+				// switch
+				target.addEventListener(START, (event)=>{
+					const handler = callback(event);
+					window.addEventListener(MOVE, handler, false);
+					window.addEventListener(END, ()=>{
+						window.removeEventListener(MOVE, handler, false);
+					}, false);
+				}, false);
+
+				// =====================================================================================================
+				// const createScrollEvent = (actions = START, bindHandler)=>{
+				// 	actions.map((action)=>{
+				// 		triggeredScrollEvent(target, action, bindHandler);
+				// 	});
+				// };
+
+				// const triggeredScrollEvent = (DOM, action, callback = (bindEventObject) => bindEventObject)=>{
+				// 	DOM.addEventListener(action, callback);
+				// }
+
+				// createScrollEvent(action["START"], triggeredScrollEvent);
+			}
+			// p.scrollLifeCycleAPI.setPosition = ()=>{
+			// 	console.log("scroll:setPosition");
+			// }
+			// web accessible methods
+			if(useWA){
+				p.accessibility = ()=>{
+					console.log("ref wcag");
+				}
+			}
+		}
+
+		// useage
+		const tabList = new Tab({
+			rootElement : tabUI[0],
+			scrollingSelector : ".scroller",
+			direction : 1,
+			callbacks : {
+				scrollAnimate : (startX, target, direction, scrollBoundRange)=>{
+					return (event)=>{
+							const movePosX = event.touches ? event.touches[0].screenX : event.screenX;
+
+							console.group();
+							console.log( direction === -1 ? "ltr" : "rtl" );
+							console.log(startX);
+							console.log(movePosX);
+							console.groupEnd();
+
+							let distance = (startX - movePosX) * direction;
+							const [leftRange, rightRange] = scrollBoundRange;
+
+							console.group();
+							console.log(distance);
+							console.log(leftRange);
+							console.log(rightRange);
+							console.groupEnd();
+
+							if(0 <= distance && leftRange < distance) distance = leftRange;
+							if(0 > distance && rightRange > distance) distance = rightRange;
+
+							target.style.transform = `matrix(1, 0, 0, 1, ${distance}, 0)`;
+					}
+				}
+			},
+			useWA : false,
+			debug : {
+				flag : false,
+				calculate : false,
+			}
+		});
+		tabList.create();
+		const approachConfig = tabList.read("calculate");
+		console.log(approachConfig);
+		tabList.delete();
+		console.log(tabList.init);
+	</script>
+	<!-- <script>
 		const start = document.getElementById("tab");
 		function find(el){
 			let findTg = null;
@@ -134,6 +474,6 @@
 			768
 		]);
 		tab1.keyEvent()
-	</script>
+	</script> -->
 </body>
 </html>
