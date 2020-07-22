@@ -5,7 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
 	<style>
-		
+		body {margin:0;}
+		[dir="rtl"] {direction:rtl;}
 		[role="tablist"] {margin-top:20px;}
 		[role="tablist"] > .scrollContainer {
 			/* overflow-x: scroll; */
@@ -18,57 +19,70 @@
 			margin:0 -6px;
 			will-change:contents;
 		}
-		[role="tablist"] [role="tab"] {padding:14px 20px; margin:0 6px;}
-		[role="tablist"] [role="tab"]:nth-child(odd) {background-color:lightcoral; flex-basis:140px; max-width:140px;}
+		[role="tablist"] [role="tab"] {padding:14px 20px; margin:0 6px; cursor: pointer;}
+		[role="tablist"] [role="tab"]:nth-child(odd) {background-color:lightcoral; flex-basis:140px; min-width:140px;}
 		[role="tablist"] [role="tab"]:nth-child(even) {background-color:gainsboro; flex-basis:auto;}
-		[role="tablist"] [role="tab"][aria-selected="true"] {background-color:#333; color:#fff;}
-		[role="tabpanel"].active {background-color:tan;}
+		[role="tablist"] [role="tab"][aria-selected="true"],
+		[role="tabpanel"].active {background-color:#333; color:#fff;}
 		/* ui elements */
 		[role="tablist"] button {border:none; padding:0; margin:0; font:1rem inherit inherit;}
-		[role="tablist"] .quiver button {padding:4px 10px;}
+		[role="tablist"] .indicator button {padding:4px 10px; cursor: pointer;}
+
+		/* sample variation */
+		#tab1 .scrollContainer {
+			width:45%;
+			min-width:500px;
+		}
 	</style>
 </head>
 <body>
 
-	<div id="tab1" role="tablist">
-		<div class="scrollContainer" style="width:45%; min-width:500px;">
-			<div class="scroller">
-				<button type="button" role="tab" aria-selected="false">tab01</button>
-				<button type="button" role="tab" aria-selected="false">tab02</button>
-				<button type="button" role="tab" aria-selected="false">tab03</button>
-				<button type="button" role="tab" aria-selected="false">tab04</button>
-				<button type="button" role="tab" aria-selected="false">tab05</button>
-				<button type="button" role="tab" aria-selected="false">tab06</button>
-				<button type="button" role="tab" aria-selected="false">tab07</button>
-			</div>
-			<div class="quiver">
-				<button type=button>Prev</button>
-				<button type=button>Next</button>
-			</div>
-		</div>
-	</div>
-	<!-- if native HTML sementic, declarate role=none -->
-	<ul role="none">
-		<li role="tabpanel" class="active">Panel-01</li>
-		<li role="tabpanel">Panel-02</li>
-		<li role="tabpanel">Panel-03</li>
-		<li role="tabpanel">Panel-04</li>
-	</ul>
-
-	<div id="tab2" role="tablist">
+	<div id="tab1" role="tablist" data-rootName="test1" aria-label="tab ui sample">
 		<div class="scrollContainer">
 			<div class="scroller">
-				<div role="tab" aria-selected="false">tab01</div>
-				<div role="tab" aria-selected="false">tab02</div>
-				<div role="tab" aria-selected="false">tab03</div>
-				<div role="tab" aria-selected="false">tab04</div>
-				<div role="tab" aria-selected="false">tab05</div>
-				<div role="tab" aria-selected="false">tab06</div>
-				<div role="tab" aria-selected="false">tab07</div>
+				<button type="button" id="tab01" role="tab" aria-controls="tab_panel01" aria-selected="false">tab01</button>
+				<button type="button" id="tab02" role="tab" aria-controls="tab_panel02" aria-selected="false" tabindex="-1">tab02</button>
+				<button type="button" id="tab03" role="tab" aria-controls="tab_panel03" aria-selected="false" tabindex="-1">tab03</button>
+				<button type="button" id="tab04" role="tab" aria-controls="tab_panel04" aria-selected="false" tabindex="-1">tab04</button>
+				<button type="button" id="tab05" role="tab" aria-controls="tab_panel05" aria-selected="false" tabindex="-1">tab05</button>
+				<button type="button" id="tab06" role="tab" aria-controls="tab_panel06" aria-selected="false" tabindex="-1">tab06</button>
+				<button type="button" id="tab07" role="tab" aria-controls="tab_panel07" aria-selected="false" tabindex="-1">tab07</button>
 			</div>
 		</div>
+		<div class="indicator" aria-controls="tab1">
+			<button type="button" aria-disabled="false" aria-label="Previous tab">Prev</button>
+			<button type="button" aria-disabled="false" aria-label="Next tab">Next</button>
+		</div>
 	</div>
-	<!-- if native HTML sementic, declarate role=none -->
+	<!-- if native HTML, declare role=none -->
+	<ul id="tab1_panels" role="none">
+		<li id="tab_panel01" role="tabpanel" aria-labelledby="tab01" class="active">Panel-01</li>
+		<li id="tab_panel02" role="tabpanel" aria-labelledby="tab02">Panel-02</li>
+		<li id="tab_panel03" role="tabpanel" aria-labelledby="tab03">Panel-03</li>
+		<li id="tab_panel04" role="tabpanel" aria-labelledby="tab04">Panel-04</li>
+		<li id="tab_panel05" role="tabpanel" aria-labelledby="tab05">Panel-05</li>
+		<li id="tab_panel06" role="tabpanel" aria-labelledby="tab06">Panel-06</li>
+		<li id="tab_panel07" role="tabpanel" aria-labelledby="tab07">Panel-07</li>
+	</ul>
+
+	<div id="tab2" role="tablist" dir="rtl">
+		<div class="scrollContainer">
+			<div class="scroller">
+				<div role="tab" class="tab">tab01</div>
+				<div role="tab" class="tab">tab02</div>
+				<div role="tab" class="tab">tab03</div>
+				<div role="tab" class="tab">tab04</div>
+				<div role="tab" class="tab">tab05</div>
+				<div role="tab" class="tab">tab06</div>
+				<div role="tab" class="tab">tab07</div>
+			</div>
+		</div>
+		<div class="indicator" aria-controls="tab2">
+			<button type="button" aria-disabled="false" aria-label="Previous tab">Prev</button>
+			<button type="button" aria-disabled="false" aria-label="Next tab">Next</button>
+		</div>
+	</div>
+	<!-- if native HTML, declare role=none -->
 	<ul role="none">
 		<li role="tabpanel" class="active">Panel-01</li>
 		<li role="tabpanel">Panel-02</li>
@@ -76,6 +90,453 @@
 		<li role="tabpanel">Panel-04</li>
 	</ul>
 	<script>
+		function Tab(config){
+			this.rootElement = config.rootElement;
+			this.tabUnits = config.rootElement.querySelectorAll("[role=tab]") || config.rootElement.querySelectorAll(".tab")
+			this.tabPanelWrap = config.panelWarpElement || document.querySelector(`${config.rootElement.getAttribute("id")}_panels`) || config.rootElement.nextElementSibling;
+			this.tabPanels = this.tabPanelWrap.children;
+			this.indicator = config.indicator || config.rootElement.querySelector(".indicator");
+			this.activeIndex = config.startIndex || 0;
+			this.activeClass = config.activeClassOnTab || "active";
+			this.beforeIndex = this.activeIndex;
+			this.webAccessibility = config.webAccessibility || false;
+			this.addBindKeys = config.addBindKeys || {};
+			this.isAutomaticTab = config.focusWithPosition === "automatic" ? true : false; 
+			this.isRTL = config.direction === "rtl" ? true : false;
+
+			const self = this;	// for prototype method call;
+			const addBindKeys = this.addBindKeys;
+			const setPositionByIndex = {
+				next : ()=> this.activeIndex = (this.tabUnits.length <= this.activeIndex + 1) ? this.activeIndex : this.activeIndex + 1,
+				prev : ()=> this.activeIndex = (0 > this.activeIndex - 1) ? this.activeIndex : this.activeIndex - 1,
+				last : ()=> this.activeIndex = (this.tabUnits.length - 1),
+			   first : ()=> this.activeIndex = 0
+			};
+			
+			
+			Tab.prototype.tabEvent = function(){
+				this.tabUnits.forEach(
+					unit => {
+						// by click
+						unit.addEventListener("click", (event)=>{
+							console.group();
+							console.log(`%cEvent: ${event.type}`, "color:steelblue");
+							// console.log("this: ", this);
+							console.log("unit: ", unit);
+							console.log(unit.offsetLeft);
+							console.log("Matched event.target: ", event.target === unit);
+							console.groupEnd();
+							
+							const CHOOSE = event.type === "click" && "CHOOSE";
+							
+							self.getIndex(unit);
+							self.markActive(this.activeIndex);
+							self.animate(this.rootElement.querySelector(".scroller"), (unit.offsetLeft * -1));
+						});
+						// by keyup
+						/*
+							
+						*/
+						unit.addEventListener("keyup", ({keyCode})=>{
+							console.group();
+							console.log(`%cEvent: ${event.type} / ${event.keyCode}`, "color:steelblue");
+							// console.log("this: ", this);
+							// console.log("unit: ", unit);
+							// console.log("Matched event.target: ", event.target === unit);
+							console.groupEnd();
+
+							self.keyHandler(keyCode);
+						});
+					}
+				);
+				if(this.indicator){
+					Array.prototype.forEach.call(
+						this.indicator.children, 
+						arrow => arrow.addEventListener("click", (event)=>{
+							event.stopPropagation();
+							const {currentTarget, target} = event;
+							const label = arrow.getAttribute("aria-label");
+							const forceFocus = true;
+
+							console.group();
+							console.log(`%cIndicator: ${event.target}`, "color:steelblue");
+							console.log("Arrow: ", label);
+							console.groupEnd();
+
+							this.beforeIndex = this.activeIndex;
+							
+							switch(label){
+								case "Previous tab" : 
+									setPositionByIndex.prev();
+									break;
+								case "Next tab" : 
+									setPositionByIndex.next();
+									break;
+								default : break;
+							}
+
+							this.setPosition(this.activeIndex);
+						})
+					)
+				}
+			};
+			Tab.prototype.keyHandler = function(_keyCode){
+				console.group();
+				console.log("%ckeyHandler: ", "color:steelblue");
+				console.log("this: ", this);
+				console.groupEnd();
+
+				const NEXT_TAB = "NEXT";
+				const PREV_TAB = "PREV";
+				const FIRST_TAB = "FIRST";
+				const LAST_TAB = "LAST";
+				const KeyMore = this.isRTL ? {} : this.addBindKeys;
+				const action = Object.assign({
+					// default keys;
+					"40" : !this.isRTL ? NEXT_TAB : PREV_TAB,
+					"39" : !this.isRTL ? NEXT_TAB : PREV_TAB,
+					"38" : !this.isRTL ? PREV_TAB : NEXT_TAB,
+					"37" : !this.isRTL ? PREV_TAB : NEXT_TAB,
+					"36" : FIRST_TAB,
+					"35" : LAST_TAB
+				}, KeyMore);
+
+				this.keyAction(action[`${_keyCode}`]);
+			};
+			Tab.prototype.keyAction = function(_action){
+				console.group();
+				console.log("%ckeyHandler: ", "color:steelblue");
+				console.log("action type: ", _action);
+				console.log("this: ", this);
+				console.groupEnd();
+
+				switch(_action){
+					case "NEXT" : 
+						this.activeIndex = (this.tabUnits.length <= this.activeIndex + 1) ? this.activeIndex : this.activeIndex + 1;
+						break;
+					case "PREV" : 
+						this.activeIndex = (0 > this.activeIndex - 1) ? this.activeIndex : this.activeIndex - 1;
+						break;
+					case "FIRST" : 
+						this.activeIndex = 0;
+						break;
+					case "LAST" : 
+						this.activeIndex = (this.tabUnits.length - 1);
+						break;
+					default : break;
+				}
+
+				this.setPosition(this.activeIndex);
+			};
+			Tab.prototype.getBeforeIndex = function(){
+				console.group();
+				console.log("%cGet before index: ", "color:steelblue");
+				console.log("this: ", this);
+				console.groupEnd()
+				return this.beforeIndex = this.activeIndex;
+			};
+			Tab.prototype.setPosition = function(_index){
+				console.group();
+				console.log("%cSet Position: ", "color:steelblue");
+				console.log("Go to: ", this.activeIndex);
+				console.log("this: ", this);
+				console.groupEnd();
+				
+				// console.log("focus element [before]: ", document.activeElement);
+				if(this.isAutomaticTab){
+					if( this.tabUnits[_index].tabIndex === -1 ){
+						this.tabUnits[this.beforeIndex].tabIndex = -1;
+						this.tabUnits[_index].tabIndex = 0;
+					}
+					this.markActive(_index);
+					this.tabUnits[_index].focus();
+				}else{
+					this.tabUnits[_index].focus();
+				}
+				// console.log("focus element [after]: ", document.activeElement);
+				self.animate(this.rootElement.querySelector(".scroller"), (this.tabUnits[_index].offsetLeft * -1));
+			};
+			Tab.prototype.getIndex = function(_this){
+				console.group();
+				console.log(`%cGet index : ${this.activeIndex}`, "color:steelblue");
+				console.groupEnd();
+
+				const siblings = _this.parentElement.children;
+
+				this.activeIndex = Array.prototype.findIndex.call(siblings, sibling=> sibling === _this);   
+			};
+			Tab.prototype.markActive = function(_index){
+				
+				console.group();
+				console.log("%cMarking Active tab: ", "color:steelblue");
+				console.log("this: ", this);
+				console.log("this context index: ", this.activeIndex);
+				console.log("param index: ", _index);
+				console.log("use wai-aria:", this.webAccessibility);
+				console.groupEnd();
+				
+				const index = _index || this.activeIndex;
+				const tabUnits = this.tabUnits;
+				const tabPanels = this.tabPanels;
+				const activeClass = this.activeClass;
+				const activeUnit = tabUnits[index];
+				const activePanel = tabPanels[index];
+				const useWA = this.webAccessibility;
+
+				// reset attribute				
+				tabUnits.forEach((unit, i) => {
+					unit.classList.remove(activeClass);
+					useWA && unit.setAttribute("aria-selected", false);
+					if(index === i){
+						unit.classList.add(activeClass);
+						useWA && unit.setAttribute("aria-selected", true);
+					}
+				});
+				
+				Array.prototype.forEach.call(tabPanels, (panel, i) => {
+					panel.classList.remove(activeClass);
+					if(index === i){ panel.classList.add(activeClass); }
+				});
+			};
+			Tab.prototype.animate = function(target, distance){
+				console.group();
+				console.log(`%cAnimate`, "color:red;font-size:18px");
+				console.log("target:", target);
+				console.log("distance:", distance);
+				console.groupEnd();
+				target.style.transform = `matrix(1,0,0,1,${distance},0)`
+			};
+			// calculate
+			Tab.prototype.calculate = {
+				scrollContainerWidth : (debugFlag)=>{
+					const width = this.rootElement.querySelector(".scrollContainer").offsetWidth;
+					debugFlag && console.log(width);
+			
+					return width;
+				},
+				scrollBeltWidth : (debugFlag)=>{ 
+					const scrollItem = this.rootElement.querySelectorAll("[role=tab]");
+					const scrollItemMargin = parseInt(window.getComputedStyle(scrollItem[0], null).getPropertyValue("margin-left").replace("px", ""));
+					const baseWidth = scrollItemMargin * 2 * (scrollItem.length - 1);
+					const totalWidth = Array.prototype.reduce.call(scrollItem, (total, _tab)=> total + _tab.offsetWidth, baseWidth);
+
+					if(debugFlag){
+						console.group();
+						console.log(scrollItem);
+						console.log(`scrollItemMargin : ${scrollItemMargin}`);
+						console.log(`baseWidth : ${scrollItemMargin}`);
+						console.log(`totalWidth : ${totalWidth}`);
+						console.groupEnd();
+					}
+
+					return totalWidth;
+				},
+				scrollBoundRange : (containerWidth, debugFlag)=>{
+					console.group();
+					console.log(`%cCalculate.scrollBoundRange`, "color:red;font-size:18px");
+					console.log("this:", this);
+					console.groupEnd();
+					const leftRange = Math.floor( containerWidth * 0 );
+					const rightRange = Math.floor( ( containerWidth - this.calculate.scrollBeltWidth(true) ) * 1 );
+
+					if(debugFlag){
+						console.log(`leftRange : ${leftRange}`);
+						console.log(`rightRange : ${rightRange}`);
+					}
+
+					return [leftRange, rightRange];
+				}
+			}
+			Tab.prototype.init = function(){
+				// console.log("proto : ", this);
+				this.calculate.scrollBoundRange( this.calculate.scrollContainerWidth(true), true);
+				// pre setting
+				this.tabUnits.forEach( (unit, idx) => this.activeIndex === idx && ( unit.tabIndex = 0 ) );
+				this.tabEvent();
+			};
+			self.init();
+
+			// const init = ()=>{
+
+			// 	console.log(this);
+			// 	self.init();
+			// 	// this.init();
+
+			// 	self.event();
+			// };
+			// Tab.prototype.init();
+		}
+		
+		const tenKey = {
+			"104" : "PREV",
+			"100" : "PREV",
+			"102" : "NEXT",
+			"98" : "NEXT",
+			"103" : "FIRST",
+			"97" : "LAST"
+		}
+
+		const tab = document.querySelectorAll("[role=tablist]");
+
+		const tablist1 = new Tab({
+			rootElement : tab[0],
+			webAccessibility : true,
+			addBindKeys : tenKey,
+			focusWithPosition : "manual"
+		});
+
+		const tablist2 = new Tab({
+			rootElement : tab[1],
+			focusWithPosition : "automatic",
+			direction : "rtl"
+		});
+		
+	</script>
+	<!-- <script>
+		const TabScroller = (function(){
+			function TabScroller(root){
+				this.root = root;
+				this.tabButton = this.root.querySelectorAll("[role=tab]") || this.root.querySelectorAll(".tab");
+				TabScroller.prototype.event = function(){
+					console.log(this.tabButton);
+					this.tabButton.forEach( tab => tab.addEventListener("click", function(event){
+						console.log("event:click");
+						const siblings = this.parentElement.children;
+						const index = Array.prototype.findIndex.call(siblings, sibling => sibling === this);
+						TabScroller.prototype.markActive(index);
+					}))
+				};
+				TabScroller.prototype.markActive = function(index){
+					console.log(this);
+					console.log(TabScroller);
+					console.log(index);
+					console.log(TabScroller.tabButton[index]);
+				}
+			}
+			return TabScroller;
+		})();
+		const Tab = document.querySelectorAll("[role=tablist]");
+		const tabList1 = new TabScroller(Tab[0]);
+		const tabList2 = new TabScroller(Tab[1]);
+		console.log(tabList1);
+		console.log(tabList2);
+		tabList1.event();
+		tabList2.event();
+	</script> -->
+	<!-- <script>
+		'use district';
+		const tabUI = document.querySelectorAll("[role=tablist]");
+		const initialConfig = [
+			// tabList1
+			{
+				rootElement : tabUI[0],
+				activeIndex : 3,
+				webAccessibility : true
+			},
+			// tabLis2
+			{
+				rootElement : tabUI[1],
+				tabSelector : ".tab",
+				activeIndex : 0
+			}
+		];
+		
+		const tabList = initialConfig.reduce((acc, config, idx)=>{
+			config.rootElement = tabUI[idx];
+			acc[idx] = new Tab(config);
+			return acc;
+		},[]);
+		// console.log(tabList);
+
+		function Tab(config){
+			this.rootElement = config.rootElement;
+			this.tabUnits = config.rootElement.querySelectorAll("[role=tab]") || config.rootElement.querySelectorAll(`${config.tabSelector}`);
+			this.activeIndex = config.activeIndex || 0;
+			this.activeClass = config.activeClass || "active";
+
+			const isWA = this.webAccessibility = config.webAccessibility || false;
+			const activeTabUnit = this.tabUnits[this.activeIndex];
+			const scroller = this.rootElement.querySelector(".scroller");
+			const activeClass = `${this.activeClass}`;
+
+			// P = Tab.prototype;
+			A = Array.prototype;
+
+			Tab.prototype.init = ()=>{
+				console.log(this);
+
+				// tab event
+				this.tab();
+			};
+		
+			
+			const clickEvent = (event, _this)=>{
+				// markActive
+				const siblings = unit.parentElement.children;
+				A.forEach.call(siblings, sibling => {
+					sibling.classList.remove(activeClass);
+					if(isWA) sibling.setAttribute("aria-selected", false);
+				});
+				unit.classList.add(activeClass);
+				if(isWA) unit.setAttribute("aria-selected", true);
+			}
+			const pressedEvent = (event)=>{
+				console.log(event);
+			}
+			const tabEvent = (event)=>{
+				console.log(event);
+				switch(event.type){
+					case "click" : clickEvent(event); break;
+					case "keyup" : pressedEvent(event); break;
+				}
+			}
+			Tab.prototype.tab = function(){
+				this.tabUnits.forEach((unit, index)=>{
+					unit.addEventListener("click", tabEvent);
+				});
+			};
+
+			this.tabEvent = {
+				handleEvent : (event)=>{
+					console.log(event);
+					console.log(this);
+					event.preventDefault();
+					switch(event.type){
+						case "click" : tabEvent.byClick(event); break;
+						case "keyup" : tabEvent.byPressed(event); break;
+					}
+				},
+				byClick : (event)=>{
+
+				},
+				byPressed : (event)=>{
+
+				}
+			}
+			// Tab.prototype.getPositionIndex = function(_self){
+			// 	const siblings = _this.parentElement.children;
+			// 	this.activeIndex = A.findIndex.call(siblings, element => element === _self);
+			// 	console.log(`Active index : ${this.activeIndex}`);		
+			// };
+			// Tab.prototype.markActive = function(index){
+			// 	// console.log(this.activeIndex);
+			// 	// console.log(this.tabUnits);
+			// 	this.tabUnits[index].classList.add(`${this.activeClass}`);
+				
+			// 	if(isWA){
+			// 		this.tabUnits[index].setAttribute("aria-selected", "true");
+			// 	}
+			// };
+			// Tab.prototype.animate = function(target = scroller, distance){
+			// 	// console.log(target);
+			// 	// console.log(distance);
+			// 	target.style.transform = `matrix(1,0,0,1,${distance},0)`
+			// };
+			Tab.prototype.init();
+
+		}
+	</script> -->
+	<!-- <script>
 		// scenario
 		/*
 			dom을 탐색하여 tablist 요소를 선택한다
@@ -91,25 +552,26 @@
 		// constructor
 		function Tab(config){
 			// destructuring config object
-			const {rootElement, scrollingSelector, direction, useWA, callbacks, debug} = config;
-			const {scrollAnimate} = callbacks;
-			
+			const {rootElement, scrollingSelector, initialPosition, direction, useWA, callbacks, debug, tab, customizing} = config;
+			const {startIndex} = tab;
+			if(customizing){
+				const {addBindKeys} = customizing.options;
+			}
 			// pre-setting 
 			this.rootElement = rootElement;
 			this.direction = direction ? -1 : 1;
 			this.useWA = useWA;
 			this.scrollingSelector = scrollingSelector
 			this.scrollBoundRange = null;
-
-			this.callbacks = {
-				scrollAnimate : scrollAnimate,
-			};
-			this.debug = {
-				calculate : false || debug.calculate
-			};
+			if(debug){
+				this.debug = {
+					calculate : false || debug.calculate
+				};
+			}
 
 			// prototype filed
 			const p = Tab.prototype;
+			// common methods
 			// CRUD
 			p.create = ()=>{
 				this.init();
@@ -124,18 +586,131 @@
 			p.delete = ()=>{
 				this.init = null;
 			};
-
-			// common methods
 			p.init = ()=>{
 				// All null value are initialize
 				this.scrollBoundRange = this.calculate.scrollBoundRange(this.calculate.scrollContainerWidth(this.debug.calculate), this.debug.calculate);
 
 				// Call API
-				this.scrollLifeCycleAPI();
+				// this.scrollLifeCycleAPI();
+				
+				// tab
+				this.tab();
 
 				// method chaining base
 				return p;
 			}
+
+			// tab event
+			this.tabUnit = this.rootElement.querySelectorAll("[role=tab]");
+			this.tabPanelUnit = this.rootElement.querySelectorAll("[roll=tabpanel]");
+			this.PrevArrow = this.rootElement.querySelector("[aria-label='Previous tab']");
+			this.NextArrow = this.rootElement.querySelector("[aria-label='Next tab']");
+			this.activeIndex = startIndex || 0;
+			// console.log(
+			// 	this.PrevArrow,
+			// 	this.NextArrow
+			// )
+			p.tab = ()=>{
+				Array.prototype.map.call(this.tabUnit, (unit)=>{
+					unit.addEventListener("click", (event)=>{
+						console.log("click");
+						// console.dir(event.currentTarget);
+						// console.dir(event.target);
+						event.preventDefault();
+						const _this = event.target;
+						p.getIndex(_this);
+						p.setPositionByIndex(this.activeIndex, this.scroller);
+						// const role = _this.TagName;
+						// if(_this.getAttribute("role") === "tab"){
+						// 	console.log("button:tab");
+						// }
+						// if(_this.getAttribute("aria-label") === "Previous tab"){
+						// 	console.log("button:prev");
+						// }
+						// if(_this.getAttribute("aria-label") === "Next tab"){
+						// 	console.log("button:next");
+						// }
+					});
+				});
+
+				this.rootElement.addEventListener("keyup", ({keyCode})=>{
+					// console.dir(event.currentTarget);
+					// console.dir(event.target);
+					// console.dir(event);
+					// console.log(keyCode);
+					// event.preventDefault();
+
+					const action = {
+						NEXT_TAB : "NEXT",
+						PREV_TAB : "PREV",
+						FIRST_TAB : "FIRST",
+						LAST_TAB : "LAST"
+					}
+					const {NEXT_TAB, PREV_TAB, FIRST_TAB, LAST_TAB} = action;
+					const bindKeys = Object.assign({
+						// case:ten key less 
+						"40" : NEXT_TAB,
+						"39" : NEXT_TAB,
+						"38" : PREV_TAB,
+						"37" : PREV_TAB,
+						"36" : FIRST_TAB,
+						"35" : LAST_TAB
+					}, addBindKeys);
+					// console.log(bindKeys);
+					p.loadPosition(bindKeys[`${keyCode}`]);
+					
+				});
+				return p;
+			}
+			p.loadPosition = (action)=>{
+				switch(action){
+					case "NEXT" : 
+						console.log(action.NEXT_TAB);
+						this.activeIndex = (this.tabUnit.length <= this.activeIndex + 1) ? this.activeIndex : this.activeIndex + 1;
+						p.setPositionByIndex(this.activeIndex);
+						break;
+					case "PREV" : 
+						console.log(action.PREV_TAB); 
+						this.activeIndex = (0 > this.activeIndex - 1) ? this.activeIndex : this.activeIndex - 1;
+						p.setPositionByIndex(this.activeIndex);
+						break;
+					case "FIRST" : 
+						console.log(action.FIRST_TAB);
+						p.setPositionByIndex(0);
+						break;
+					case "LAST" : 
+						console.log(action.LAST_TAB); 
+						p.setPositionByIndex(this.tabUnit.length);
+						break;
+					default : break;
+				}
+			}
+			p.getIndex = (_this)=>{
+				const _siblings = _this.parentElement.children;
+				this.activeIndex = Array.prototype.findIndex.call(_siblings, (element)=> element === _this);
+				console.log(`Active index : ${this.activeIndex}`);
+
+				return p;
+			}
+			this.isAutoPositioning = true;
+			p.setPositionByIndex = (index)=>{
+				console.log(index);
+				const chosenElement = this.tabUnit[index];
+				console.dir();
+				if(this.isAutoPositioning){
+					const scrollItemMargin = parseInt(window.getComputedStyle(chosenElement, null).getPropertyValue("margin-left").replace("px", ""));
+					const distance = (chosenElement.offsetLeft - scrollItemMargin) * -1;
+
+					// console.log(distance, chosenElement.offsetLeft, scrollItemMargin);
+					
+					p.scrollAnimate(distance);
+				}else{
+
+				}
+				return p;
+			}
+
+			// calculate methods
 			p.calculate = {
 				scrollContainerWidth : (debugFlag)=>{
 					const width = this.rootElement.querySelector(".scrollContainer").offsetWidth;
@@ -164,8 +739,8 @@
 					return totalWidth;
 				},
 				scrollBoundRange : (containerWidth, debugFlag)=>{
-					const leftRange = Math.floor( containerWidth * 0.15 );
-					const rightRange = Math.floor( ( containerWidth - p.calculate.scrollBeltWidth(this.debug.calculate) ) * 1.85 );
+					const leftRange = Math.floor( containerWidth * 0 );
+					const rightRange = Math.floor( ( containerWidth - p.calculate.scrollBeltWidth(this.debug.calculate) ) * 1 );
 
 					if(debugFlag){
 						console.log(`leftRange : ${leftRange}`);
@@ -176,7 +751,7 @@
 				}
 			}
 			/*
-				lifecycle
+				scroll event lifecycle
 				action => create => render => action => [update] => render
 				action => create => render => action => [delete] => render(remove on view)
 				
@@ -209,24 +784,29 @@
 				target = this.rootElement
 			)=>{
 				// controller
-				const API = this.scrollLifeCycleAPI
 				let eventData = null;
-
-				switch(userAction){
-					case "START" :
-						eventData = API.createEvent(userAction, handlers["START"], target, options = false);
-						break;
-					case "MOVE" :
-						eventData = API.updateView(userAction, handlers["MOVE"], options);
-						break;
-					case "END" : 
-						eventData = API.deleteEvent(userAction, handlers["END"]);
-						break;
-					default : 
-						return error("This is not defined action.(정의된 동작이 아닙니다)");
+				return ()=>{
+					const API = this.scrollLifeCycleAPI;
+					switch(userAction){
+						case "START" :
+							eventData = API.createEvent(userAction, handlers["START"], target, options = false);
+							break;
+						case "MOVE" :
+							eventData = API.updateView(userAction, handlers["MOVE"], options);
+							break;
+						case "END" : 
+							eventData = API.deleteEvent(userAction, handlers["END"]);
+							break;
+						default : 
+							throw new Error("This is not defined action.(정의된 동작이 아닙니다)");
+					}
 				}
 			}
 			p.scrollLifeCycleAPIs = {
+				initialized : (beforePosition) => {
+					const element = this.rootElement.querySelector(`${this.scrollingSelector}`);
+					this.scrollLifeCycleAPIs.render(element, beforePosition);
+				},
 				createEvent : (action, handler, target, options)=>{
 					target.addEventListener(action, handler(options));
 				},
@@ -234,85 +814,75 @@
 
 				},
 				deleteEvent : ()=>{
+
 				},
 				modeling : ()=>{
 
 				},
-				render : ()=>{
-
+				render : (scroller, distance)=>{
+					scroller.style.transform = `matrix(1, 0, 0, 1, ${distance}, 0)`;
 				}
 			}
+			this.initialPosition = initialPosition || 0;
+			this.scrollPosition = null;
+			console.log(this.rootElement);
+			this.scroller = this.rootElement.querySelector(`${this.scrollingSelector}`);
+			const addTransition = (time = 300)=>{
+				const tg = this.rootElement.querySelector(`${this.scrollingSelector}`);
+				tg.setAttribute("style", `transition:transform ${time}ms ease`);
+				setTimeout(()=>{
+					tg.style.transition = "";
+				}, 400);
 
-			p.scrollLifeCycleAPI = ()=>{
+				return true;
+			};
+
+			p.scrollAnimate = (distance, element = this.scroller)=>{
+				console.log(element);
+				element.style.transform = `matrix(1, 0, 0, 1, ${distance}, 0)`;
+			}
+			p.scrollLifeCycleAPI= ()=>{
 				const target = this.rootElement;
 				const START = "mousedown";
 				const END = "mouseup";
 				const MOVE = "mousemove";
-				const getPosition = (position = [])=>{
-					const [X, Y] = position;
-					return {
-						x : X,
-						y : Y
-					};
-				}
-				let beforePosition = 0;
-				const setPosition = (scroller, distance)=>{
-					// element.style.transform = `translate3d(${distance}px, 0px, 0px)`;
-					scroller.style.transform = `matrix(1, 0, 0, 1, ${distance}, 0)`;
-				}
+				const touchPosition = {
+					x : null,
+					distance_x : 0,
+					startPoint : null,
+				};
+
 				const callback = (triggerEvent)=>{
-					// console.log(triggerEvent);
 					const {currentTarget} = triggerEvent;
 					const element = currentTarget.querySelector(`${this.scrollingSelector}`);
-					const startX = triggerEvent.touches ? triggerEvent.touches[0].screenX : triggerEvent.screenX;
+					console.log(currentTarget);
+					console.log(element);
+					touchPosition.x = triggerEvent.touches ? triggerEvent.touches[0].screenX : triggerEvent.screenX;
+					touchPosition.startPoint = this.scrollPosition;
+
 					return (moveEvent)=>{
 						const movePosX = moveEvent.touches ? moveEvent.touches[0].screenX : moveEvent.screenX;
-						// console.group();
-						// console.log(`${MOVE}`);
-						// console.log(currentTarget);
-						// console.log(element);
-						// console.log(movePosX);
-						// console.groupEnd();
+						const distance = movePosX - touchPosition.x;
 
-						let distance = (startX - movePosX) * this.direction;
-						// const [leftRange, rightRange] = this.scrollBoundRange;
-
-						// console.group();
-						// console.log(distance);
-						// console.log(leftRange);
-						// console.log(rightRange);
-						// console.groupEnd();
-
-						// if(0 <= distance && leftRange < distance) distance = leftRange;
-						// if(0 > distance && rightRange > distance) distance = rightRange;
-						setPosition(element, distance);
+						this.scrollPosition = touchPosition.startPoint + distance;
+						p.scrollAnimate(this.scrollPosition, element);
 					};
 				};
 				// switch
+				console.log(target)
 				target.addEventListener(START, (event)=>{
 					const handler = callback(event);
 					window.addEventListener(MOVE, handler, false);
 					window.addEventListener(END, ()=>{
 						window.removeEventListener(MOVE, handler, false);
+						// const [leftRange, rightRange] = this.scrollBoundRange;
+						// if(0 <= this.scrollPosition && leftRange < this.scrollPosition && addTransition()) this.scrollPosition = leftRange;
+						// if(0 > this.scrollPosition && rightRange > this.scrollPosition && addTransition()) this.scrollPosition = rightRange;
+						p.scrollAnimate(this.scrollPosition, this.scroller);
 					}, false);
 				}, false);
-
-				// =====================================================================================================
-				// const createScrollEvent = (actions = START, bindHandler)=>{
-				// 	actions.map((action)=>{
-				// 		triggeredScrollEvent(target, action, bindHandler);
-				// 	});
-				// };
-
-				// const triggeredScrollEvent = (DOM, action, callback = (bindEventObject) => bindEventObject)=>{
-				// 	DOM.addEventListener(action, callback);
-				// }
-
-				// createScrollEvent(action["START"], triggeredScrollEvent);
 			}
-			// p.scrollLifeCycleAPI.setPosition = ()=>{
-			// 	console.log("scroll:setPosition");
-			// }
+
 			// web accessible methods
 			if(useWA){
 				p.accessibility = ()=>{
@@ -326,45 +896,67 @@
 			rootElement : tabUI[0],
 			scrollingSelector : ".scroller",
 			direction : 1,
-			callbacks : {
-				scrollAnimate : (startX, target, direction, scrollBoundRange)=>{
-					return (event)=>{
-							const movePosX = event.touches ? event.touches[0].screenX : event.screenX;
-
-							console.group();
-							console.log( direction === -1 ? "ltr" : "rtl" );
-							console.log(startX);
-							console.log(movePosX);
-							console.groupEnd();
-
-							let distance = (startX - movePosX) * direction;
-							const [leftRange, rightRange] = scrollBoundRange;
-
-							console.group();
-							console.log(distance);
-							console.log(leftRange);
-							console.log(rightRange);
-							console.groupEnd();
-
-							if(0 <= distance && leftRange < distance) distance = leftRange;
-							if(0 > distance && rightRange > distance) distance = rightRange;
-
-							target.style.transform = `matrix(1, 0, 0, 1, ${distance}, 0)`;
-					}
-				}
-			},
+			initialPosition : -100,
 			useWA : false,
 			debug : {
 				flag : false,
 				calculate : false,
+			},
+			tab : {
+				startIndex : 0,
+			},
+			customizing : {
+				flag : true,
+				options : {
+					// ten key
+					addBindKeys : {
+						"104" : "PREV",
+						"100" : "PREV",
+						"102" : "NEXT",
+						"98" : "NEXT",
+						"103" : "FIRST",
+						"97" : "LAST"
+					},
+				}
 			}
 		});
 		tabList.create();
-		const approachConfig = tabList.read("calculate");
-		console.log(approachConfig);
-		tabList.delete();
-		console.log(tabList.init);
-	</script>
+		console.log(tabList);
+		// const approachConfig = tabList.read("calculate");
+		// console.log(approachConfig);
+		// tabList.delete();
+		// console.log(tabList.init);
+
+		const tabList2 = new Tab({
+			rootElement : tabUI[1],
+			scrollingSelector : ".scroller",
+			direction : 1,
+			initialPosition : -100,
+			useWA : false,
+			debug : {
+				flag : false,
+				calculate : false,
+			},
+			tab : {
+				startIndex : 0,
+			},
+			customizing : {
+				flag : true,
+				options : {
+					// ten key
+					addBindKeys : {
+						"104" : "PREV",
+						"100" : "PREV",
+						"102" : "NEXT",
+						"98" : "NEXT",
+						"103" : "FIRST",
+						"97" : "LAST"
+					},
+				}
+			}
+		});
+		console.log(tabList2);
+	</script> -->
 	<!-- <script>
 		const start = document.getElementById("tab");
 		function find(el){
