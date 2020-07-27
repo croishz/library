@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		p {font-size:40px; margin:0;}
+		p:nth-of-type(odd) {color:steelblue}
+		p:nth-of-type(even) {color:teal;}
+	</style>
+</head>
+<body>
+	<div>
+		<p class="userAgent">User Agent : <span></span></p>
+		<hr>
+		<p class="vendor">Vendor : <span></span></p>
+		<hr>
+		<p class="platform">Platform : <span></span></p>
+		<hr>
+		<p class="appVersion">appVersion : <span></span></p>
+		<hr>
+		<p class="appCodeName">appCodeName : <span></span></p>
+		<hr>
+		<p class="appName">appName : <span></span></p>
+		<hr>
+		<p class="product">product : <span></span></p>
+	</div>
+	<script>
+		var userAgent = navigator.userAgent;
+		var vendor = navigator.vendor;
+		var platform = navigator.platform;
+		var appVersion = navigator.appVersion;
+		var appCodeName = navigator.appCodeName;
+		var appName = navigator.appName;
+		var product = navigator.product;
+
+		var p1 = document.querySelector(".userAgent span");
+		var p2 = document.querySelector(".vendor span");
+		var p3 = document.querySelector(".platform span");
+		var p4 = document.querySelector(".appVersion span");
+		var p5 = document.querySelector(".appCodeName span");
+		var p6 = document.querySelector(".appName span");
+		var p7 = document.querySelector(".product span");
+
+		p1.innerText = userAgent;
+		p2.innerText = vendor;
+		p3.innerText = platform;
+		p4.innerText = appVersion;
+		p5.innerText = appCodeName;
+		p6.innerText = appName;
+		p7.innerText = product;
+	</script>
+</body>
+</html>
