@@ -9,8 +9,9 @@
 		[dir="rtl"] {direction:rtl;}
 		[role="tablist"] {margin-top:20px;}
 		[role="tablist"] > .scrollContainer {
-			/* overflow-x: scroll; */
 			overflow: hidden;
+			/* overflow-y: unset;
+			overflow-x: scroll; */
 			border:1px solid #000;
 			box-sizing: border-box;
 		}
@@ -22,6 +23,9 @@
 		}
 		[role="tablist"] .scroller.test {
 			transition: none;
+		}
+		[role="tablist"] .scroller.align-center {
+			justify-content: center;
 		}
 		[role="tablist"] [role="tab"] {padding:14px 20px; margin:0 6px; cursor: pointer; text-align:center;}
 		[role="tablist"] [role="tab"]:nth-child(odd) {background-color:gold; flex-basis:140px; min-width:140px;}
@@ -36,22 +40,22 @@
 		/* sample variation */
 		#tab1 .scrollContainer {
 			width:45%;
-			min-width:500px;
+			max-width:500px;
+			min-width:320px;
 		}
 	</style>
 </head>
 <body>
-
 	<div id="tab1" role="tablist" data-rootName="tablist1" aria-label="tab ui sample">
 		<div class="scrollContainer">
 			<div class="scroller">
-				<button type="button" id="tab01" role="tab" aria-controls="tab_panel01" aria-selected="false">tab01</button>
-				<button type="button" id="tab02" role="tab" aria-controls="tab_panel02" aria-selected="false" tabindex="-1">tab02</button>
-				<button type="button" id="tab03" role="tab" aria-controls="tab_panel03" aria-selected="false" tabindex="-1">tab03</button>
-				<button type="button" id="tab04" role="tab" aria-controls="tab_panel04" aria-selected="false" tabindex="-1">tab04</button>
-				<button type="button" id="tab05" role="tab" aria-controls="tab_panel05" aria-selected="false" tabindex="-1">tab05</button>
-				<button type="button" id="tab06" role="tab" aria-controls="tab_panel06" aria-selected="false" tabindex="-1">tab06</button>
-				<button type="button" id="tab07" role="tab" aria-controls="tab_panel07" aria-selected="false" tabindex="-1">tab07</button>
+				<button type="button" id="tab01" role="tab" aria-controls="tab1_panel01" aria-selected="false">tab01</button>
+				<button type="button" id="tab02" role="tab" aria-controls="tab1_panel02" aria-selected="false" tabindex="-1">tab02</button>
+				<button type="button" id="tab03" role="tab" aria-controls="tab1_panel03" aria-selected="false" tabindex="-1">tab03</button>
+				<button type="button" id="tab04" role="tab" aria-controls="tab1_panel04" aria-selected="false" tabindex="-1">tab04</button>
+				<button type="button" id="tab05" role="tab" aria-controls="tab1_panel05" aria-selected="false" tabindex="-1">tab05</button>
+				<button type="button" id="tab06" role="tab" aria-controls="tab1_panel06" aria-selected="false" tabindex="-1">tab06</button>
+				<button type="button" id="tab07" role="tab" aria-controls="tab1_panel07" aria-selected="false" tabindex="-1">tab07</button>
 			</div>
 		</div>
 		<div class="indicator" aria-controls="tab1">
@@ -61,19 +65,19 @@
 	</div>
 	<!-- if native HTML, declare role=none -->
 	<ul id="tab1_panels" role="none">
-		<li id="tab_panel01" role="tabpanel" aria-labelledby="tab01">Panel-01</li>
-		<li id="tab_panel02" role="tabpanel" aria-labelledby="tab02">Panel-02</li>
-		<li id="tab_panel03" role="tabpanel" aria-labelledby="tab03">Panel-03</li>
-		<li id="tab_panel04" role="tabpanel" aria-labelledby="tab04">Panel-04</li>
-		<li id="tab_panel05" role="tabpanel" aria-labelledby="tab05">Panel-05</li>
-		<li id="tab_panel06" role="tabpanel" aria-labelledby="tab06">Panel-06</li>
-		<li id="tab_panel07" role="tabpanel" aria-labelledby="tab07">Panel-07</li>
+		<li id="tab1_panel01" role="tabpanel" aria-labelledby="tab01">Panel-01</li>
+		<li id="tab1_panel02" role="tabpanel" aria-labelledby="tab02">Panel-02</li>
+		<li id="tab1_panel03" role="tabpanel" aria-labelledby="tab03">Panel-03</li>
+		<li id="tab1_panel04" role="tabpanel" aria-labelledby="tab04">Panel-04</li>
+		<li id="tab1_panel05" role="tabpanel" aria-labelledby="tab05">Panel-05</li>
+		<li id="tab1_panel06" role="tabpanel" aria-labelledby="tab06">Panel-06</li>
+		<li id="tab1_panel07" role="tabpanel" aria-labelledby="tab07">Panel-07</li>
 	</ul>
 	<!-- // #tab1 -->
 	
 	<div id="tab2" role="tablist" dir="rtl">
 		<div class="scrollContainer">
-			<div class="scroller">
+			<div class="scroller align-center">
 				<div role="tab" class="tab">tab01</div>
 				<div role="tab" class="tab">tab02</div>
 				<div role="tab" class="tab">tab03</div>
@@ -96,90 +100,71 @@
 		<li role="tabpanel">Panel-04</li>
 	</ul>
 	<!-- // #tab2 -->
-	<!-- <script>
-		function ContextTest(root){
-			this.root = root;
-			this.check = 0;
-			const context = this;
-			// const handler = {
-			ContextTest.prototype.handler = {
-				handleEvent : function(e){
-					console.log("handler: ", this);
-					switch(e.type){
-						case "mousedown" : this.start.call(context, e); break;
-						case "mousemove" : this.move.call(context, e); break;
-						case "mouseup" : this.end.call(context, e); break;
-						default : break;
-					}
-					return;
-				},
-				start : function(e){
-					console.log("func this:", this);
-					console.log(context);
-					console.log(ContextTest.prototype);
-					// context.check++;
-					// if(10 < context.check){
-					// 	console.log("unbind");
-					// 	ContextTest.prototype.eventUnbind();
-					// }
-				},
-				move : function(e){
-					console.log("func this:", this);
-					console.log(context);
-					console.log(ContextTest.prototype);
-					// context.check++;
-					// if(10 < context.check){
-					// 	console.log("unbind");
-					// 	ContextTest.prototype.eventUnbind();
-					// }
-				},
-				end : function(e){
-					console.log("func this:", this);
-					console.log(context);
-					console.log(ContextTest.prototype);
-				}
-			}
-			ContextTest.prototype.eventBind = function(){
-				this.root.addEventListener("mousedown", this.handler, false);	
-			}
-			ContextTest.prototype.eventUnbind = function(){
-				this.root.removeEventListener("mousedown", this.handler, false);
-			}
-			this.eventBind();
-		}
-		const test1 = new ContextTest(document.querySelector("#tab1"));
-		const test2 = new ContextTest(document.querySelector("#tab2"));
-	</script> -->
+
+	<div class="tab4" role="tablist" dir="rtl">
+		<div class="scrollContainer">
+			<div class="scroller">
+				<div role="tab" class="tab"></div>
+				<div role="tab" class="tab"></div>
+				<div role="tab" class="tab"></div>
+				<div role="tab" class="tab"></div>
+				<div role="tab" class="tab"></div>
+				<div role="tab" class="tab"></div>
+				<div role="tab" class="tab"></div>
+			</div>
+		</div>
+	</div>
+	<!-- if native HTML, declare role=none -->
+	<ul role="none">
+		<li role="tabpanel"></li>
+		<li role="tabpanel"></li>
+		<li role="tabpanel"></li>
+		<li role="tabpanel"></li>
+	</ul>
+	<!-- // .tab4 -->
 	<script>
 		function Tab(config){
-			// constructor value
+			/* Constructor value */
 			this.name = config.rootElement.getAttribute("data-rootname") || config.rootElement.getAttribute("id") || config.rootElement.getAttribute("class");
-			this.rollerSelector = config.rollerSelector || ".scroller";
-			this.indicatorSelector = config.indicatorSelector || ".indicator";
-			this.indicatorUseage = config.indicatorUseage || "scroll";
 			this.activeClass = config.activeClassOnTab || "active";
 			this.activeIndex = config.startIndex || 0;
 			this.beforeIndex = this.activeIndex;
 			this.addBindKeys = config.addBindKeys || {};
-			// initialize
-			this.scrollHandler = null;
-			this.containerWidth = null;
-			this.boundRange = null;
+			this.indicatorUseage = config.indicatorUseage || "scroll";
+			this.debounceDuration = config.debounceDuration || 400;
+			this.template = new String("html") || false;
+			this.DefaultFetchURL = config.fetchURL || "/";
+			
 			// DOM
 			this.rootElement = config.rootElement;
 			this.tabUnits = config.rootElement.querySelectorAll("[role=tab]") || config.rootElement.querySelectorAll(".tab");
 			this.tabPanelWrap = config.panelWarpElement || document.querySelector(`${config.rootElement.getAttribute("id")}_panels`) || config.rootElement.nextElementSibling;
 			this.tabPanels = Array.prototype.map.call(this.tabPanelWrap.children, child => child);
-			this.indicator = config.indicator || config.rootElement.querySelector(`${this.indicatorSelector}`);
-			this.arrows = Array.prototype.map.call(this.indicator.children, child => child);
+			this.rollerContainerSelector = config.rollerContainerSelector || ".scrollContainer";
+			this.rollerContainer = this.rootElement.querySelector(`${this.rollerContainerSelector}`);
+			this.rollerSelector = config.rollerSelector || ".scroller";
 			this.roller = this.rootElement.querySelector(`${this.rollerSelector}`);
+			this.indicatorSelector = config.indicatorSelector || ".indicator";
+			this.indicator = config.indicator || config.rootElement.querySelector(`${this.indicatorSelector}`);
+			this.arrows = this.indicator && Array.prototype.map.call(this.indicator.children, child => child);
+			
+			// Initialize value
+			this.swipeHandleEvent = null;
+			this.containerWidth = null;
+			this.scrollRange = null;
+			this.position = {
+				newPoint : null,
+				startPoint : null,
+				nowPoint : null
+			};
+
 			// Flag
 			this.webAccessibility = config.webAccessibility || false;
 			this.isAutomaticTab = config.focusWithPosition === "automatic" ? true : false; 
 			this.isRTL = config.direction === "rtl" ? true : false;
 			this.debug = config.debug || false;
 
-			// action
+			// Action type
 			const NEXT_TAB = "NEXT";
 			const PREV_TAB = "PREV";
 			const FIRST_TAB = "FIRST";
@@ -190,12 +175,58 @@
 			const SWIPE_END = "SWIPE_END";
 			const STEADY = "STEADY";
 			
-			// log style
+			// Log style
 			const flowStyle = "color:#49b777; font-size:15px; background-color:#f9f9f9; padding:4px 8px; border:1px solid tan;";
 			const APIStyle = "color:lightcoral; font-size:14px; font-weight:600; text-decoration:underline; font-style:italic;"
 			const scrollHandler = "color:lightcoral";
+			
+			/* Prototype method */
+			// Flow
+			Tab.prototype.fetch = function(
+				_callback,
+				_url = this.DefaultFetchURL,
+				_dataType = "json", 
+				_action = "get"
+			){
+				console.group();
+				console.log("%cFetch", flowStyle);
+				console.log(`action: ${_action}`);
+				console.log(`data type: ${_dataType}`);
+				console.log(`url: ${_url}`);
 
-			// prototype method
+				const xhr = new XMLHttpRequest();
+				const callback = _callback.bind(this);
+
+				xhr.responseType = _dataType;
+				xhr.onreadystatechange = function(){
+					// console.log("xhr: ", this);
+					// console.log(context.name);
+					if(this.readyState === this.DONE && this.status === 200){
+						const response = xhr.response;
+						callback(response);
+						console.groupEnd();
+					}else{
+						console.log(`Error code: ${xhr.status}`);
+						console.groupEnd();
+					}
+				}
+				xhr.open(_action, _url, true);
+				xhr.send();
+			};
+			Tab.prototype.fetchCallback = function(_response){
+				const data = _response.product;
+				
+				console.group();
+				console.log(this);
+				console.log(data);
+				
+				data.map((contents, idx)=>{
+					this.tabUnits[idx] && (this.tabUnits[idx].innerText = contents.id);
+					this.tabPanels[idx] && (this.tabPanels[idx].innerText = contents.copy);
+				});
+
+				console.groupEnd();
+			};
 			Tab.prototype.dispatch = function(action, data){
 				if(this.debug){
 					console.group();
@@ -208,6 +239,198 @@
 				
 				return [action, data];
 			}
+			Tab.prototype.eventBinder = function([_action, _data]){
+				if(this.debug){
+					console.group();
+					console.log("%cEvent bind", flowStyle);
+					console.log("bind event: ", _action);
+					console.log("data: ", _data);
+					console.log("this: ", this);
+				}
+
+				// bind dependency
+				let dep = null;
+				const depType = {
+					INDEX : "INDEX",
+					SCREEN_POSITION : "SCREEN_POSITION",
+				}
+
+				// variable for INDEX;
+				const maxIndex = this.tabUnits.length - 1; // 6
+				const minIndex = 0;
+				let index = (_data.index === null || _data.index === undefined) ? this.activeIndex : _data.index;
+				
+				// variable for SCREEN_POSITION;
+				const screenX = (_data.screenX === null || _data.index !== undefined) ? this.positionX : _data.screenX;
+				// const direction = this.isRTL ? 1 : -1;
+				const direction = -1;
+
+				switch(_action){
+					case "CHOOSE" :
+						dep = depType.INDEX;
+						index = index;
+						config.dynamicFetch && this.fetch(this.fetchCallback);
+						break;
+					case "FIRST" : 
+						dep = depType.INDEX;
+						index = minIndex;
+						break;
+					case "LAST" : 
+						dep = depType.INDEX;
+						index = maxIndex;
+						break;
+					case "PREV" : 
+						dep = depType.INDEX;
+						index = minIndex >= index ? minIndex : index - 1;
+						break;
+					case "NEXT" : 
+						dep = depType.INDEX;
+						index = maxIndex <= index ? maxIndex : index + 1;
+						break;
+					case "SWIPE_START" : 
+						dep = depType.SCREEN_POSITION;
+						this.roller.classList.add("test");
+
+						// this.roller.parentElement.addEventListener("mousedown", this.swipeHandleEvent, false);
+						window.addEventListener("mousemove", this.swipeHandleEvent, false);
+						window.addEventListener("mouseup", this.swipeHandleEvent, false);
+						
+						// this.roller.parentElement.addEventListener("touchstart", this.swipeHandleEvent, false);
+						// window.addEventListener("touchmove", this.swipeHandleEvent, false);
+						// window.addEventListener("touchEnd", this.swipeHandleEvent, false);
+
+						this.position.newPoint = screenX;
+						this.position.startPoint = this.position.nowPoint;
+						
+						if(this.debug){
+							console.group();
+							console.log("swipe start point: ", this.position.newPoint);
+							console.groupEnd();
+						}
+						break;
+					case "SWIPE_END" : 
+						dep = depType.SCREEN_POSITION;
+						this.roller.classList.remove("test");
+
+						// this.roller.parentElement.removeEventListener("mousedown", this.swipeHandleEvent, false);
+						window.removeEventListener("mousemove", this.swipeHandleEvent, false);
+						window.removeEventListener("mouseup", this.swipeHandleEvent, false);
+
+						// this.roller.parentElement.removeEventListener("touchstart", this.swipeHandleEvent, false);
+						// window.removeEventListener("touchmove", this.swipeHandleEvent, false);
+						// window.removeEventListener("touchEnd", this.swipeHandleEvent, false);
+
+						if(this.debug){
+							console.log(this.position.newPoint);
+							console.log(screenX);						
+							console.log(SWIPE_END);
+						}
+
+						if(this.position.newPoint !== screenX) {
+							console.log("did to swipe");
+							// this.position.nowPoint = this.animate(this.wallHeat(this.position.nowPoint));
+							this.position.nowPoint = this.animate(this.position.nowPoint);
+						};
+						break;
+					case "SWIPE_MOVE" : 
+						dep = depType.SCREEN_POSITION;
+						const distance = (screenX - this.position.newPoint) * direction;
+						this.position.nowPoint = this.position.startPoint - distance;
+						this.animate(this.position.nowPoint, true);
+
+						if(this.debug){
+							console.group();
+							console.log("this.position.startPoint:", this.position.startPoint);
+							console.log("distance: ", distance);
+							console.log("mouse point: ", this.position.nowPoint);
+							console.groupEnd();
+						}
+						break;
+					case "STEADY" :
+					default : 
+						console.log("%cFlow end!", "font-size:24px;");
+						console.groupEnd();
+						return;
+				}
+
+				if(dep === depType.INDEX){
+					// component value update;
+					this.beforeIndex = this.activeIndex;
+					this.activeIndex = index;
+					
+					const viewFlag = (this.isAutomaticTab || _action === CHOOSE) ? true : false;
+					const roller = this.roller;
+					const distance = this.calculateAPI.scrollPosition.call(this, index);
+					
+					if(this.debug){
+						console.log("%cUI update", flowStyle);
+						console.log("index: ", index);
+						console.log("view flag: ", viewFlag);
+						console.log("focus element [before]: ", document.activeElement);
+					}
+					// view update;
+					if(viewFlag){
+						this.markActive(index);
+						this.setFocus(index);
+					}else{
+						this.setFocus(index);
+					}
+
+					// this.position.nowPoint = this.animate(this.wallHeat(distance));
+					this.position.nowPoint = this.animate(distance);
+					
+					if(this.debug){
+						console.log("focus element [after]: ", document.activeElement);
+						console.log(`Active index : %c${this.activeIndex}`, "color:red; font-size:16px; text-transform:uppercase;");
+						console.log(`Index sync check : %c${this.activeIndex === this.index}`, "color:red; font-size:16px; text-transform:uppercase;");
+					}
+				}
+
+				if(this.debug){
+					console.log("%cFlow end!", "font-size:24px;");
+					console.groupEnd();
+				}
+
+				return this;
+			};
+			// animate
+			Tab.prototype.animate = function(_distance, _moveflag = false, _roller = this.roller){
+				// const distance = _distance;
+				const distance = _moveflag ? _distance : this.wallHeat(_distance);
+
+				if(this.debug){
+					console.group();
+					console.log("%cAnimate", flowStyle);
+					console.log("roller:", _roller);
+					console.log("distance:", _distance);
+					console.groupEnd();
+				}
+				
+				_roller.style.transform = `matrix(1,0,0,1,${distance},0)`
+
+				return distance;
+			};
+			Tab.prototype.wallHeat = function(_distance){
+				if(true){
+					console.group();
+					console.log(_distance);
+					console.groupEnd();
+				}
+
+				let distance = _distance;
+				const [leftLimit, rightLimit] = this.scrollRange;
+
+				if( 0 <= distance && leftLimit < distance){
+					true && console.log("Heat right wall!!");
+					distance = leftLimit;
+				};
+				if( 0 > distance && rightLimit > distance ) {
+					true && console.log("Heat left wall!!");
+					distance = rightLimit;
+				};
+
+				return distance;
+			};
 			// tab event
 			Tab.prototype.tabEvent = function(){
 				// tab button
@@ -245,7 +468,7 @@
 								const action = this.keyChecker(keyCode);
 								const index = {index : this.activeIndex};
 								action && this.eventBinder( this.dispatch(action, index) );
-								
+
 								return false;
 							});
 						}
@@ -265,7 +488,7 @@
 									console.groupEnd();
 								}
 
-								if(this.indicatorUseage === "index"){
+								if(this.indicatorUseage === "tab"){
 									const action = label ? this.indicatorChecker(label) : Array.prototype.findIndex.call(target.parentElement.children,  arrow => arrow === target) === 0 ? PREV_TAB : NEXT_TAB;
 									const index = {index : this.activeIndex};
 									this.eventBinder( this.dispatch(action, index) );
@@ -288,19 +511,6 @@
 					console.groupEnd();
 				}
 				return index;
-			};
-			Tab.prototype.indicatorChecker = function(_label){
-				if(this.debug){
-					console.group();
-					console.log(`%cIndicator check: ${_label}`, flowStyle);
-					console.groupEnd();
-				}
-				const action = {
-					"Previous tab" : PREV_TAB,
-					"Next tab" : NEXT_TAB
-				}
-
-				return action[_label]; 
 			};
 			Tab.prototype.keyChecker = function(_keyCode){
 				const KeyMore = this.isRTL ? {} : this.addBindKeys;
@@ -325,136 +535,6 @@
 
 				return action;
 			};
-			Tab.prototype.eventBinder = function([_action, _data]){
-				if(this.debug){
-					console.group();
-					console.log("%cEvent bind", flowStyle);
-					console.log("bind event: ", _action);
-					console.log("data: ", _data);
-					console.log("this: ", this);
-				}
-
-				// bind dependency
-				let dep = null;
-				const depType = {
-					INDEX : "INDEX",
-					SCREEN_POSITION : "SCREEN_POSITION",
-				}
-
-				// variable for INDEX;
-				let index = (_data.index === null || _data.index === undefined) ? this.activeIndex : _data.index;
-				const maxIndex = this.tabUnits.length - 1; // 6
-				const minIndex = 0;
-				
-				// variable for SCREEN_POSITION;
-				const direction = this.isRTL ? 1 : -1;
-				const screenX = _data.screenX || _data.index !== undefined && _data.screenX;
-				const screenPosition = {
-					x : null,
-					distance_x : 0,
-					startPoint : null,
-				};
-				let lastX = null;
-
-				switch(_action){
-					case "CHOOSE" :
-						dep = depType.INDEX;
-						index = index;
-						break;
-					case "FIRST" : 
-						dep = depType.INDEX;
-						index = minIndex;
-						break;
-					case "LAST" : 
-						dep = depType.INDEX;
-						index = maxIndex;
-						break;
-					case "PREV" : 
-						dep = depType.INDEX;
-						index = minIndex >= index ? minIndex : index - 1;
-						break;
-					case "NEXT" : 
-						dep = depType.INDEX;
-						index = maxIndex <= index ? maxIndex : index + 1;
-						break;
-					case "SWIPE_START" : 
-						dep = depType.SCREEN_POSITION;
-						this.roller.classList.add("test");
-						lastX = screenX;
-						console.log(lastX);
-						// this.roller.addEventListener("mousedown", this.scrollHandler, false);
-						window.addEventListener("mousemove", this.scrollHandler, false);
-						window.addEventListener("mouseup", this.scrollHandler, false);
-						break;
-					case "SWIPE_MOVE" : 
-						dep = depType.SCREEN_POSITION;
-						lastX = (screenX - lastX) * direction;
-						console.log(lastX);
-						this.animate(lastX);
-						break;
-					case "SWIPE_END" : 
-						dep = depType.SCREEN_POSITION;
-						this.roller.classList.remove("test");
-						// this.roller.removeEventListener("mousedown", this.scrollHandler, false);
-						window.removeEventListener("mousemove", this.scrollHandler, false);
-						window.removeEventListener("mouseup", this.scrollHandler, false);
-						break;
-					case "STEADY" :
-					default : 
-						console.log("%cFlow end!", "font-size:24px;");
-						console.groupEnd();
-						return;
-				}
-
-				if(dep === depType.INDEX){
-					// component value update;
-					this.beforeIndex = this.activeIndex;
-					this.activeIndex = index;
-	
-					const viewFlag = (this.isAutomaticTab || _action === CHOOSE) ? true : false;
-					this.UiUpdate(index, viewFlag);
-	
-					if(this.debug){
-						console.log(`Active index : %c${this.activeIndex}`, "color:red; font-size:16px; text-transform:uppercase;");
-						console.log(`Index sync check : %c${this.activeIndex === this.index}`, "color:red; font-size:16px; text-transform:uppercase;");
-					}
-				}
-
-				if(this.debug){
-					console.log("%cFlow end!", "font-size:24px;");
-					console.groupEnd();
-				}
-
-				return this;
-			};
-			// UI update
-			Tab.prototype.UiUpdate = function(_index, _viewFlag){
-				if(this.debug){
-					console.group();
-					console.log("%cUI update", flowStyle);
-					console.log("index: ", _index);
-					console.log("view flag: ", _viewFlag);
-					console.log("focus element [before]: ", document.activeElement);
-				}
-
-				const roller = this.roller;
-				const distance = this.calculateAPI.scrollPosition.call(this, _index);
-				
-				// view update;
-				if(_viewFlag){
-					this.markActive(_index);
-					this.setFocus(_index);
-				}else{
-					this.setFocus(_index);
-				}
-
-				this.animate(distance, roller);
-				
-				if(this.debug){
-					console.log("focus element [after]: ", document.activeElement);
-					console.groupEnd();
-				}
-			};
 			Tab.prototype.setFocus = function(_index){
 				if(this.debug){
 					console.group();
@@ -468,6 +548,8 @@
 				if(this.debug){
 					console.groupEnd();
 				}
+
+				return this;
 			};
 			Tab.prototype.markActive = function(_index){
 				if(this.debug){
@@ -506,71 +588,57 @@
 						panel.tabIndex = 0;
 					}
 				});
+
+				return this;
 			};
-			// animate
-			Tab.prototype.animate = function(_distance, _roller = this.roller){
-				const distance = this.wallHeat(_distance);
+			// scroll event
+			Tab.prototype.swipe = function(){
+				this.debug && console.log("attach swipe");
+				this.roller.parentElement.addEventListener("mousedown", this.swipeHandleEvent, false);
+				// this.roller.parentElement.addEventListener("touchstart", this.swipeHandleEvent, false);
+
+				return this;
+			};
+			Tab.prototype.closedSwipe = function(){
+				this.debug && console.log("dettach swipe");
+				this.roller.parentElement.removeEventListener("mousedown", this.swipeHandleEvent, false);
+				// this.roller.parentElement.removeEventListener("touchstart", this.swipeHandleEvent, false);
+				
+				return this;
+			};
+			Tab.prototype.swipeLifeCycle = function(_action, _event){
+				const action = _action;
+				const screenX = {screenX : _event.touches ? _event.touches[0].screenX : _event.screenX};
+
 				if(this.debug){
 					console.group();
-					console.log("%cAnimate", flowStyle);
-					console.log("roller:", _roller);
-					console.log("distance:", _distance);
+					console.log("action: ", _action);
+					console.log("event: ", _event);
+					console.log("this: ", this);
 					console.groupEnd();
 				}
-				_roller.style.transform = `matrix(1,0,0,1,${distance},0)`
-			};
-			Tab.prototype.wallHeat = function(_distance){
-				let distance = _distance;
-				const [leftRange, rightRange] = this.boundRange;
-
-				if( 0 <= distance && leftRange < distance){
-					this.debug && console.log("Heat right wall!!");
-					distance = leftRange;
-				};
-				if( 0 > distance && rightRange > distance ) {
-					this.debug && console.log("Heat left wall!!");
-					distance = rightRange;
-				};
-
-				return distance;
+				
+				this.eventBinder( this.dispatch(action, screenX) );
+				
+				return this;
 			}
-			// scroll event
-			Tab.prototype.swipeStart = function(_event){
-				console.log("Start!");
-				console.log(this);
-				
-				const action = SWIPE_START;
-				const screenX = {screenX : _event.touches ? _event.touches[0].screenX : _event.screenX};
-				this.eventBinder( this.dispatch(action, screenX));
-			};
-			Tab.prototype.swipeMove = function(_event){
-				console.log(this);
-				console.log(_event);
-
-				const action = SWIPE_MOVE;
-				const screenX = {screenX : _event.touches ? _event.touches[0].screenX : _event.screenX};
-				this.eventBinder( this.dispatch(action, screenX));
-			};
-			Tab.prototype.swipeEnd = function(_event){
-				console.log("End!");
-				console.log(this);
-				
-				const action = SWIPE_END;
-				const screenX = {screenX : _event.touches ? _event.touches[0].screenX : _event.screenX};
-				this.eventBinder( this.dispatch(action, screenX));
-			};
-			Tab.prototype.swipeLifeCycle = function(){
-				// console.log(this);
+			Tab.prototype.swipeHandler = function(){
+				const context = this;
 				const dispatch = Tab.prototype.dispatch.bind(this);
 				const eventBinder = Tab.prototype.eventBinder.bind(this);
-				const swipe_start = Tab.prototype.swipeStart.bind(this);
-				const swipe_ing = Tab.prototype.swipeMove.bind(this);
-				const swipe_end = Tab.prototype.swipeEnd.bind(this);
-
+				const start = Tab.prototype.swipeLifeCycle.bind(this);
+				const ing = Tab.prototype.swipeLifeCycle.bind(this);
+				const end = Tab.prototype.swipeLifeCycle.bind(this);
+			
 				return function handleEvent(_event){
+					const isTouchEvent = _event.touches ? true : false;
+					this.isTouchEvent = isTouchEvent;
+
 					if(this.debug){
 						console.group();
 						console.log("handleEvent: ", this);
+						console.log("context: ", context);
+						console.log("byTouch: ", isTouchEvent);
 						console.log(`%c${_event.type}`, "font-size:30px;");
 						console.groupEnd();
 					}
@@ -578,30 +646,114 @@
 					switch(_event.type){
 						case "mousedown" :
 						case "touchstart" :
-							swipe_start(_event);
+							// console.log("st", _event);
+							start(SWIPE_START, _event);
 							break; 
 						case "mousemove" : 
 						case "touchmove" : 
-							swipe_ing(_event);
+							// console.log("swp", _event);
+							ing(SWIPE_MOVE, _event);
 							break;
 						case "mouseup" : 
 						case "touchend" : 
-							swipe_end(_event);
+							// console.log("ed", _event);
+							end(SWIPE_END, _event);
 							break;
 						default : 
 							return;
 					}
-	
-					return false;
+
+					_event.stopPropagation();
 				}
 			};
-			Tab.prototype.swipe = function(){
-				this.roller.addEventListener("mousedown", this.scrollHandler, false);
+			Tab.prototype.hangInSwipe = function(_containerWidth, _scrollBeltWidth){
+				if(this.debug){
+					console.group();
+					console.log(`%cHang in Swipe`, flowStyle);
+					console.log(this.name);
+					console.log("breakpoint: ", _containerWidth);
+					console.log("swipe activate: ", _containerWidth <= _scrollBeltWidth);
+				}
+
+				if(_containerWidth <= _scrollBeltWidth){
+					this.swipe();
+				}else{
+					this.closedSwipe();
+				}
+
+				if(this.debug){	
+					console.groupEnd();
+				}
+
+				return this;
+			}
+			// indicator event
+			Tab.prototype.indicatorChecker = function(_label){
+				if(this.debug){
+					console.group();
+					console.log(`%cIndicator check: ${_label}`, flowStyle);
+					console.groupEnd();
+				}
+				const action = {
+					"Previous tab" : PREV_TAB,
+					"Next tab" : NEXT_TAB
+				}
+
+				return action[_label]; 
 			};
-			Tab.prototype.closedSwipe = function(){
-				this.roller.removeEventListener("mousedown", this.scrollHandler, false);
-			};
-			
+			// resize event
+			Tab.prototype.resizeHandler = function(_customAPIOnResize){	
+				// re bind calculate api
+				const calcAPI = this.calculateAPI;
+				const calcContainerWidth = calcAPI.scrollContainerWidth.bind(this);
+				const calcBeltWidth = calcAPI.scrollBeltWidth.bind(this);
+				const calcRange = calcAPI.scrollRange.bind(this);
+				const calcPosition = calcAPI.scrollPosition.bind(this);
+				// debounce
+				let debounce = null;
+				const debounceDuration = this.debounceDuration;
+				// for handleEvent block
+				const context = this;
+				const customAPIOnResize = _customAPIOnResize && _customAPIOnResize.bind(this);
+
+				return function handleEvent(_event){
+					const time = Date.now();
+					clearTimeout(debounce);
+					debounce = setTimeout(()=>{
+						if(context.debug){
+							console.group();
+							console.log("debounce");
+							console.log(context);
+						}
+
+						// update dimension
+						context.containerWidth = calcContainerWidth();
+						context.scrollBeltWidth = calcBeltWidth();
+						context.scrollRange = calcRange(context.containerWidth, context.scrollBeltWidth);
+						const changePosition = calcPosition(context.activeIndex);
+						// gather dimension
+						const contextObject = {
+							containerWidth : context.containerWidth,
+							scrollBeltWidth : context.scrollBeltWidth,
+							scrollRange : context.scrollRange,
+							position : changePosition
+						}
+						
+						// use swipe check
+						context.hangInSwipe(contextObject.containerWidth, contextObject.scrollBeltWidth);
+						// call custom api if exist
+						customAPIOnResize && customAPIOnResize(contextObject);
+						// refresh scroll position
+						context.animate( context.wallHeat(changePosition) );
+
+						if(context.debug){
+							console.log(contextObject);
+							console.log("Debounce duration: ", Date.now() - time );
+							console.groupEnd();
+						}
+					}, debounceDuration);
+				}
+			}
 			// calculate
 			Tab.prototype.getRenderStyleValue = function(_element, _needValue){
 				if(this.debug){
@@ -641,18 +793,19 @@
 						if(this.debug){
 							console.group();
 							console.log(`%cCalc.position: ${position}`, APIStyle);
-							// console.log(element);
-							// console.log(this.containerWidth);
-							// console.log(element.offsetLeft);
-							// console.log(element.offsetWidth);
-							// console.log(elemOffsetLeft);
-							// console.log(position);
+							console.log("element: ", element);
+							console.log("this.containerWidth: ", this.containerWidth);
+							console.log("element.offsetLeft: ", element.offsetLeft);
+							console.log("element.offsetWidth: ", element.offsetWidth);
+							console.log("elemOffsetLeft: ", elemOffsetLeft);
+							console.log("position: ", position);
 							console.groupEnd();
 						}
+
 						return position;
 					},
 					scrollContainerWidth : function(){
-						const width = this.rootElement.querySelector(".scrollContainer").offsetWidth;
+						const width = this.rollerContainer.offsetWidth;
 
 						if(this.debug){
 							console.group();
@@ -660,6 +813,7 @@
 							console.log(`${this.name} : %c${width}`, "color:#fff; font-size:13px; padding:3px 5px; background-color:#333;");
 							console.groupEnd();
 						}
+						
 						return width;
 					},
 					scrollBeltWidth : function(_index = this.activeIndex){ 
@@ -678,19 +832,20 @@
 
 						return totalWidth;
 					},
-					scrollBoundRange : function(containerWidth){
-						const scrollBeltWidth = this.scrollBeltWidth = this.calculateAPI.scrollBeltWidth.call(this);
-						const boundaryConst = 0;
-						const leftRange = Math.floor( containerWidth * (0 + boundaryConst) );
-						const rightRange = Math.floor( (containerWidth - scrollBeltWidth) * (1 + boundaryConst) );
-						const boundRange = this.isRTL ? [(rightRange * -1), leftRange] : [(leftRange * -1), rightRange];
+					scrollRange : function(_containerWidth, _scrollBeltWidth){
+						const coverageRatio = 1;
+						const leftLimit = Math.floor( _containerWidth * 0 );
+						const rightLimit = Math.floor( (_containerWidth - _scrollBeltWidth) * 1 );
+						const boundRange = this.isRTL ? [(rightLimit * -1), leftLimit] : [leftLimit, rightLimit];
 						
 						if(this.debug){
 							console.group();
-							console.log(`%cCalculate.scrollBoundRange`, APIStyle);
+							console.log(`%cCalculate.scrollRange`, APIStyle);
 							console.log("this:", this);
-							console.log(`leftRange : ${leftRange}`);
-							console.log(`rightRange : ${rightRange}`);
+							console.log(_containerWidth);
+							console.log(_scrollBeltWidth);
+							console.log(`leftRange : ${leftLimit}`);
+							console.log(`rightRange : ${rightLimit}`);
 							console.groupEnd();
 						}
 
@@ -699,14 +854,12 @@
 				};
 				return API;
 			})();
-			// initialize
+			// Create
 			Tab.prototype.create = function(){
 				console.group();
 				console.log(`%cCreate ${this.name}`, flowStyle);
 				// console.log("proto : ", this);
-				this.containerWidth = this.calculateAPI.scrollContainerWidth.call(this);
-				this.boundRange = this.calculateAPI.scrollBoundRange.call(this, this.containerWidth);
-
+				config.dynamicFetch && this.fetch(this.fetchCallback);
 				/* pre setting */
 				const initialFocus = true;
 				const startIndex = this.activeIndex;
@@ -716,28 +869,84 @@
 				this.tabUnits.forEach( (unit, idx) => startIndex === idx && ( this.webAccessibility ? (unit.setAttribute("aria-selected", true), unit.tabIndex = 0) : unit.tabIndex = 0 ) );			
 				this.markActive(startIndex);
 				this.setFocus(startIndex);
-				// this.UiUpdate(this.activeIndex, initialFocus);
-				
 				/* event listening */
 				// tab
 				this.tabEvent();
-
-				// scroll
-				this.scrollHandler = this.swipeLifeCycle();
-				this.swipe();
-
 				// indicator
 				// this.indicatorEvent();
+				if(true){
+					// swipe
+					this.containerWidth = this.calculateAPI.scrollContainerWidth.call(this);
+					this.scrollBeltWidth = this.calculateAPI.scrollBeltWidth.call(this);
+					this.scrollRange = this.calculateAPI.scrollRange.call(this, this.containerWidth, this.scrollBeltWidth);
 
-				// re-rendering
-				// this.resizeEvent();
+					this.swipeHandleEvent = this.swipeHandler();
+					this.hangInSwipe(this.containerWidth, this.scrollBeltWidth);
+					
+					// re-rendering by resize
+					const customAPIOnResize = this.customAPI && this.customAPI.resize;
+					const resizeHandleEvent = this.resizeHandler(customAPIOnResize);
+
+					window.addEventListener("resize", resizeHandleEvent);
+				}
 				
-				console.log("create done!")
+				console.log("create done!");
 				console.groupEnd();
-				
+
 				return this;
 			};
-			this.create();
+			
+			// Tab.prototype.UiUpdate = function(_index, _viewFlag){
+			// 	if(this.debug){
+			// 		console.group();
+			// 		console.log("%cUI update", flowStyle);
+			// 		console.log("index: ", _index);
+			// 		console.log("view flag: ", _viewFlag);
+			// 		console.log("focus element [before]: ", document.activeElement);
+			// 	}
+
+			// 	const roller = this.roller;
+			// 	const distance = this.calculateAPI.scrollPosition.call(this, _index);
+				
+			// 	// view update;
+			// 	if(_viewFlag){
+			// 		this.markActive(_index);
+			// 		this.setFocus(_index);
+			// 	}else{
+			// 		this.setFocus(_index);
+			// 	}
+
+			// 	this.animate(distance, roller);
+				
+			// 	if(this.debug){
+			// 		console.log("focus element [after]: ", document.activeElement);
+			// 		console.groupEnd();
+			// 	}
+
+			// 	return distance;
+			// };
+			// Tab.prototype.hangInSwipe = function(_containerWidth, _scrollBeltWidth){
+			// 	const mql = window.matchMedia(`screen and (min-width: ${_containerWidth}px)`);
+			// 	const condition = _containerWidth <= _scrollBeltWidth;
+
+			// 	console.group();
+			// 	console.log(`%cHang in Swipe`, flowStyle);
+			// 	console.log(this.name);
+			// 	console.log("mediaQueryList: ", mql);
+			// 	console.log("swipe activate: ", condition);
+				
+			// 	if(condition){
+			// 		mql.addListener((mediaQueryList)=>{
+			// 			console.log(true);
+			// 			mediaQueryList.matches ? 
+			// 			( console.log(`${this.name} no scroll`), this.closedSwipe() ) : 
+			// 			( console.log(`${this.name} has scroll`), this.swipe() );
+			// 		});
+					
+			// 	}
+			// 	console.groupEnd();
+			// }
+			config.autoCreate && this.create();
 		}
 		const tenKey = {
 			"104" : "PREV",
@@ -751,10 +960,11 @@
 		const tablist1 = new Tab({
 			rootElement : tab[0],
 			focusWithPosition : "manual",
-			indicatorUseage : "index",
+			indicatorUseage : "tab",
 			startIndex : 1,
 			webAccessibility : true,
 			addBindKeys : tenKey,
+			autoCreate : true,
 			// debug : true,
 		});
 		const tablist2 = new Tab({
@@ -763,687 +973,65 @@
 			indicatorUseage : "scroll",
 			startIndex : 4,
 			direction : "rtl",
+			autoCreate : false,
 			// debug : true,
 		});
-		// tablist1.swipe = tablist1.swipe.bind(tablist1);
-		// tablist2.swipe = tablist2.swipe.bind(tablist2);
-		// tablist1.swipe();
-		// tablist2.swipe();
-	</script>
-	<!-- <script>
-		const TabScroller = (function(){
-			function TabScroller(root){
-				this.root = root;
-				this.tabButton = this.root.querySelectorAll("[role=tab]") || this.root.querySelectorAll(".tab");
-				TabScroller.prototype.event = function(){
-					console.log(this.tabButton);
-					this.tabButton.forEach( tab => tab.addEventListener("click", function(event){
-						console.log("event:click");
-						const siblings = this.parentElement.children;
-						const index = Array.prototype.findIndex.call(siblings, sibling => sibling === this);
-						TabScroller.prototype.markActive(index);
-					}))
-				};
-				TabScroller.prototype.markActive = function(index){
-					console.log(this);
-					console.log(TabScroller);
-					console.log(index);
-					console.log(TabScroller.tabButton[index]);
-				}
-			}
-			return TabScroller;
-		})();
-		const Tab = document.querySelectorAll("[role=tablist]");
-		const tabList1 = new TabScroller(Tab[0]);
-		const tabList2 = new TabScroller(Tab[1]);
-		console.log(tabList1);
-		console.log(tabList2);
-		tabList1.event();
-		tabList2.event();
-	</script> -->
-	<!-- <script>
-		'use district';
-		const tabUI = document.querySelectorAll("[role=tablist]");
-		const initialConfig = [
-			// tabList1
-			{
-				rootElement : tabUI[0],
-				activeIndex : 3,
-				webAccessibility : true
-			},
-			// tabLis2
-			{
-				rootElement : tabUI[1],
-				tabSelector : ".tab",
-				activeIndex : 0
-			}
-		];
-		
-		const tabList = initialConfig.reduce((acc, config, idx)=>{
-			config.rootElement = tabUI[idx];
-			acc[idx] = new Tab(config);
-			return acc;
-		},[]);
-		// console.log(tabList);
-
-		function Tab(config){
-			this.rootElement = config.rootElement;
-			this.tabUnits = config.rootElement.querySelectorAll("[role=tab]") || config.rootElement.querySelectorAll(`${config.tabSelector}`);
-			this.activeIndex = config.activeIndex || 0;
-			this.activeClass = config.activeClass || "active";
-
-			const isWA = this.webAccessibility = config.webAccessibility || false;
-			const activeTabUnit = this.tabUnits[this.activeIndex];
-			const scroller = this.rootElement.querySelector(".scroller");
-			const activeClass = `${this.activeClass}`;
-
-			// P = Tab.prototype;
-			A = Array.prototype;
-
-			Tab.prototype.init = ()=>{
-				console.log(this);
-
-				// tab event
-				this.tab();
-			};
-		
-			
-			const clickEvent = (event, _this)=>{
-				// markActive
-				const siblings = unit.parentElement.children;
-				A.forEach.call(siblings, sibling => {
-					sibling.classList.remove(activeClass);
-					if(isWA) sibling.setAttribute("aria-selected", false);
-				});
-				unit.classList.add(activeClass);
-				if(isWA) unit.setAttribute("aria-selected", true);
-			}
-			const pressedEvent = (event)=>{
-				console.log(event);
-			}
-			const tabEvent = (event)=>{
-				console.log(event);
-				switch(event.type){
-					case "click" : clickEvent(event); break;
-					case "keyup" : pressedEvent(event); break;
-				}
-			}
-			Tab.prototype.tab = function(){
-				this.tabUnits.forEach((unit, index)=>{
-					unit.addEventListener("click", tabEvent);
-				});
-			};
-
-			this.tabEvent = {
-				handleEvent : (event)=>{
-					console.log(event);
-					console.log(this);
-					event.preventDefault();
-					switch(event.type){
-						case "click" : tabEvent.byClick(event); break;
-						case "keyup" : tabEvent.byPressed(event); break;
-					}
-				},
-				byClick : (event)=>{
-
-				},
-				byPressed : (event)=>{
-
-				}
-			}
-			// Tab.prototype.getPositionIndex = function(_self){
-			// 	const siblings = _this.parentElement.children;
-			// 	this.activeIndex = A.findIndex.call(siblings, element => element === _self);
-			// 	console.log(`Active index : ${this.activeIndex}`);		
-			// };
-			// Tab.prototype.markActive = function(index){
-			// 	// console.log(this.activeIndex);
-			// 	// console.log(this.tabUnits);
-			// 	this.tabUnits[index].classList.add(`${this.activeClass}`);
-				
-			// 	if(isWA){
-			// 		this.tabUnits[index].setAttribute("aria-selected", "true");
-			// 	}
-			// };
-			// Tab.prototype.animate = function(target = scroller, distance){
-			// 	// console.log(target);
-			// 	// console.log(distance);
-			// 	target.style.transform = `matrix(1,0,0,1,${distance},0)`
-			// };
-			Tab.prototype.init();
-
-		}
-	</script> -->
-	<!-- <script>
-		// scenario
-		/*
-			dom을 탐색하여 tablist 요소를 선택한다
-			선택한 요소의 dom tree를 확인하다
-				- ul/ol이 쓰였을 때 :
-				- role=tablist와 role=tab이 직접적인 부모 자식이었을 때 :
-				- role=tab이 role=tablist의 자손이었을 때 :
-			
-		*/
-		const tabUI = document.querySelectorAll("[role=tablist]");
-		// console.log(tabUI);
-
-		// constructor
-		function Tab(config){
-			// destructuring config object
-			const {rootElement, scrollingSelector, initialPosition, direction, useWA, callbacks, debug, tab, customizing} = config;
-			const {startIndex} = tab;
-			if(customizing){
-				const {addBindKeys} = customizing.options;
-			}
-			// pre-setting 
-			this.rootElement = rootElement;
-			this.direction = direction ? -1 : 1;
-			this.useWA = useWA;
-			this.scrollingSelector = scrollingSelector
-			this.scrollBoundRange = null;
-			if(debug){
-				this.debug = {
-					calculate : false || debug.calculate
-				};
-			}
-
-			// prototype filed
-			const p = Tab.prototype;
-			// common methods
-			// CRUD
-			p.create = ()=>{
-				this.init();
-			};
-			p.read = (request)=>{
-				console.log(this);
-				return eval(`this.${request}`);
-			};
-			p.update = ()=>{
-				console.log(update);
-			};
-			p.delete = ()=>{
-				this.init = null;
-			};
-			p.init = ()=>{
-				// All null value are initialize
-				this.scrollBoundRange = this.calculate.scrollBoundRange(this.calculate.scrollContainerWidth(this.debug.calculate), this.debug.calculate);
-
-				// Call API
-				// this.scrollLifeCycleAPI();
-				
-				// tab
-				this.tab();
-
-				// method chaining base
-				return p;
-			}
-
-			// tab event
-			this.tabUnit = this.rootElement.querySelectorAll("[role=tab]");
-			this.tabPanelUnit = this.rootElement.querySelectorAll("[roll=tabpanel]");
-			this.PrevArrow = this.rootElement.querySelector("[aria-label='Previous tab']");
-			this.NextArrow = this.rootElement.querySelector("[aria-label='Next tab']");
-			this.activeIndex = startIndex || 0;
-			// console.log(
-			// 	this.PrevArrow,
-			// 	this.NextArrow
-			// )
-			p.tab = ()=>{
-				Array.prototype.map.call(this.tabUnit, (unit)=>{
-					unit.addEventListener("click", (event)=>{
-						console.log("click");
-						// console.dir(event.currentTarget);
-						// console.dir(event.target);
-						event.preventDefault();
-						const _this = event.target;
-						p.getIndex(_this);
-						p.setPositionByIndex(this.activeIndex, this.scroller);
-						// const role = _this.TagName;
-						// if(_this.getAttribute("role") === "tab"){
-						// 	console.log("button:tab");
-						// }
-						// if(_this.getAttribute("aria-label") === "Previous tab"){
-						// 	console.log("button:prev");
-						// }
-						// if(_this.getAttribute("aria-label") === "Next tab"){
-						// 	console.log("button:next");
-						// }
-					});
-				});
-
-				this.rootElement.addEventListener("keyup", ({keyCode})=>{
-					// console.dir(event.currentTarget);
-					// console.dir(event.target);
-					// console.dir(event);
-					// console.log(keyCode);
-					// event.preventDefault();
-
-					const action = {
-						NEXT_TAB : "NEXT",
-						PREV_TAB : "PREV",
-						FIRST_TAB : "FIRST",
-						LAST_TAB : "LAST"
-					}
-					const {NEXT_TAB, PREV_TAB, FIRST_TAB, LAST_TAB} = action;
-					const bindKeys = Object.assign({
-						// case:ten key less 
-						"40" : NEXT_TAB,
-						"39" : NEXT_TAB,
-						"38" : PREV_TAB,
-						"37" : PREV_TAB,
-						"36" : FIRST_TAB,
-						"35" : LAST_TAB
-					}, addBindKeys);
-					// console.log(bindKeys);
-					p.loadPosition(bindKeys[`${keyCode}`]);
-					
-				});
-				return p;
-			}
-			p.loadPosition = (action)=>{
-				switch(action){
-					case "NEXT" : 
-						console.log(action.NEXT_TAB);
-						this.activeIndex = (this.tabUnit.length <= this.activeIndex + 1) ? this.activeIndex : this.activeIndex + 1;
-						p.setPositionByIndex(this.activeIndex);
-						break;
-					case "PREV" : 
-						console.log(action.PREV_TAB); 
-						this.activeIndex = (0 > this.activeIndex - 1) ? this.activeIndex : this.activeIndex - 1;
-						p.setPositionByIndex(this.activeIndex);
-						break;
-					case "FIRST" : 
-						console.log(action.FIRST_TAB);
-						p.setPositionByIndex(0);
-						break;
-					case "LAST" : 
-						console.log(action.LAST_TAB); 
-						p.setPositionByIndex(this.tabUnit.length);
-						break;
-					default : break;
-				}
-			}
-			p.getIndex = (_this)=>{
-				const _siblings = _this.parentElement.children;
-				this.activeIndex = Array.prototype.findIndex.call(_siblings, (element)=> element === _this);
-				console.log(`Active index : ${this.activeIndex}`);
-
-				return p;
-			}
-			this.isAutoPositioning = true;
-			p.setPositionByIndex = (index)=>{
-				console.log(index);
-				const chosenElement = this.tabUnit[index];
-				console.dir();
-				if(this.isAutoPositioning){
-					const scrollItemMargin = parseInt(window.getComputedStyle(chosenElement, null).getPropertyValue("margin-left").replace("px", ""));
-					const distance = (chosenElement.offsetLeft - scrollItemMargin) * -1;
-
-					// console.log(distance, chosenElement.offsetLeft, scrollItemMargin);
-					
-					p.scrollAnimate(distance);
-				}else{
-
-				}
-				return p;
-			}
-
-			// calculate methods
-			p.calculate = {
-				scrollContainerWidth : (debugFlag)=>{
-					const width = this.rootElement.querySelector(".scrollContainer").offsetWidth;
-
-					if(debugFlag){
-						console.log(width);
-					}
-					
-					return width;
-				},
-				scrollBeltWidth : (debugFlag)=>{ 
-					const scrollItem = this.rootElement.querySelectorAll("[role=tab]");
-					const scrollItemMargin = parseInt(window.getComputedStyle(scrollItem[0], null).getPropertyValue("margin-left").replace("px", ""));
-					const baseWidth = scrollItemMargin * 2 * (scrollItem.length - 1);
-					const totalWidth = Array.prototype.reduce.call(scrollItem, (total, _tab)=> total + _tab.offsetWidth, baseWidth);
-
-					if(debugFlag){
-						console.group();
-						console.log(`scrollItem : ${scrollItem}`);
-						console.log(`scrollItemMargin : ${scrollItemMargin}`);
-						console.log(`baseWidth : ${scrollItemMargin}`);
-						console.log(`totalWidth : ${scrollItemMargin}`);
-						console.groupEnd();
-					}
-
-					return totalWidth;
-				},
-				scrollBoundRange : (containerWidth, debugFlag)=>{
-					const leftRange = Math.floor( containerWidth * 0 );
-					const rightRange = Math.floor( ( containerWidth - p.calculate.scrollBeltWidth(this.debug.calculate) ) * 1 );
-
-					if(debugFlag){
-						console.log(`leftRange : ${leftRange}`);
-						console.log(`rightRange : ${rightRange}`);
-					}
-
-					return [leftRange, rightRange];
-				}
-			}
-			/*
-				scroll event lifecycle
-				action => create => render => action => [update] => render
-				action => create => render => action => [delete] => render(remove on view)
-				
-				- controller
-				1. controller(user action, handlers:[START, MOVE, END], options, target:rootElement);
-					- user action의 type에 따라 handler를 선택하며, 각기 수행한 이벤트의 정보를 반환한다.
-						# createEvent(handlers:START[, options]) return event data
-						# updateView(handlers:MOVE, options) return event data
-						# deleteEvent(handlers:END) return event data
-				- model
-				1. model(event data) return data for render;
-					- 이벤트 정보를 받아 view를 렌더링하기 위한 정보를 생성/가공한다.
-
-				- render
-				1. render(renderer, data:[calculate value, model])
-					- 모델로부터 정보를 받아 view를 만든다.
-				
-
-				user action => scroll Event Triggered => mouse/touch point move => view re-action => user action stop/end => re-rendering n correction
-				마우스 다운 => 스크롤 이벤트 등록 => 마우스 좌표 기반 계산값을 요소에 반영 => css transition => 마우스 업 => 요소 위치 결정 및 보정 (direction, over scroll....);
-			*/
-			p.scrollLifeCycle = (
-				userAction = {
-					"START" : ["touchstart", "mousedown"],
-					"MOVE" : ["touchmove", "mousemove"],
-					"END" : ["touchend", "mouseup"]
-				}, 
-				handlers, 
-				options, 
-				target = this.rootElement
-			)=>{
-				// controller
-				let eventData = null;
-				return ()=>{
-					const API = this.scrollLifeCycleAPI;
-					switch(userAction){
-						case "START" :
-							eventData = API.createEvent(userAction, handlers["START"], target, options = false);
-							break;
-						case "MOVE" :
-							eventData = API.updateView(userAction, handlers["MOVE"], options);
-							break;
-						case "END" : 
-							eventData = API.deleteEvent(userAction, handlers["END"]);
-							break;
-						default : 
-							throw new Error("This is not defined action.(정의된 동작이 아닙니다)");
-					}
-				}
-			}
-			p.scrollLifeCycleAPIs = {
-				initialized : (beforePosition) => {
-					const element = this.rootElement.querySelector(`${this.scrollingSelector}`);
-					this.scrollLifeCycleAPIs.render(element, beforePosition);
-				},
-				createEvent : (action, handler, target, options)=>{
-					target.addEventListener(action, handler(options));
-				},
-				updateView : ()=>{
-
-				},
-				deleteEvent : ()=>{
-
-				},
-				modeling : ()=>{
-
-				},
-				render : (scroller, distance)=>{
-					scroller.style.transform = `matrix(1, 0, 0, 1, ${distance}, 0)`;
-				}
-			}
-			this.initialPosition = initialPosition || 0;
-			this.scrollPosition = null;
-			console.log(this.rootElement);
-			this.scroller = this.rootElement.querySelector(`${this.scrollingSelector}`);
-			const addTransition = (time = 300)=>{
-				const tg = this.rootElement.querySelector(`${this.scrollingSelector}`);
-				tg.setAttribute("style", `transition:transform ${time}ms ease`);
-				setTimeout(()=>{
-					tg.style.transition = "";
-				}, 400);
-
-				return true;
-			};
-
-			p.scrollAnimate = (distance, element = this.scroller)=>{
-				console.log(element);
-				element.style.transform = `matrix(1, 0, 0, 1, ${distance}, 0)`;
-			}
-			p.scrollLifeCycleAPI= ()=>{
-				const target = this.rootElement;
-				const START = "mousedown";
-				const END = "mouseup";
-				const MOVE = "mousemove";
-				const touchPosition = {
-					x : null,
-					distance_x : 0,
-					startPoint : null,
-				};
-
-				const callback = (triggerEvent)=>{
-					const {currentTarget} = triggerEvent;
-					const element = currentTarget.querySelector(`${this.scrollingSelector}`);
-					console.log(currentTarget);
-					console.log(element);
-					touchPosition.x = triggerEvent.touches ? triggerEvent.touches[0].screenX : triggerEvent.screenX;
-					touchPosition.startPoint = this.scrollPosition;
-
-					return (moveEvent)=>{
-						const movePosX = moveEvent.touches ? moveEvent.touches[0].screenX : moveEvent.screenX;
-						const distance = movePosX - touchPosition.x;
-
-						this.scrollPosition = touchPosition.startPoint + distance;
-						p.scrollAnimate(this.scrollPosition, element);
-					};
-				};
-				// switch
-				console.log(target)
-				target.addEventListener(START, (event)=>{
-					const handler = callback(event);
-					window.addEventListener(MOVE, handler, false);
-					window.addEventListener(END, ()=>{
-						window.removeEventListener(MOVE, handler, false);
-						// const [leftRange, rightRange] = this.scrollBoundRange;
-						// if(0 <= this.scrollPosition && leftRange < this.scrollPosition && addTransition()) this.scrollPosition = leftRange;
-						// if(0 > this.scrollPosition && rightRange > this.scrollPosition && addTransition()) this.scrollPosition = rightRange;
-						p.scrollAnimate(this.scrollPosition, this.scroller);
-					}, false);
-				}, false);
-			}
-
-			// web accessible methods
-			if(useWA){
-				p.accessibility = ()=>{
-					console.log("ref wcag");
-				}
-			}
-		}
-
-		// useage
-		const tabList = new Tab({
-			rootElement : tabUI[0],
-			scrollingSelector : ".scroller",
-			direction : 1,
-			initialPosition : -100,
-			useWA : false,
-			debug : {
-				flag : false,
-				calculate : false,
-			},
-			tab : {
-				startIndex : 0,
-			},
-			customizing : {
-				flag : true,
-				options : {
-					// ten key
-					addBindKeys : {
-						"104" : "PREV",
-						"100" : "PREV",
-						"102" : "NEXT",
-						"98" : "NEXT",
-						"103" : "FIRST",
-						"97" : "LAST"
-					},
-				}
-			}
-		});
-		tabList.create();
-		console.log(tabList);
-		// const approachConfig = tabList.read("calculate");
-		// console.log(approachConfig);
-		// tabList.delete();
-		// console.log(tabList.init);
-
-		const tabList2 = new Tab({
-			rootElement : tabUI[1],
-			scrollingSelector : ".scroller",
-			direction : 1,
-			initialPosition : -100,
-			useWA : false,
-			debug : {
-				flag : false,
-				calculate : false,
-			},
-			tab : {
-				startIndex : 0,
-			},
-			customizing : {
-				flag : true,
-				options : {
-					// ten key
-					addBindKeys : {
-						"104" : "PREV",
-						"100" : "PREV",
-						"102" : "NEXT",
-						"98" : "NEXT",
-						"103" : "FIRST",
-						"97" : "LAST"
-					},
-				}
-			}
-		});
-		console.log(tabList2);
-	</script> -->
-	<!-- <script>
-		const start = document.getElementById("tab");
-		function find(el){
-			let findTg = null;
-			let treeNestedDepth = 0;
-			
-			const findTgElement = ()=>{
-				if (
-					el.children[0].attributes.getNamedItem("role") !== null && 
-					el.children[0].attributes.getNamedItem("role").value === "tab"
-				){
-					findTg = el.children;
-					return findTg, treeNestedDepth;
-				}else{
-					let rebind = el.children[0];
-					treeNestedDepth++;
-					find.call(document, rebind);
-				}
-			}
-			findTgElement();
-		};
-		function uiElementChecker(tgElements){
-			console.log(tgElements);
-			Array.map.call(tgElements, (el)=>{
-				console.dir(el);
-				el.tabIndex !== 0 && el.setAttribute("tabindex", 1);
-			});
-		};
-		// scenario
-		/*
-		role=tablist를 root element로 하는 dom tree를 생성 또는 인지.
-		screen fit에 맞춰 리사이징.
-		한줄 정렬 시 스크롤 ui 제공.
-		현재 탭의 위치 표시 및 index 리턴. by mouse, keyboard, touch, scroll.
-		arrow, wheel로 스크롤 이동 시 
-		index를 이용한 callback 사용 제공.
-		index를 이용한 history stack 생성. 
-		라이프 사이클 api 제공.
-		커스텀 함수를 추가하여 확장가능하도록 최소 기능으로 한정.
-		console.log를 통해 wai-aria의 맞지 않거나 미진한 부분을 작성자에게 전달.
-		이후 carousel 케이스 추가.
-		*/
-		function interaction(eventObject, dispatch){
-			const object = eventObject || {};
-			if( 0 <= eventObject.type.indexOf("key")){
-				object.type = "keyboardEvent"; 
-			}
-			return object;
-		}
-
-		function TabUI([
-			root,
-			direction,
-			mediaMatches
-		]){
-			this.root = document.querySelectorAll(root);
-			this.componentRoot =  this.root.forEach((el)=>{return el});
-			this.direction = direction,
-			this.mediaQuery = mediaMatches
-			;
-			const init = ()=>{
-				focusable();
-			}
-			// static field
-			const accessibilityError = (flag)=>{
-				if(flag === false || flag === undefined) return flag;
-
+		tablist2.customAPI = {
+			resize : function(_contextObject){
 				console.group();
-				if(this.root.children().getAttribute("role") === tab && this.root.children().getAttribute("aria-labelledBy") === undefined ){
-					console.log("accessible name을 지정해주세요.");
-				}
+				console.log(_contextObject);
+				console.log(this);
 				console.groupEnd();
-			};
-			const focusable = ()=>{
-				console.log("focusable");
-				console.log(this.componentRoot);
-				document.querySelectorAll(root + " [role=tab]").forEach((children)=>{
-					if(children.tabIndex !== 1) children.tabIndex = 1; 
-				});
-			};
-			// 
-			const interface = TabUI.prototype; 
-			interface.positioning = (pos)=>{
 
-			};
-			interface.addEventListener = (eventType, callback)=>{
-				return window.addEventListener.call(this.root[0], eventType, (eventObject) => {
-					callback();
-				});
+				const {containerWidth, scrollBeltWidth} = _contextObject;
+				containerWidth <= scrollBeltWidth ? this.roller.classList.remove("align-center") : this.roller.classList.add("align-center");
 			}
-			interface.keyEvent = (callback)=>{
-				window.addEventListener.call(this.root[0], "keydown", (event)=>{
-					console.log(event);
-
-					const actionType = interaction(event);
-					console.log(actionType);
-					if(event.__proto__.initKeyboardEvent){
-						console.log(event.keyCode);
-					}
-				})
-			}
-			init();
 		}
-		const tab1 = new TabUI([
-			"#tab",	// root
-			"ltr",
-			768
-		]);
-		tab1.keyEvent()
-	</script> -->
+		tablist2.create();
+		
+		// dynamic template
+		let tablist3 = null;
+		function ajaxTEST(){
+			const objAjax = new XMLHttpRequest();
+			const callUrl = "./ajax-test/markup.html";
+			objAjax.onreadystatechange = function(){
+				if( objAjax.readyState === objAjax.DONE && objAjax.status === 200 ){
+					console.log(typeof objAjax.response);
+					// const dynamicHTML = new DOMParser().parseFromString(objAjax.response, "text/xml").firstElementChild;
+					const dynamicHTML = document.createRange().createContextualFragment(objAjax.response);
+					console.dir(dynamicHTML);
+					document.body.appendChild(dynamicHTML);
+					return tablist3 = new Tab({
+						rootElement : document.getElementById("tab3"),
+						focusWithPosition : "manual",
+						indicatorUseage : "scroll",
+						startIndex : 0,
+						autoCreate : true,
+						// debug : true,
+					});
+				}
+			};
+
+			objAjax.open("get", callUrl, true);
+			objAjax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			objAjax.send();
+		}
+		ajaxTEST();
+
+		// dynamic data
+		const tablist4 = new Tab({
+			rootElement : document.querySelector(".tab4"),
+			focusWithPosition : "manual",
+			indicatorUseage : "tab",
+			startIndex : 0,
+			autoCreate : true,
+			direction : "rtl",
+			dynamicHTML : true,
+			dynamicFetch : true, 
+			fetchURL : "./ajax-test/listData.json",
+			debug : true,
+		});
+		
+		</script>
 </body>
 </html>
