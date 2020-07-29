@@ -73,6 +73,7 @@
 		<li id="tab1_panel06" role="tabpanel" aria-labelledby="tab06">Panel-06</li>
 		<li id="tab1_panel07" role="tabpanel" aria-labelledby="tab07">Panel-07</li>
 	</ul>
+	<hr>
 	<!-- // #tab1 -->
 	
 	<div id="tab2" role="tablist" dir="rtl">
@@ -99,6 +100,7 @@
 		<li role="tabpanel">Panel-03</li>
 		<li role="tabpanel">Panel-04</li>
 	</ul>
+	<hr>
 	<!-- // #tab2 -->
 
 	<div class="tab4" role="tablist" dir="rtl">
@@ -121,13 +123,13 @@
 		<li role="tabpanel"></li>
 		<li role="tabpanel"></li>
 	</ul>
-
+	<hr>
 	<!-- // .tab4 -->
 
 	<!-- // .tab5 -->
-	<div class="tab-wrapper">
-
-	</div>
+	<h3>tab5</h3>
+	<div class="tab-wrapper"></div>
+	<hr>
 	<!-- // .tab5 -->
 
 	<template class="tab">
@@ -154,14 +156,13 @@
 				_opt.wrapperElement.innerHTML = HTML;
 				// rootElement = document.querySelector(`.${_opt.root}`);
 				const rootElement = config.rootElement = _opt.wrapperElement.children[0];
-				
 				return rootElement;
 			};
+			
 			/* Constructor value */
 			// DOM
-			this.rootElement = (config.dynamicHTML && createHTML(config.dynamicOptions)) || config.rootElement;
-			console.dir(this);
-			this.tabUnits = config.rootElement.querySelectorAll("[role=tab]") || config.rootElement.querySelectorAll(".tab");
+			this.rootElement = config.dynamicHTML && createHTML(config.dynamicOptions) || config.rootElement;
+			this.tabUnits = config.rootElement.querySelectorAll("[role=tab]").length > 0 && config.rootElement.querySelectorAll("[role=tab]") || config.rootElement.querySelectorAll(".tab");
 			this.tabPanelWrap = config.panelWarpElement || document.querySelector(`${config.rootElement.getAttribute("id")}_panels`) || config.rootElement.nextElementSibling;
 			this.tabPanels = Array.prototype.map.call(this.tabPanelWrap.children, child => child);
 			this.rollerContainerSelector = config.rollerContainerSelector || ".scrollContainer";
@@ -215,8 +216,7 @@
 			const scrollHandler = "color:lightcoral";
 			
 			/* Prototype method */
-			// dynamic
-			
+			// fetch data
 			Tab.prototype.fetchData = function(
 				_callback,
 				_url = this.DefaultFetchURL,
@@ -225,7 +225,6 @@
 				_parseJSON = true
 			){
 				console.group();
-				// console.time("fetchData");
 				console.log("%cFetch", flowStyle);
 				console.trace();
 				console.log(`action: ${_action}`);
@@ -238,7 +237,6 @@
 
 				xhr.responseType = _dataType;
 				xhr.onload = function(){
-					console.group();
 					console.log("%cAJAX request", flowStyle);
 					console.log(context.name);
 					// console.log("context:", context);
@@ -247,48 +245,67 @@
 
 					const response = this.response;
 					callback(response);
-					// console.timeEnd("fetchData");
 					console.groupEnd();
 				};
 				xhr.onerror = function(err){
 					console.log(`Error code: ${this.status}`);
-					// console.timeEnd("fetchData");
 					console.groupEnd();
 					throw error(err);
 				};
-				
-				// xhr.onreadystatechange = function(){
-				// 	// console.log("xhr: ", this);
-				// 	// console.log(context.name);
-				// 	if(this.readyState === this.DONE && this.status === 200){
-				// 		const response = xhr.response;
-				// 		callback(response);
-				// 		console.groupEnd();
-				// 	}else{
-				// 		console.log(`Error code: ${xhr.status}`);
-				// 		console.groupEnd();
-				// 	}
-				// }
 
 				xhr.open(_action, _url, _parseJSON);
 				xhr.send();
 			};
+			// temporary method
 			Tab.prototype.fetchCallback = function(_response){
 				if(!_response) return;
 
 				const data = _response.product;
 				
-				console.group();
-				console.log("%cFetch callback", flowStyle);
-				console.log(this);
-				console.log(data);
+				if(this.debug){
+					console.group();
+					console.log("%cFetch callback", flowStyle);
+					console.trace();
+					console.log(this);
+					console.log(data);
+				}
 				
+				if(data.length > this.tabUnits.length){
+					this.debug && console.log("fill");
+
+					let tabList = this.tabUnits[0].parentElement.innerHTML; 
+					let tabpanel = this.tabPanelWrap.innerHTML;
+					const button = this.tabUnits[0].outerHTML;
+					const panel = this.tabPanels[0].outerHTML;
+					for(let i=0; i < (data.length - this.tabUnits.length); i++ ){
+						console.log(i);
+						tabList += button;
+						tabpanel += panel;
+					}
+					this.tabUnits[0].parentElement.innerHTML = tabList;
+					this.tabPanelWrap.innerHTML = tabpanel;
+					
+					this.tabUnits = config.rootElement.querySelectorAll("[role=tab]").length > 0 && config.rootElement.querySelectorAll("[role=tab]") || config.rootElement.querySelectorAll(".tab");
+					this.tabPanels = Array.prototype.map.call(this.tabPanelWrap.children, child => child);
+
+					this.debug && console.log("complete loop:", this);
+				};
+
 				data.map((contents, idx)=>{
-					this.tabUnits[idx] && (this.tabUnits[idx].innerText = contents.id);
-					this.tabPanels[idx] && (this.tabPanels[idx].innerText = contents.copy);
+					const unit = this.tabUnits[idx];
+					const panel = this.tabPanels[idx];
+
+					if(unit){
+						unit.innerText = contents.id;
+						(idx !== 0) && unit.removeAttribute("tabindex");
+					};
+					if(panel){
+						panel.innerText = contents.copy;
+						(idx !== 0) && unit.removeAttribute("tabindex");
+					};
 				});
 
-				console.groupEnd();
+				this.debug && console.groupEnd();
 
 				return this;
 			};
@@ -927,16 +944,20 @@
 			})();
 			// Create
 			Tab.prototype.create = function(){
+
 				console.group();
 				console.time("create");
 				console.log(`%cCreate ${this.name}`, flowStyle);
 				
-				// config.dynamicFetch && this.fetchData(this.fetchCallback);
 				/* pre setting */
+				config.dynamicFetch && this.fetchData(this.fetchCallback);
+
 				const startIndex = this.activeIndex;
+				
 				this.tabUnits.forEach( (unit, idx) => startIndex === idx && ( this.webAccessibility ? (unit.setAttribute("aria-selected", true), unit.tabIndex = 0) : unit.tabIndex = 0 ) );			
 				this.markActive(startIndex);
 				this.setFocus(startIndex);
+				
 				/* event listening */
 				// tab
 				this.tabEvent();
@@ -947,75 +968,23 @@
 					this.containerWidth = this.calculateAPI.scrollContainerWidth.call(this);
 					this.scrollBeltWidth = this.calculateAPI.scrollBeltWidth.call(this);
 					this.scrollRange = this.calculateAPI.scrollRange.call(this, this.containerWidth, this.scrollBeltWidth);
-
 					this.swipeHandleEvent = this.swipeHandler();
 					this.hangInSwipe(this.containerWidth, this.scrollBeltWidth);
-					
+
 					// re-rendering by resize
 					const customAPIOnResize = this.customAPI && this.customAPI.resize;
 					const resizeHandleEvent = this.resizeHandler(customAPIOnResize);
-
 					window.addEventListener("resize", resizeHandleEvent);
+					this.customAPI && customAPIOnResize.call(this);
 				}
-				
-				console.log("proto : ", this);
+
 				console.timeEnd("create");
 				console.log("create done!");
 				console.groupEnd();
 
 				return this;
 			};
-			
-			// Tab.prototype.UiUpdate = function(_index, _viewFlag){
-			// 	if(this.debug){
-			// 		console.group();
-			// 		console.log("%cUI update", flowStyle);
-			// 		console.log("index: ", _index);
-			// 		console.log("view flag: ", _viewFlag);
-			// 		console.log("focus element [before]: ", document.activeElement);
-			// 	}
 
-			// 	const roller = this.roller;
-			// 	const distance = this.calculateAPI.scrollPosition.call(this, _index);
-				
-			// 	// view update;
-			// 	if(_viewFlag){
-			// 		this.markActive(_index);
-			// 		this.setFocus(_index);
-			// 	}else{
-			// 		this.setFocus(_index);
-			// 	}
-
-			// 	this.animate(distance, roller);
-				
-			// 	if(this.debug){
-			// 		console.log("focus element [after]: ", document.activeElement);
-			// 		console.groupEnd();
-			// 	}
-
-			// 	return distance;
-			// };
-			// Tab.prototype.hangInSwipe = function(_containerWidth, _scrollBeltWidth){
-			// 	const mql = window.matchMedia(`screen and (min-width: ${_containerWidth}px)`);
-			// 	const condition = _containerWidth <= _scrollBeltWidth;
-
-			// 	console.group();
-			// 	console.log(`%cHang in Swipe`, flowStyle);
-			// 	console.log(this.name);
-			// 	console.log("mediaQueryList: ", mql);
-			// 	console.log("swipe activate: ", condition);
-				
-			// 	if(condition){
-			// 		mql.addListener((mediaQueryList)=>{
-			// 			console.log(true);
-			// 			mediaQueryList.matches ? 
-			// 			( console.log(`${this.name} no scroll`), this.closedSwipe() ) : 
-			// 			( console.log(`${this.name} has scroll`), this.swipe() );
-			// 		});
-					
-			// 	}
-			// 	console.groupEnd();
-			// }
 			config.autoCreate && this.create();
 		}
 		const tenKey = {
@@ -1027,39 +996,47 @@
 			"97" : "LAST"
 		}
 		const tab = document.querySelectorAll("[role=tablist]");
-		// const tablist1 = new Tab({
-		// 	rootElement : tab[0],
-		// 	focusWithPosition : "manual",
-		// 	indicatorUseage : "tab",
-		// 	startIndex : 1,
-		// 	webAccessibility : true,
-		// 	addBindKeys : tenKey,
-		// 	autoCreate : true,
-		// 	// debug : true,
-		// });
+		const tablist1 = new Tab({
+			rootElement : tab[0],
+			focusWithPosition : "manual",
+			indicatorUseage : "tab",
+			startIndex : 1,
+			webAccessibility : true,
+			addBindKeys : tenKey,
+			autoCreate : true,
+			// debug : true,
+		});
+		const tablist2 = new Tab({
+			rootElement : tab[1],
+			focusWithPosition : "automatic",
+			indicatorUseage : "scroll",
+			startIndex : 4,
+			direction : "rtl",
+			autoCreate : false,
+			debug : true,
+		});
+		tablist2.customAPI = {
+			resize : function(_contextObject){
+				console.group();
+				console.log(_contextObject);
+				console.log(this);
+				console.groupEnd();
 
-		// // add proto method 
-		// const tablist2 = new Tab({
-		// 	rootElement : tab[1],
-		// 	focusWithPosition : "automatic",
-		// 	indicatorUseage : "scroll",
-		// 	startIndex : 4,
-		// 	direction : "rtl",
-		// 	autoCreate : false,
-		// 	// debug : true,
-		// });
-		// tablist2.customAPI = {
-		// 	resize : function(_contextObject){
-		// 		console.group();
-		// 		console.log(_contextObject);
-		// 		console.log(this);
-		// 		console.groupEnd();
+				let cw = null;
+				let scw = null;
 
-		// 		const {containerWidth, scrollBeltWidth} = _contextObject;
-		// 		containerWidth <= scrollBeltWidth ? this.roller.classList.remove("align-center") : this.roller.classList.add("align-center");
-		// 	}
-		// }
-		// tablist2.create();
+				if(_contextObject){
+					let cw = _contextObject.containerWidth;
+					let scw = _contextObject.scrollBeltWidth;
+				}else{
+					let cw = tablist2.containerWidth;
+					let scw = tablist2.scrollBeltWidth;
+				}
+
+				cw <= scw ? this.roller.classList.remove("align-center") : this.roller.classList.add("align-center");
+			}
+		}
+		tablist2.create();
 		
 		// dynamic template
 		let tablist3 = null;
@@ -1092,20 +1069,20 @@
 			objAjax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			objAjax.send();
 		}
-		// fetchHTML("./ajax-test/markup.html");
+		fetchHTML("./ajax-test/markup.html");
 
 		// dynamic data
-		// const tablist4 = new Tab({
-		// 	rootElement : document.querySelector(".tab4"),
-		// 	dynamicFetch : true,
-		// 	fetchURL : "./ajax-test/listData.json",
-		// 	fetchByTab : false,
-		// 	focusWithPosition : "manual",
-		// 	startIndex : 0,
-		// 	autoCreate : true,
-		// 	direction : "rtl",
-		// 	// debug : true,
-		// });
+		const tablist4 = new Tab({
+			rootElement : document.querySelector(".tab4"),
+			dynamicFetch : true,
+			fetchURL : "./ajax-test/listData.json",
+			fetchByTab : false,
+			focusWithPosition : "manual",
+			startIndex : 0,
+			autoCreate : true,
+			direction : "rtl",
+			// debug : true,
+		});
 		const tablist5 = new Tab({
 			template : document.querySelector("template.tab").innerHTML,
 			dynamicHTML : true,
