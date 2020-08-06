@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div class="nav">
+		<ul>
+			<li>
+				<a href="#" class="menu">navigation menu1</a>
+				<div class="door" onmousedown=dragOn();>sliding door</div>
+			</li>
+			<li>
+				<a href="#" class="menu">navigation menu2</a>
+				<div>sliding door</div>
+			</li>
+		</ul>
+	</div>
+
+	<script>
+		const door = document.querySelector(".door");
+		function dragCallback(e){
+			console.log(e.pageX);
+		}
+		function dragOn(){
+			console.log("mousedown");
+			window.addEventListener("mousemove", dragCallback, false);
+		}
+		function dragOff(){
+			window.addEventListener("mouseup", function(e){
+				console.log("mouseup");
+				window.addEventListener("mousemove", dragCallback, false);
+			},false)
+		}
+	</script>
+</body>
+</html>

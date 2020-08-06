@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>slick scroll bar</title>
+	<style>
+		body[dir="rtl"] {direction:rtl;}
+		body[dir="rtl"] .slick-slide {float:right;}
+
+		.inner {max-width:100%;}
+		.slick-list {outline:1px solid red; overflow: hidden; position: relative;}
+		.slick-track {display:inline-block; vertical-align:top;}
+		.slick-slide {
+			float:left;
+			min-height:1px;
+			height:100%;
+		}
+		.slick-active {
+			background-color:lightcoral;
+		}
+		.item {
+			width:auto!important; 
+			border:1px solid tan;
+			padding:10px 15px;
+			margin:0 15px;
+		}
+	</style>
+	<!-- <link rel="stylesheet" href="./slick.css"> -->
+</head>
+<body dir="rtl">
+	<div class="inner" data-slick-module="tab">
+		<div class="item">Телевизор</div>
+		<div class="item">Стиральная машина</div>
+		<div class="item">Холодильник</div>
+		<div class="item">Кондиционер</div>
+		<div class="item">Пылесос</div>
+		<div class="item">Стайлер для одежды</div>
+		<div class="item">Климатический комплекс</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="./slick.js"></script>
+	<script>
+		const $carousel = $(".inner");
+		$carousel.slick({
+			dots:false,
+			arrows:true,
+			slidesToShow : 1,
+			slidesToScroll : 1,
+			variableWidth: true,
+			infinite : false,
+			draggable: true,
+			swipe: true,
+			touchMove: true,
+			focusOnSelect: true,
+			// centerMode: false,
+			rtl : $("body").attr("dir") === "rtl" ? true : false
+		});
+		// $carousel.on('beforeChange', function(event, slick, currentSlide, nextSlide){
+		// 	// console.group();
+		// 	// console.log('before change');
+		// 	console.log(slick);
+		// 	// console.log(slick.$slides);
+		// 	// console.log(currentSlide);
+		// 	// console.log(nextSlide);
+		// 	// console.groupEnd();
+		// 	var isTab = slick.$slider.data("slick-module") === "tab" ? true : false;
+		// 	if(isTab){
+		// 		var sw = slick.$slider.innerWidth();
+		// 		var bw = 0;
+		// 		slick.$slides.each(function(i, e){
+		// 			bw += $(e).outerWidth(true);
+		// 		})
+		// 		var t = 0;
+		// 		var r = $("body").attr("dir") === "rtl" ? 1 : -1;
+		// 		for(var i = (nextSlide); i < slick.$slides.length; i++){
+		// 			// console.log(slick.$slides.eq(i));
+		// 			t += slick.$slides.eq(i).width();
+		// 		}
+		// 		console.log(t);
+		// 		console.log(sw);
+		// 		console.log(bw);
+		// 		console.log(bw - sw) ;
+		// 		if( sw < bw && sw >= t ){
+		// 			console.log("check");
+		// 			setTimeout(function(){
+		// 				slick.$slideTrack.css({
+		// 					"transform" : "translate3d( "+ (bw - sw) * r +"px, 0px, 0px)"
+		// 				});	
+		// 			},600)
+		// 		}
+		// 	}
+		// });
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+

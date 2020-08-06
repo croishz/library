@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		.swipe {
+			overflow: hidden;
+			visibility: hidden;
+			position: relative;
+		}
+		.swipe-wrap {
+			overflow: hidden;
+			position: relative;
+		}
+		.swipe-wrap > div {
+			float: left;
+			width: 100%;
+			height:400px;
+			background-color:tan;
+			border:1px solid midnightblue;
+			position: relative;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+	<div id="slider" class="swipe">
+		<div class="swipe-wrap">
+			<div>1</div>
+			<div>2</div>
+			<div>3</div>
+		</div>
+	</div>
+	<script>
+		// https://developer.mozilla.org/en-US/docs/Web/API/EventListener
+		// https://developer.mozilla.org/en-US/docs/Web/API/EventListener/handleEvent
+		const element = document.getElementById("slider");
+		const test = {
+			handleEvent : function(event){
+				console.log(event.type);
+				switch(event.type){
+					case "mousedown" : (()=>{
+						console.log("start");
+						window.addEventListener("mouseup", test1, false);
+						window.addEventListener("mousemove", test1, false);
+						window.addEventListener("mousedown", test1, false);
+					})();
+					break;
+					case "mouseup" : (()=>{
+						console.log("end");
+						window.removeEventListener("mouseup", test1, false);
+						window.removeEventListener("mousemove", test1, false);
+						window.removeEventListener("mousedown", test1, false);
+					})();
+					break;
+					default : return false;
+				}
+			}
+		}
+		const test1 = {
+			handleEvent: function(event) {
+				console.log("active check");
+				switch (event.type) {
+					case 'mousedown':
+					case 'touchstart': console.log(`${event.type}`); break;
+					case 'mousemove':
+					case 'touchmove': console.log(`${event.type}`); break;
+					case 'mouseup':
+					case 'mouseleave':
+					case 'touchend': console.log(`${event.type}`); break;
+					default : console.log("default"); break;
+				}
+			}
+		}
+		window.addEventListener("mousedown", test, false);
+		window.addEventListener("mouseup", test, false);
+	</script>
+</body>
+</html>

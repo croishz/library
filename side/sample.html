@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div class="wrap" id="tree1">
+		<button type="button" class="button">button01</button>
+		<button type="button" class="button">button02</button>
+		<button type="button" class="button">button03</button>
+	</div>
+	<div class="wrap" id="tree2">
+		<a href="#" class="button">link01</a>
+		<a href="#" class="button">link02</a>
+		<a href="#" class="button">link03</a>
+	</div>
+	<style>
+		.svg {
+			width:14px;
+			height:14px;
+		}
+	</style>
+	<div class="svg" viewBox="0 0 14 14" width="14px" height="14px">
+		<g>
+			<polygon points="12,13 1,13 1,2 5,2 5,1 0,1 0,14 13,14 13,9 12,9  " />
+			<polygon points="7,0 7,1 12.3,1 5.7,7.6 6.4,8.3 13,1.7 13,7 14,7 14,0   " />
+		</g>	  
+	</div>
+</body>
+	<script>
+		const trees = document.querySelectorAll(".wrap");
+		const tree1 = new Tree(trees[0]);
+		const tree2 = new Tree(trees[1]);
+		tree1.tab();
+		tree2.tab();
+		function Tree(root){
+			this.root = root;
+			this.button = root.querySelectorAll(".button");
+			this.activeIndex = 0;
+			const self = this;
+			Tree.prototype.tab = function (){
+				self.button.forEach( button => button.addEventListener("click", function(event){
+					console.log(button);
+					console.dir(this);
+					markActive(button);
+				}));
+			}
+			const markActive = (_this) => {
+				Array.prototype.forEach.call(_this.parentElement.children, (children => children.classList.remove("active") ));
+				_this.classList.add("active");
+			}
+			
+			Tree.prototype.getIndex = function(_this){
+				const siblings = _this.parentElement.children;
+				self.activeIndex = Array.prototype.findIndex.call(siblings, elem => elem === _this);
+				console.log(`activeIndex : ${self.activeIndex}`);
+				return self.activeIndex;
+			};
+
+			Tree.prototype.markActive = function(index){
+				console.group();
+				console.log("self :", self);
+				console.log(index);
+				console.log(self.button[index])
+				console.groupEnd();
+				self.button[index].classList.add("active");
+			};
+		}
+	</script>
+</html>

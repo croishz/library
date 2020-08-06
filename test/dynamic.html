@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div class="wrapper"></div>
+	<template>
+		<div class="*rootSelector*" data-root-name="*rootName*">
+			<div class="item">1</div>
+			<div class="item">2</div>
+			<div class="item">3</div>
+			<div class="item">4</div>
+		</div>
+		<ul>
+			<li class="contents"></li>
+			<li class="contents"></li>
+			<li class="contents"></li>
+			<li class="contents"></li>
+		</ul>
+	</template>
+	<script>
+		function DynamicTemplate(config){
+			/* Constructor method */
+			const createHTML = function(_opt){
+				let HTML = config.template;
+
+				HTML =	HTML.replace(/\*rootSelector\*/g, _opt.root)
+							.replace(/\*rootName\*/g, _opt.rootName);
+
+				_opt.wrapperElement.innerHTML = HTML;
+				// rootElement = document.querySelector(`.${_opt.root}`);
+				const rootElement = config.rootElement = _opt.wrapperElement.children[0];
+				
+				return rootElement;
+			};
+			// DOM
+			this.rootElement = createHTML(config.dynamicOptions) || config.rootElement;
+			this.items = config.rootElement.querySelectorAll(".item");
+			this.contentsWrap = config.rootElement.nextElementSibling;
+			this.contents = this.contentsWrap.children;
+			
+			// Create
+			DynamicTemplate.prototype.create = function(){
+				console.log(this);
+			};
+			this.create();
+		}
+
+		// dynamic template
+		const template1 = new DynamicTemplate({
+			template : document.querySelector("template").innerHTML,
+			dynamicOptions : {
+				wrapperElement : document.querySelector(".wrapper"),
+				root : "element",
+				rootName : "element1"
+			},
+		});
+		document.querySelector("template").remove();
+	</script>
+</body>
+</html>

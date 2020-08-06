@@ -1,3 +1,5 @@
 4.0.js
 node_modules
 canvas/asset
+*.ai
+*.psd

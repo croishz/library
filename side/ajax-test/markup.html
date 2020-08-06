@@ -1,0 +1,27 @@
+<div id="tab4" role="tablist" data-rootName="tablist4" aria-label="tab ui sample">
+	<div class="scrollContainer">
+		<div class="scroller">
+			<button type="button" id="tab01" role="tab" aria-controls="tab3_panel01" aria-selected="false">tab01</button>
+			<button type="button" id="tab02" role="tab" aria-controls="tab3_panel02" aria-selected="false" tabindex="-1">tab02</button>
+			<button type="button" id="tab03" role="tab" aria-controls="tab3_panel03" aria-selected="false" tabindex="-1">tab03</button>
+			<button type="button" id="tab04" role="tab" aria-controls="tab3_panel04" aria-selected="false" tabindex="-1">tab04</button>
+			<button type="button" id="tab05" role="tab" aria-controls="tab3_panel05" aria-selected="false" tabindex="-1">tab05</button>
+			<button type="button" id="tab06" role="tab" aria-controls="tab3_panel06" aria-selected="false" tabindex="-1">tab06</button>
+			<button type="button" id="tab07" role="tab" aria-controls="tab3_panel07" aria-selected="false" tabindex="-1">tab07</button>
+		</div>
+	</div>
+	<div class="indicator" aria-controls="tab3">
+		<button type="button" aria-disabled="true" tabindex="-1" aria-label="Previous tab">Prev</button>
+		<button type="button" aria-disabled="true" tabindex="-1" aria-label="Next tab">Next</button>
+	</div>
+</div>
+<!-- if native HTML, declare role=none -->
+<ul id="tab3_panels" role="none">
+	<li id="tab3_panel01" role="tabpanel" aria-labelledby="tab01">Panel-01</li>
+	<li id="tab3_panel02" role="tabpanel" aria-labelledby="tab02">Panel-02</li>
+	<li id="tab3_panel03" role="tabpanel" aria-labelledby="tab03">Panel-03</li>
+	<li id="tab3_panel04" role="tabpanel" aria-labelledby="tab04">Panel-04</li>
+	<li id="tab3_panel05" role="tabpanel" aria-labelledby="tab05">Panel-05</li>
+	<li id="tab3_panel06" role="tabpanel" aria-labelledby="tab06">Panel-06</li>
+	<li id="tab3_panel07" role="tabpanel" aria-labelledby="tab07">Panel-07</li>
+</ul>

@@ -1,0 +1,35 @@
+{
+	"product" : [
+		{
+			"id" : "TV/AUDIO/VIDEO",
+			"copy" : "Descubre el apasionante mundo de LG México dedicado a la imagen y el sonido donde encontrarás los últimos lanzamientos y avances en diseños de TV video y audio."
+		},
+		{
+			"id" : "MÓVILES",
+			"copy" : "Descubre la amplia gama de celulares de LG que incorporan inteligencia artificial para que tus tareas sean más sencillas y pantallas OLED Full Vision para la mejor calidad de imagen."
+		},
+		{
+			"id" : "ELECTRODOMÉSTICOS",
+			"copy" : "Descubre la amplia gama de electrodomésticos para el hogar de LG y obtén la mejores comodidades. Desde el cuidado de tus alimentos hasta la limpieza diaria."
+		},
+		{
+			"id" : "COMPUTACIÓN",
+			"copy" : "Descubre la avanzada gama de tecnología LG para computación, que combina estilo y rendimiento. Conoce nuestra amplía línea de Monitores y Proyectores, ideales para oficina y entretenimiento."
+		},
+		{
+			"id" : "AIRE ACONDICIONADO",
+			"copy" : "Refresca tu hogar con el máximo ahorro de energía con los aires acondicionados de LG que se ajustan a tus necesidades ya sea el tamaño de la habitación o la configuración que les quieras dar."
+		},
+		{
+			"id" : "SOPORTE",
+			"copy" : "Bienvenido a LG Soporte¿cómo podemos ayudarte?"
+		},
+		{
+			"id" : "SOPORTE",
+			"copy" : "Bienvenido a LG Soporte¿cómo podemos ayudarte?"
+		}
+	]
+}
+
+
+

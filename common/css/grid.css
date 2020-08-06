@@ -1,0 +1,41 @@
+body { font-family: Montserrat, sans-serif; }
+
+body, ul, h1, p { padding: 0; margin: 0; }
+
+a, a:hover { text-decoration: none; color: inherit; }
+
+.wrapper { overflow: hidden; height: 100vh; background-image: radial-gradient(circle farthest-side at 50% 175%, transparent 50%, #000 85%), url(https://uploads-ssl.webflow.com/5bb04fbbace69c2282b3f2fa/5bb05551c110e49bd37fa416_richard-gatley-533872-unsplash.jpg); background-position: 0px 0px, 50% 50%; background-size: auto, cover; background-repeat: repeat, no-repeat; }
+
+.interaction-elem { cursor: pointer; }
+
+.grid-display *:not(.dep-end) { display: grid; }
+
+.grid-wrap-template { height: 100%; column-gap: 0px; row-gap: 0px; grid-template-columns: 18vw 24vw 1fr; grid-template-rows: 1fr; }
+
+.w-layout-grid { grid-template-columns: 18vw 24vw 1fr; grid-template-rows: 1fr 15.5%; }
+
+.col-2 { height: 100%; column-gap: 0px; row-gap: 0px; grid-template-columns: 1fr; grid-template-rows: repeat(3, 1fr); border-style: solid; border-color: rgba(255, 255, 255, 0.1); border-right-width: 1px; border-left-width: 1px; }
+
+.row-end { margin-bottom: 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+
+.accordion-row { color: rgba(255, 255, 255, 0.4); border-bottom: 1px solid rgba(255, 255, 255, 0.1); transition: background-color 200ms ease,  color 200ms ease; }
+
+.accordion-row:hover { background-color: rgba(255, 255, 255, 0.2); color: white; }
+
+.accordion-content-wrapper { padding: 24px 46px; font-size: 14px; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; }
+
+.content { grid-column-start: 2; grid-column-end: 3; grid-row-start: 1; grid-row-end: 3; align-self: auto; }
+
+.content .flex { grid-column-start: 1; grid-column-end: 2; grid-row-start: 2; grid-row-end: 3; align-self: stretch; padding: 0 24px; color: rgba(255, 255, 255, 0.4); }
+
+.content .flex .flex-h { font-size: 12px; font-weight: 600; }
+
+.content .flex .flex-h .total:before { content: ""; display: inline-block; vertical-align: middle; background-color: currentColor; width: 2.2vw; height: 1px; margin: -2px 9px 0; }
+
+.content .flex .flex-head { color: white; font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif; font-weight: normal; }
+
+.content .row-end { grid-column-start: 1; grid-column-end: 2; grid-row-start: 3; grid-row-end: 4; }
+
+.navigation { grid-column-start: 3; grid-column-end: 4; grid-row-start: 2; grid-row-end: 3; align-self: end; }
+
+/*# sourceMappingURL=grid.css.map */

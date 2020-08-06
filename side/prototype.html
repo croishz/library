@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	
+
+		function Worker(name, job, lank){
+			this.name = name;
+			this.job = job;
+			this.lank = lank
+						
+			Worker.prototype.billCheck = function(pay){
+				console.log(`${this.job} ${this.name} paid ${pay * this.lank} on this month.`);
+			}
+			Worker.prototype.billCheckByArrow = (pay)=>{
+				console.log(`${this.job} ${this.name} paid ${pay * this.lank} on this month.`);
+			}
+			Worker.prototype.init = ()=>{
+				Worker.prototype.billCheck(300);
+				Worker.prototype.billCheckByArrow(300);
+			}
+			this.init();
+		}
+
+		const manager = new Worker("Anne", "Manager", 5);
+		const staff = new Worker("Ken", "Staff", 2);
+		// manager.billCheck(200);
+		// manager.billCheckByArrow(200);
+		// staff.billCheck(200);
+		// staff.billCheckByArrow(200);
+		
+	</script>
+</body>
+</html>

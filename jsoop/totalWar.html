@@ -9,7 +9,7 @@
 <body>
 	<script>
 		console.log("get started");	
-		function Faction(reader, armies, orbit, powerLevel, spec){
+		function Faction(reader, armies, orbit, powerLevel){
 			this.reader = reader;	
 			this.armies = armies;	
 			this.orbit = orbit;	
@@ -36,11 +36,19 @@
 			}
 		}
 
-		const theEmpire = new Faction("Carl Franz", 14, "south west side", 7, []);
+		const theEmpire = new Faction("Carl Franz", 10, "south west side", 7);
 		console.log(theEmpire.attack(true));
 		console.log(theEmpire.guard());
-		theEmpire.spec = [0, 1];
+		theEmpire.spec[0].attPoint = 0;
+		theEmpire.spec[0].defPoint = 1;
 		console.log(theEmpire);
+		
+		console.log(theEmpire.attack(true));
+		console.log(theEmpire.guard());
+
+		const Geysir = new Faction("Styner", 20, "north", 10, []);
+		console.log(Geysir.attack(false));
+		console.log(Geysir.guard());
 	</script>
 </body>
 </html>

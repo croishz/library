@@ -26,6 +26,7 @@ const Emperor = (function(){
 	}
 	return Emperor
 })();
+console.log(Emperor);
 const Governor = (function(){
 	function Governor(options){
 		this.name = options.name;
@@ -47,12 +48,12 @@ const galba = abstractCharater.create('governor', { name: 'Galba' });
 const otho = abstractCharater.create('governor', { name: 'otho' });
 const vitellius = abstractCharater.create('governor', { name: 'vitellius' });
 const rufus = abstractCharater.create('governor', { name: 'rufus' });
-// console.dir(nero);
-// console.dir(vindex);
-// console.dir(galba);
-// console.dir(otho);
-// console.dir(vitellius);
-// console.dir(rufus);
+console.dir(nero);
+console.dir(vindex);
+console.dir(galba);
+console.dir(otho);
+console.dir(vitellius);
+console.dir(rufus);
 
 /*
 	로마라는 집단을 구성하는 구성원의 종류는 다양하나, 로마를 구성한다는 점에서 동일하므로, 

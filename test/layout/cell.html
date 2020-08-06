@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		html, body {
+			height: 100%;
+		}
+
+		.tab {
+			display: table;
+			height:100%;
+			width: 200px;
+		}
+
+		.row {
+			height: 100%;
+			display: table-row;
+		}
+
+		.elem {
+			border: 1px solid black;
+			vertical-align: top;
+			display: table-cell;
+			height:100%;
+			background: blue;
+		}
+
+		.content {
+			height: 100%;
+			background: greenyellow;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="tab">
+		<div class="row">
+			<div class="elem">
+				<div class="content">
+					Content
+				</div>
+			</div>
+			<div class="elem">
+				<div class="content">
+					Longer content that will need to wrap around eventually you know and don't you hate it when things don't end as you expect them octopus
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

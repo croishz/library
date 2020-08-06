@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		button {width:100%; height:80px;margin-bottom:40px;}
+	</style>
+</head>
+<body>
+	<button type="button" class="btn1">button01</button>
+	<button type="button" class="btn2">button02</button>
+	<button type="button" class="btn3">button03</button>
+	<script>
+		function ContextTest(root){
+			this.root = root;
+			this.check = 0;
+			const context = this;
+			// const handler = {
+			ContextTest.prototype.handler = {
+				handleEvent : function(e){
+					// console.log("handler: ", this);
+					e.type === "mousedown" && this.start.call(context, e);
+					e.type === "mousemove" && this.move.call(context, e);
+					e.type === "mouseup" && this.end.call(context, e);
+				},
+				start : function(e){
+					console.log("%cStart", "font-size:20px;")
+					console.log("func this:", this);
+					console.log(context);
+					// context.check++;
+					// if(100 < context.check){
+					// 	console.log("unbind");
+					// 	ContextTest.prototype.eventUnbind();
+					// }
+					console.log(this.root);
+					this.root.addEventListener("mousedown", this.handler, false);
+					window.addEventListener("mousemove", this.handler, false);
+					window.addEventListener("mouseup", this.handler, false);
+				},
+				move : function(e){
+					console.log("func this:", this);
+					console.log(context);
+					// context.check++;
+					// if(100 < context.check){
+					// 	console.log("unbind");
+					// 	ContextTest.prototype.eventUnbind();
+					// }
+				},
+				end : function(e){
+					console.log("%cEnd", "font-size:20px;")
+					console.log("func this:", this);
+					console.log(context);
+					// context.check++;
+					// if(100 < context.check){
+					// 	console.log("unbind");
+					// 	ContextTest.prototype.eventUnbind();
+					// }
+					console.log(this.root);
+					this.root.removeEventListener("mousedown", this.handler, false);
+					window.removeEventListener("mousemove", this.handler, false);
+					window.removeEventListener("mouseup", this.handler, false);
+				},
+			}
+			ContextTest.prototype.eventBind = function(){
+				console.log(this.root);
+				this.root.addEventListener("mousedown", this.handler, false);	
+			}
+			ContextTest.prototype.eventUnbind = function(){
+				this.root.removeEventListener("mousedown", this.handler, false);
+			}
+			ContextTest.prototype.init = function(){
+				this.eventBind();
+			}
+			this.init();
+		}
+		const test1 = new ContextTest(document.querySelector(".btn1"));
+		const test2 = new ContextTest(document.querySelector(".btn2"));
+		const test3 = new ContextTest(document.querySelector(".btn3"));
+	</script>
+</body>
+</html>

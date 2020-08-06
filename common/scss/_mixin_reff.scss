@@ -312,3 +312,37 @@
 		right:100%;
 	}
 }
+@mixin box-shadow($property...){
+	box-shadow: $property;
+	-webkit-box-shadow: $property;
+	-moz-box-shadow: $property;
+}
+// stereophonic effect
+@mixin newMorphism($lightside : top, $dimention, $strong:1){
+	$light-opacity : $strong * 1;
+	$dark-opacity : $strong * 0.1;
+	@if($lightside == top){
+		@include box-shadow(
+			#{-$dimention} #{-$dimention} #{$dimention * 3.25} hsla(0, 100%, 100%, $light-opacity),
+			#{$dimention} #{$dimention} #{$dimention * 3.25} hsla(0, 0%, 0%, $dark-opacity)
+		);
+		&:hover {
+			@include box-shadow(
+				inset #{-$dimention} #{-$dimention} #{$dimention * 3.25} hsla(0, 100%, 100%, $light-opacity/2),
+				inset #{$dimention} #{$dimention} #{$dimention * 3.25} hsla(0, 0%, 0%, $dark-opacity/2)
+			);
+		}
+	}@else if($lightside == bottom){
+		@include box-shadow(
+			#{$dimention} #{$dimention} #{$dimention * 3.25} hsla(0, 0%, 0%, $dark-opacity),
+			#{-$dimention} #{-$dimention} #{$dimention * 3.25} hsla(0, 100%, 100%, $light-opacity)
+		);
+		&:hover {
+			@include box-shadow(
+				inset #{$dimention} #{$dimention} #{$dimention * 3.25} hsla(0, 0%, 0%, $dark-opacity/2),
+				inset #{-$dimention} #{-$dimention} #{$dimention * 3.25} hsla(0, 100%, 100%, $light-opacity/2)
+			);
+		}
+	}
+	> * {transform: scale(0.98)}
+}

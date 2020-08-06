@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>New-morphism style</title>
+</head>
+<body>
+	<!-- proto :: https://www.youtube.com/watch?v=d071ZRyZlyM&t=27s -->
+	<style>
+		body {
+			display:flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 100vh;
+			background:#ebf5fc;
+		}
+		.container {
+			position: relative;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			flex-wrap: wrap;
+			max-width:1100px;;
+		}
+		.container .card {
+			width: 320px;
+			margin: 20px;
+			padding: 40px 30px;
+			box-sizing: border-box;
+			background: #ebf5fc;
+			border-radius: 40px;
+			box-shadow: -6px -6px 20px rgba(255,255,255, 1),
+						6px 6px 20px rgba(0,0,0,0.1);
+			text-align:center;
+			color:#32a3b1;
+		}
+		.container .card:hover {
+			box-shadow: inset -6px -6px 20px rgba(255,255,255, 0.5),
+						inset 6px 6px 20px rgba(0,0,0,0.05);
+		}
+		.container .card .imgbox {
+			position: relative;
+		}
+		.container .card .imgbox img {
+			max-width:120px;
+		}
+		.container .card .contentbox {
+			position:relative;
+			margin-top:20px;
+		}
+		.container .card:last-child .contentbox {
+			min-height:300px;
+		}
+		.container .card button {
+			padding:10px 20px;
+			margin-top: 15px;
+			border-radius:40px;
+			color:#32a3b1;
+			font-size:1rem;
+			border:none;
+			background-color: transparent;
+			box-shadow: -4px -4px 10px rgba(255,255,255, 1),
+						4px 4px 10px rgba(0,0,0,0.1);
+		}
+		.container .card button:hover {
+			box-shadow: inset -4px -4px 10px rgba(255,255,255, 0.5),
+						inset 4px 4px 10px rgba(0,0,0,0.05);
+		}
+		.container .card button:hover span {
+			display: block;
+			transform: scale(0.98);
+		}
+		.container .card:hover .imgbox, 
+		.container .card:hover .contentbox {
+			transform: scale(0.98);
+		} 
+	</style>
+	<div class="container">
+		<div class="card" style="text-align:right;">
+			<div class="imgbox"></div>
+			<div class="contentbox">
+				<h2>Category</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut.</p>
+			</div>
+			<button type="button"><span>Read more</span></button>
+		</div>
+		<div class="card">
+			<div class="imgbox">Icon</div>
+			<div class="contentbox">
+				<h2>Category</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut.</p>
+			</div>
+			<button type="button"><span>Read more</span></button>
+		</div>
+		<div class="card" style="text-align:left;">
+			<div class="imgbox">Icon</div>
+			<div class="contentbox">
+				<h2>Category</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut.</p>
+			</div>
+			<button type="button"><span>Read more</span></button>
+		</div>
+		<div class="card">
+			<div class="imgbox"><img src="./mask.svg" alt=""></div>
+			<div class="contentbox">
+				<h2>Category</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut.</p>
+			</div>
+			<button type="button"><span>Read more</span></button>
+		</div>
+	</div>
+	<!-- // -->
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		const DIV = document.createElement("div");
+		DIV.classList.add("check")
+		document.body.appendChild(DIV);
+
+		function CatcherDOM(config){
+			this.Target = config.rootElement.querySelectorAll(".check");
+			CatcherDOM.prototype.test = function(){
+				console.log(0);
+				console.log(this);
+			}
+			CatcherDOM.prototype.init = function(){
+				console.log(1);
+				this.test();
+			}
+			console.log(2);
+			this.init();
+		}
+		const catcher = new CatcherDOM({rootElement : document.body});
+		console.log(catcher);
+	</script>
+</body>
+</html>

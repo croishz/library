@@ -4,7 +4,7 @@
 	<title>idim vol.01</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="./asset/LINE.css">
+	<link rel="stylesheet" href="./css/LINE.css">
 </head>
 <body>
 	<div class="wrap" aria-owns="Header Contents Footer">
@@ -177,27 +177,27 @@
 
 		// by click
 		let toggle = true;
-		document.addEventListener('click', function(e){
-			console.log(toggle);
-			console.log(move);
+		// document.addEventListener('click', function(e){
+		// 	console.log(toggle);
+		// 	console.log(move);
 
-			toggle ? 
-			(
-				move = 300,
-				protrude.children[0].classList.add('pull-up'),
-				hingeInteraction(move)
-			) :
-			(
-				move = 0,  
-				protrude.children[0].classList.remove('pull-up'),
-				setTimeout(function(){
-					hingeInteraction(move)
-				}, 600)
-			);
+		// 	toggle ? 
+		// 	(
+		// 		move = 300,
+		// 		protrude.children[0].classList.add('pull-up'),
+		// 		hingeInteraction(move)
+		// 	) :
+		// 	(
+		// 		move = 0,  
+		// 		protrude.children[0].classList.remove('pull-up'),
+		// 		setTimeout(function(){
+		// 			hingeInteraction(move)
+		// 		}, 600)
+		// 	);
 			
-			toggle = !toggle;
+		// 	toggle = !toggle;
 			
-		})
+		// })
 
 		// by mouseWheel
 		document.addEventListener('wheel', function(e){
@@ -242,7 +242,7 @@
 			// console.log('move', e);
 			let pointPosition_x = e.touches[0].screenX;
 			let distance_byTouch = pointPosition_x - touchPosition.x;
-			let registance = 1/(move + 1);
+			let registance = 1;
 			move = touchPosition.startPoint[0] + (distance_byTouch * registance);
 			
 			console.log('%c%s','color: white;', 'ScreenX calc :', pointPosition_x, ' - ' ,touchPosition.x, "=", distance_byTouch);

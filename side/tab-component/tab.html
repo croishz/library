@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body {margin:0; padding:20px; height:500vh;}
+		ul, ol {list-style:none; padding:0; margin:0;}
+		.tablist, [role=tablist] {min-width:320px; margin-top:20px; border:1px solid #ccc; overflow:hidden;}
+		.tablist ~ ul, ol {padding:0; margin:25px 0 0; padding:10px 0 0 12px; min-height:300px; border-left:3px solid lightcoral; background-color:#f9f9f9;}
+		.scrollerContainer {background-color:#e4e4e4;}
+		.scroller {margin:0 -10px; will-change:contents; display:flex; transition: transform 400ms ease; user-select: none;}
+		.scroller.transitionClose {transition: none;}
+		.tab {display:flex; justify-content:center; align-items:center; text-align:center; cursor:pointer; margin:0 10px; box-sizing:border-box; background-color:#fff; border:none; border-top:5px solid bisque; font-size:14px; text-transform:uppercase; padding:7px 12px; }
+		.tab.active {border-color:crimson;}
+		/* variation */
+		.tab2 .tablist {direction:rtl; width:60%;}
+		.tabpanel {display:none;}
+		.tabpanel.active {display:block;}
+		.indicator {margin-top:14px;}
+		.indicator button {cursor:pointer; border:1px solid #ccc; font-size:1rem; color:#fff; text-transform:uppercase; background-color:steelblue; padding:8px 20px; font-weight:600;}
+	</style>
+</head>
+<body>
+	<h2>Tab 1. Default </h2>
+	<div class="tab1">
+		<div class="tablist" id="tabList1">
+			<div class="scrollerContainer">
+				<div class="scroller">
+					<button type="button" class="tab">button1</button>
+					<button type="button" class="tab">button2</button>
+					<button type="button" class="tab">button3</button>
+					<button type="button" class="tab">button4</button>
+					<button type="button" class="tab">button5</button>
+					<button type="button" class="tab">button6</button>
+					<button type="button" class="tab">button7</button>
+					<button type="button" class="tab">button8</button>
+				</div>
+			</div>
+			<div class="indicator">
+				<button type="button">Prev</button><button type="button">Next</button>
+			</div>
+		</div>
+		<ul>
+			<li class="tabpanel">panel_1</li>
+			<li class="tabpanel">panel_2</li>
+			<li class="tabpanel">panel_3</li>
+			<li class="tabpanel">panel_4</li>
+			<li class="tabpanel">panel_5</li>
+			<li class="tabpanel">panel_6</li>
+			<li class="tabpanel">panel_7</li>
+			<li class="tabpanel">panel_8</li>
+		</ul>
+	</div>
+	<!-- tab1 -->
+
+	<h2>Tab 2. Custom - <br> auto active, wai-aria, non-fixed markup </h2>
+	<div class="tab2">
+		<div class="tablist" data-root-name="tab-list2">
+			<div class="scrollerContainer">
+				<div class="scroller">
+					<button type="button" class="tab">button1</button>
+					<button type="button" class="tab">button2</button>
+					<button type="button" class="tab">button3</button>
+					<button type="button" class="tab">button4</button>
+					<button type="button" class="tab">button5</button>
+					<button type="button" class="tab">button6</button>
+					<button type="button" class="tab">button7</button>
+					<button type="button" class="tab">button8</button>
+				</div>
+			</div>
+		</div>
+		<div class="indicator">
+			<button type="button">Prev</button><button type="button">Next</button>
+		</div>
+		<ul>
+			<li class="tabpanel">panel_1</li>
+			<li class="tabpanel">panel_2</li>
+			<li class="tabpanel">panel_3</li>
+			<li class="tabpanel">panel_4</li>
+			<li class="tabpanel">panel_5</li>
+			<li class="tabpanel">panel_6</li>
+			<li class="tabpanel">panel_7</li>
+			<li class="tabpanel">panel_8</li>
+		</ul>
+	</div>
+	<!-- tab2 -->
+
+	<h2>Tab 3. Custom - <br> dynamic markup by template tag </h2>
+	<div class="tab3"></div>
+	<template class="tab">
+		<div class="*rootSelector*" data-root-name="*rootName*">
+			<div class="scrollerContainer">
+				<ul class="scroller">
+					<div class="tab"></div>
+				</ul>
+			</div>
+		</div>
+		<ul>
+			<li class="tabpanel"></li>
+		</ul>
+	</template>
+	<!-- tab3 -->
+	<script src="./TabComponentJs.js"></script>
+	<script src="./utils.js"></script>
+	<script>
+		// utils
+		// import { templateClone } from "./utils.js";
+		const tabLists = document.querySelectorAll(".tablist");
+		const allConfig = [
+			{
+				rootElement : tabLists[0],
+				isAutomaticTab : "manual",
+			},
+			{
+				rootElement : tabLists[1],
+				isAutomaticTab : "automatic",
+				indicator : tabLists[1].nextElementSibling,
+				indicatorFor : "tab",
+				panelWrapElement : tabLists[1].nextElementSibling.nextElementSibling,
+				direction : "rtl",
+				webAccessibility : true,
+				aria : {
+					prevLabel : "Previous tab",
+					nextLabel : "Next tab",
+				}
+			},
+		]
+		const tabComponents = Array.prototype.map.call(tabLists,  (tablist, idx) => new Tab(allConfig[idx]) );
+		const [tab1, tab2] = tabComponents;
+		const tab3 = new Tab({
+			template : templateClone( document.querySelector("template.tab") ),
+			dynamicOptions : {
+				appendTarget : document.querySelector(".tab3"),
+				rootSelector : "tablist",
+				rootName : "tabList3"
+			},
+			dynamicFetch : true,
+			fetchURL : "./listData.json",
+			tabLength : 6,
+			webAccessibility : true,
+			startIndex : 3,
+			autoCreate : false,
+		});
+	</script>
+</body>
+</html>
