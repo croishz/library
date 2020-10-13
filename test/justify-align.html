@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+	.wrap{width: 300px; border: 1px solid red;} 
+	.wrap ul{padding: 30px;}
+	.wrap ul li{text-align: justify;} 
+	.wrap ul li span{}
+	/* after가 잘 이해가 가질 않는다. */
+	.wrap ul li:after {
+		content: '/';
+		display: inline-block;
+		width: 100%;
+		height:1px;
+		background-color:chocolate;
+	}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul>
+			<li>
+				<span>초</span>
+				<span>보</span>
+				<span>자</span>
+				<span>님</span>
+			</li>
+			<li>
+				<span>P</span>
+				<span>Y</span>
+				<span>J</span>
+			</li>
+			<li>
+				<span>환</span>
+				<span>영</span>
+				<span>합</span>
+				<span>니</span>
+				<span>다</span>
+			</li>
+		</ul>
+	</div>
+	<div style="text-align:justify">
+		어떻게 갑자기 저렇게 뿅 하고 정렬되는지 잘 모르겠습니다. :after가 해당 요소 다음에 가상 요소를 만들어서 적용시키는 걸로 알고 있는데 li태그에 인라인블럭을 그대로<br>
+		길게 붙여줘서 2줄로 만들어주고(justify가 두 줄 이상일때 양쪽정렬되니까?) 정렬시켜주는 건가요? 도움 주시면 감사하겠습니다.
+		[출처] css텍스트 균등 분배에서 after속성이 잘 이해가 가질 않습니다. (하드코딩하는사람들) | 작성자 망철
+	</div>
+</body>
+</html>

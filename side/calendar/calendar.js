@@ -100,8 +100,7 @@ var Calendar = function(t) {
                             0 == o ? 
                             -5 : 2
                     ), 
-                v = ((c = 0), 
-                0);
+                v = ((c = 0), 0);
 			v < 6;
 			v++
 		) {

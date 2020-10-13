@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		[role="tablist"] .tab-indicator:not(.is-show) {display:none;}
+		[role="tablist"] .swipe-wrap {overflow: hidden}
+		[role="tablist"] .swipe-belt {
+			display:flex; 
+			user-select: none;
+			will-change:contents;
+			transition-property: transform;
+		}
+		[role="tablist"] .swipe-belt.transitionClose {transition:none!important}
+		[role="tablist"].is-rtl {direction:rtl;}
+		[role="tablist"]:not(.is-hang-on-swipe) .swipe-belt {justify-content: center;}	
+		[role="tab"] {
+			display:grid;
+			place-items: center;
+		}
+		[role="tabpanel"]:not(.active) {
+			display:none;
+		}
+	</style>
+</head>
+<body>
+	<div role="tablist">
+		<div class="js-swipe-wrap swipe-wrap">
+			<div class="js-swipe-belt swipe-belt">
+				<button type="button" role="tab" aria-selected="true" id="tab_btn_1" aria-controls="tab_panel_1" class="active"><span>button1</span></button>
+				<button type="button" role="tab" aria-selected="false" id="tab_btn_2" aria_controls="tab_panel_2"><span>button2</span></button>
+				<button type="button" role="tab" aria-selected="false" id="TabBtn_3" aria-controls="tab_panel_3"><span>button3</span></button>
+				<button type="button" role="tab" aria-selected="false" id="TabBtn_4" aria-controls="tab_panel_4"><span>button4</span></button>
+				<button type="button" role="tab" aria-selected="false" id="TabBtn_5" aria-controls="tab_panel_5"><span>button5</span></button>
+				<button type="button" role="tab" aria-selected="false" id="TabBtn_6" aria-controls="tab_panel_6"><span>button6</span></button>
+				<button type="button" role="tab" aria-selected="false" id="TabBtn_7" aria-controls="tab_panel_7"><span>button7</span></button>
+				<button type="button" role="tab" aria-selected="false" id="TabBtn_8" aria-controls="tab_panel_8"><span>button8</span></button>
+			</div>
+		</div>
+		<div aria-hidden="true" class="js-tab-indicator tab-indicator">
+			<button type="button" aria-disabled="true" tabindex="-1"><span>Preivous tab</span></button>
+			<button type="button" aria-disabled="true" tabindex="-1"><span>Next tab</span></button>
+		</div>
+	</div>
+	<div role="none" class="js-tab-panel-wrap tab-panel-wrap">
+		<div role="tabpanel" aria-labelledBy="tab_btn_1" id="tab_Panel_1">TabPanel_1</div>
+		<div role="tabpanel" aria-labelledBy="tab_btn_2" id="tab_Panel_2">TabPanel_2</div>
+		<div role="tabpanel" aria-labelledBy="tab_btn_3" id="tab_Panel_3">TabPanel_3</div>
+		<div role="tabpanel" aria-labelledBy="tab_btn_4" id="tab_Panel_4">TabPanel_4</div>
+		<div role="tabpanel" aria-labelledBy="tab_btn_5" id="tab_Panel_5">TabPanel_5</div>
+		<div role="tabpanel" aria-labelledBy="tab_btn_6" id="tab_Panel_6">TabPanel_6</div>
+		<div role="tabpanel" aria-labelledBy="tab_btn_7" id="tab_Panel_7">TabPanel_7</div>
+		<div role="tabpanel" aria-labelledBy="tab_btn_8" id="tab_Panel_8">TabPanel_8</div>
+	</div>
+	<script>
+		'use strict';
+function Tab(config){
+	// constructor field
+	const componentClass = "js-widget-component-tab";
+	// Action type
+	const CHOOSE = "CHOOSE";
+	const FIRST_TAB = "FIRST";
+	const LAST_TAB = "LAST";
+	const NEXT_TAB = "NEXT";
+	const PREV_TAB = "PREV";
+	const SCROLL_LEFT = "SCROLL_LEFT";
+	const SCROLL_RIGHT = "SCROLL_RIGHT";
+	const SWIPE_START = "SWIPE_START";
+	const SWIPE_ING = "SWIPE_ING";
+	const SWIPE_END = "SWIPE_END";
+	const STEADY = "STEADY";
+	// method
+	const mapAssign = function(_elementArray){
+		return Array.prototype.map.call(_elementArray, element => element);
+	};
+	const getRenderStyle = function(_element, _needValue){
+		const measure = /(px|em|rem|vw|vh|%)/gi;
+		let value = globalThis.getComputedStyle(_element, null).getPropertyValue(_needValue);
+
+		0 <= value.search(measure) ? value = parseInt(value.replace(measure, "")) : value;
+		
+		return value;
+	};
+	// Flag
+	this.isRTL = config.direction === "rtl" ? true : false;
+	this.isAutomatic = config.isAutomatic ?? true;
+	this.onSwipe = null;
+	// DOM
+	this.rootElement = config.template && createHTML(config.dynamicOptions) || config.rootElement;
+	this.tabBtns = mapAssign( this.rootElement.querySelectorAll("[role=tab]") );
+	this.tabPanelWrap = config.tabPanelWrap || this.rootElement.nextElementSibling;
+	this.tabPanels = mapAssign( this.tabPanelWrap.children );
+	this.swipeWrapSelector = config.swipeWrapSelector || ".js-swipe-wrap";
+	this.swipeWrap = this.rootElement.querySelector(this.swipeWrapSelector);
+	this.swipeBeltSelector = config.swipeBeltSelector || ".js-swipe-belt";
+	this.swipeBelt = this.rootElement.querySelector(this.swipeBeltSelector);
+	this.indicatorSelector = config.indicatorSelector || ".js-tab-indicator";
+	this.indicator = config.indicator || this.rootElement.querySelector(this.indicatorSelector);
+	this.arrows = this.indicator && mapAssign( this.indicator.children );
+	// initialize value
+	this.activeClass = config.activeClass || "active";
+	this.indexOnActive = 0;
+	this.indexOnFocus = this.indexOnActive;
+	this.indexBefore = this.indexOnActive;
+	this.customKeys = config.customKeys || {};
+	this.indicatorFor = config.indicatorFor || "tab";
+	this.containerWidth = null;
+	this.tabBtnsWidth = null;
+	this.boundRange = [0, this.rootElement.offsetWidth];
+	this.resizeHandleEvent = null;
+	this.swipeHandleEvent = null;
+	this.positionX = {
+		new : null,
+		start : null,
+		last : null,
+	}
+	// dynamic 
+	this.dynamicFetch = config.dynamicFetch || false;
+	this.fetchURL = config.fetchURL || "/";
+	this.pageLoadFetch = config.pageLoadFetch ?? "ALL";
+	this.refreshData = config.refreshData || false;
+	this.listData = {};
+		
+	// Prototype field
+	// method
+	// fetch data
+	Tab.prototype.fetchData = function( 
+		_indexID = this.pageLoadFetch, 
+		_url = this.fetchURL, 
+		_callback = this.fetchCallback
+	){
+		if(!this.refreshData && this.listData.length === config.tabLength) return false;
+		const context = this;
+		// use XMLHttpRequest
+		// const xhr = new XMLHttpRequest();
+		// xhr.responseType = _dataType;
+		// xhr.onload = ()=>{
+		// 	_callback.call(context, xhr.response, _indexID)
+		// 	context.dimensionUpdate();
+		// };
+		// xhr.open(_action, _url, (_dataType === "json" ? true : false));
+		// xhr.send();
+
+		// use fetch api
+		// This cannot be transpiled by babel, be used polyfill.
+		// polyfill :: https://github.com/github/fetch
+		// ref fetch.js on html file.
+		fetch(_url)
+		.then(response => response.json())
+		.then(json =>{ 
+			_callback.call(context, json, _indexID);
+			context.dimensionUpdate();
+		});
+	};
+	Tab.prototype.fetchCallback = function(_response, _indexID){
+		if(!_response) return false;
+
+		const data = _response.product;	// Test by dummy
+		switch(_indexID){
+			case "ALL" :
+				data.map((contents, idx)=>{
+					const unit = this.tabBtns[idx].children.length > 0 ? this.tabBtns[idx].children[0] : this.tabBtns[idx];
+					const panel = this.tabPanels[idx];
+					unit && (unit.innerText = contents.head);
+					panel && (panel.innerText = contents.copy);
+				});
+				this.listData = data;
+				break;
+			default :
+				this.tabBtns[_indexID].innerText = data[_indexID].head;
+				this.tabPanels[_indexID].innerText = data[_indexID].copy;
+				this.listData[_indexID] = data[_indexID];
+				break;
+		}
+
+		return this;
+	};
+	// Event
+	// tab
+	Tab.prototype.TabEvent = function(_context){
+		if(0 > this.tabBtns.length) return false;
+		const context = _context || this;
+		this.tabBtns.map((unit)=>{
+			// click
+			unit.addEventListener("click", function({currentTarget}){
+				context.dispatch({
+					action : CHOOSE,
+					data : {
+						index : context.getIndex(currentTarget),
+						screenX : context.positionX.last
+					}
+				});
+			}, false);
+			// keyboard
+			unit.addEventListener("keyup", function({keyCode}){
+				event.preventDefault();
+				context.dispatch({
+					action : context.keyChecker(keyCode),
+					data : {
+						index : context.indexOnFocus,
+						screenX : context.positionX.last
+					}
+				});
+			}, false);
+		});
+
+		return context;
+	};
+	Tab.prototype.getIndex = function(_target){
+		const siblings = mapAssign( _target.parentElement.children);
+		const index = siblings.findIndex( element => element === _target);
+
+		return index;
+	};
+	Tab.prototype.keyChecker = function(_keyCode, _customKeys = this.customKeys){
+		const customKeys = this.isRTL ? {} : _customKeys;
+		const keyList = Object.assign({
+			// default keys;
+			"40" : !this.isRTL ? PREV_TAB : NEXT_TAB,
+			"37" : !this.isRTL ? PREV_TAB : NEXT_TAB,
+			"39" : !this.isRTL ? NEXT_TAB : PREV_TAB,
+			"38" : !this.isRTL ? NEXT_TAB : PREV_TAB,
+			"36" : FIRST_TAB,
+			"35" : LAST_TAB,
+			"13" : CHOOSE
+		}, customKeys);
+		const action = keyList[`${_keyCode}`]; 
+
+		return action;
+	};
+	// indicator
+	Tab.prototype.indicatorEvent = function(_context){
+		if(!this.indicator) return false;
+		
+		const context = _context || this;
+		
+		this.arrows.map((arrow)=>{
+			arrow.addEventListener("click", function({currentTarget}){
+				context.dispatch({
+					action : context.arrowChecker(currentTarget),
+					data : {
+						index : context.indexOnFocus,
+						screenX : context.positionX.last || 0
+					}
+				});
+			}, false);
+		});
+		
+		return context;
+	};
+	Tab.prototype.arrowChecker = function(_target, _for = this.indicatorFor){
+		const checker = Array.prototype.findIndex.call(this.arrows,  arrow => arrow === _target); 
+		let action = null;
+
+		// Tab type
+		if(_for === "tab"){
+			action = (checker === 0) ? PREV_TAB : NEXT_TAB;
+		}
+		// Scroll type
+		if(_for === "scroll"){
+			action = (checker === 0) ? (this.isRTL ? SCROLL_RIGHT : SCROLL_LEFT) : (this.isRTL ? SCROLL_LEFT : SCROLL_RIGHT);
+		}
+
+		return action;
+	}
+	// swipe
+	Tab.prototype.swipeLifeCycle = function(_action, _event){
+		const action = _action;
+		const screenX = _event.changedTouches ? _event.changedTouches[0].screenX : _event.screenX;
+		const isTouch = _event.touches ? true : false;
+		const object = {
+			action,
+			data : {
+				screenX : screenX,
+				isTouch
+			}
+		};
+		
+		this.dispatch(object);
+
+		return this;
+	};
+	Tab.prototype.swipeHandler = function(_context){
+		const context = _context || this;
+
+		return function swipeHandleEvent({type}){
+			switch(type){
+				case "mousedown" : 
+				case "touchstart" : 
+					context.swipeLifeCycle(SWIPE_START, event);
+					break;
+				case "mousemove" : 
+				case "touchmove" : 
+					context.swipeLifeCycle(SWIPE_ING, event);
+					break;
+				case "mouseup" : 
+				case "touchend" : 
+					context.swipeLifeCycle(SWIPE_END, event);
+					break;
+			}
+		}
+	};
+	Tab.prototype.swipe = function(){
+		this.swipeWrap.addEventListener("mousedown", this.swipeHandleEvent, false);
+		this.swipeWrap.addEventListener("touchstart", this.swipeHandleEvent, false);
+		this.onSwipe = true;
+		
+		return this;
+	};
+	Tab.prototype.closeSwipe = function(){
+		this.swipeWrap.removeEventListener("mousedown", this.swipeHandleEvent, false);
+		this.swipeWrap.removeEventListener("touchstart", this.swipeHandleEvent, false);
+		this.onSwipe = false;
+
+		return this;
+	};
+	Tab.prototype.hangOnSwipe = function(_containerWidth, _tabBtnsWidth){
+		if(_containerWidth < _tabBtnsWidth){
+			this.swipe();
+			this.rootElement.classList.add("is-hang-on-swipe");
+			this.indicator.classList.add("is-show");
+		}else{
+			this.closeSwipe()
+			this.rootElement.classList.remove("is-hang-on-swipe");
+			this.indicator.classList.remove("is-show");
+		}
+
+		return this;
+	};
+	Tab.prototype.resizeHandler = function(_context){
+		const context = _context || this;
+		const debounceDuration = 400;
+		let debounce = null;
+
+		return function resizeHandleEvent(event){
+			const time = Date.now();
+			clearTimeout(debounce);
+			debounce = setTimeout(()=>{
+				context.dimensionUpdate();
+				context.hangOnSwipe(context.containerWidth, context.tabBtnsWidth);
+				context.indexOnFocus = context.indexOnActive;	// case of indicator use for "tab" :: resize 이후 active 탭으로 스크롤이 이동하는 것에 포커스 싱크를 맞춤.
+				context.positionX.last = context.animate( context.scrollPosition(context.indexOnActive) );
+			}, debounceDuration);
+		}
+	};
+	// Flow
+	Tab.prototype.dispatch = function(_object){
+		return this.eventBinder(_object);
+	};
+	Tab.prototype.eventBinder = function(_object){
+		const {action, data} = _object || {};
+		const maxIndex = this.tabBtns.length - 1;
+		const minIndex = 0;
+		let index = _object.data ? data.index : this.indexOnFocus;
+		const screenX = _object.data ? data.screenX : this.positionX.last;
+		const isTouch = _object.data.isTouch && data.isTouch;
+		const indicatorScrollX = config.indicatorScrollX || parseInt(this.tabBtnsWidth * 0.4);
+		const notCHOOSE = ()=>{
+			if(this.isAutomatic) {
+				this.indexBefore = this.indexOnActive;
+				this.indexOnActive = index;
+				this.markActive(this.indexOnActive);
+				this.treeExplore();
+			}
+			this.indexOnFocus = index;
+			setTimeout(()=>{this.setFocus(this.indexOnFocus)}, 50);	// case of tab width 100% :: 탭 하나의 너비가 100%일 때, 브라우저 네이티브 기능 - 포커스된 요소로 스크롤이 이동 - 과 겹쳐 animate가 오동작하는 것을 막기 위해 실행을 지연.
+			this.onSwipe && ( this.positionX.last = this.animate(this.scrollPosition(index)) );
+		};
+		switch(action){
+			case CHOOSE :
+				// index = index;
+				this.indexBefore = this.indexOnActive;
+				this.indexOnFocus = this.indexOnActive = index;
+				this.dynamicFetch && this.fetchData(this.indexOnActive);
+				this.setFocus(this.indexOnActive).markActive(this.indexOnActive);
+				this.onSwipe && ( this.positionX.last = this.animate(this.scrollPosition(this.indexOnActive)) );
+				this.treeExplore();
+				break;
+			case FIRST_TAB : 
+				index = minIndex;
+				notCHOOSE();
+				break;
+			case LAST_TAB : 
+				index = maxIndex;
+				notCHOOSE();
+				break;
+			case PREV_TAB : 
+				index = minIndex >= index ? minIndex : index - 1;
+				notCHOOSE();
+				break;
+			case NEXT_TAB : 
+				index = maxIndex <= index ? maxIndex : index + 1;
+				notCHOOSE();
+				break;
+			case SCROLL_LEFT : 
+				this.positionX.last = this.animate(screenX + indicatorScrollX);
+				break;
+			case SCROLL_RIGHT : 
+				this.positionX.last = this.animate(screenX - indicatorScrollX);
+				break;
+			case SWIPE_START : 
+				if(isTouch){
+					this.swipeWrap.addEventListener("touchmove", this.swipeHandleEvent, false);
+					this.swipeWrap.addEventListener("touchend", this.swipeHandleEvent, false);
+				}else{
+					globalThis.addEventListener("mousemove", this.swipeHandleEvent, false);
+					globalThis.addEventListener("mouseup", this.swipeHandleEvent, false);
+				}
+				this.swipeBelt.classList.add("transitionClose");
+				this.positionX.new = screenX
+				this.positionX.start = this.positionX.last;
+				break;
+			case SWIPE_ING : 
+				this.positionX.last = this.animate( this.positionX.start + (screenX - this.positionX.new), true );
+				break;
+			case SWIPE_END : 
+				if(isTouch){
+					this.swipeWrap.removeEventListener("touchmove", this.swipeHandleEvent, false);
+					this.swipeWrap.removeEventListener("touchend", this.swipeHandleEvent, false);
+				}else{
+					globalThis.removeEventListener("mousemove", this.swipeHandleEvent, false);
+					globalThis.removeEventListener("mouseup", this.swipeHandleEvent, false);
+				}
+				this.swipeBelt.classList.remove("transitionClose");
+				this.positionX.last = this.animate(this.positionX.last);
+				break;
+			case STEADY :
+			default :
+				break;
+		}
+
+		return this;
+	};
+	// View render
+	Tab.prototype.treeExplore = function(_nest){
+		const nestPanel = _nest || this.tabPanels[this.indexOnActive];
+		if(!nestPanel) return false;
+
+		const nestedComponent = nestPanel.querySelectorAll(`.${componentClass}`);
+		if(1 > nestedComponent.length) return false;
+
+		nestedComponent && 
+		nestedComponent.forEach(component => {
+			const tabObject = component.tabComponent;
+			tabObject.dimensionUpdate().hangOnSwipe(tabObject.containerWidth, tabObject.tabBtnsWidth).dimensionUpdate();
+		});
+		
+		return this;
+	};
+	Tab.prototype.setFocus = function(_index){
+		this.tabBtns[_index].focus();
+
+		return this;
+	};
+	Tab.prototype.focusManage = function(_index, _action){
+		const delay = _action === CHOOSE ? 0 : 50;
+		// refresh 
+		
+		// set
+		setTimeout(()=>{this.setFocus(_index)}, delay);
+	};
+	Tab.prototype.markActive = function(_index){
+		const index = _index;
+		const tabBtns = this.tabBtns;
+		const tabPanels = this.tabPanels;
+		const activeClass = this.activeClass;
+
+		// set attribute
+		tabBtns.map((unit, i) => {
+			unit.classList.remove(activeClass);
+			unit.tabIndex = -1;
+			if(index === i){
+				unit.classList.add(activeClass);
+				unit.tabIndex = 0;
+			}
+		});
+		tabPanels.map((panel, i) => {
+			panel.classList.remove(activeClass);
+			if(index === i){ 
+				panel.classList.add(activeClass); 
+			}
+		});
+
+		return this;
+	};
+	Tab.prototype.markDisabled = function(_distance){
+		if(!this.indicator) return this;
+		let distance = _distance;
+		const [rightScrollLimit, leftScrollLimit] = this.boundRange;
+		const prevArrow = this.arrows[0];
+		const nextArrow = this.arrows[1];
+		const maxIndex = (this.tabBtns.length - 1);
+		
+		prevArrow.removeAttribute("disabled");
+		nextArrow.removeAttribute("disabled");
+		
+		if( 0 >= distance && rightScrollLimit >= distance){ 
+			this.isRTL ? 
+			prevArrow.setAttribute("disabled", true) : 
+			this.indicatorFor === "tab" ? this.indexOnFocus === maxIndex && nextArrow.setAttribute("disabled", true) : nextArrow.setAttribute("disabled", true);
+		}
+		if( 0 <= distance && leftScrollLimit <= distance){
+			this.isRTL ? 
+			this.indicatorFor === "tab" ? this.indexOnFocus === maxIndex && nextArrow.setAttribute("disabled", true) : nextArrow.setAttribute("disabled", true) :
+			prevArrow.setAttribute("disabled", true);
+		}
+
+		return this;
+	};
+	Tab.prototype.markDirection = function(){
+		const htmlElement = document.documentElement;
+		this.isRTL && 
+		( htmlElement.getAttribute("dir") !== "rtl" || getRenderStyle(htmlElement, "direction") !== "rtl" ) && 
+		this.rootElement.classList.add("is-rtl");
+		
+		return this;
+	};
+	Tab.prototype.animate = function(_distance, _swipeFlag = false, _target = this.swipeBelt){
+		const distance = _swipeFlag ? _distance : this.wallHeat(_distance);
+		
+		_target.style.transform = `matrix(1,0,0,1,${distance},0)`;
+
+		return distance;
+	};
+	Tab.prototype.wallHeat = function(_distance){
+		let distance = parseInt(_distance);
+		const [rightScrollLimit, leftScrollLimit] = this.boundRange;
+
+		if( 0 > distance && rightScrollLimit >= distance){ 
+			distance = rightScrollLimit;
+		};
+		if( 0 <= distance && leftScrollLimit <= distance){ 
+			distance = leftScrollLimit;
+		};
+
+		this.markDisabled(distance);
+
+		return distance;
+	};	
+	// Calculate
+	Tab.prototype.scrollContainerWidth = function(){
+		const width = this.swipeWrap.offsetWidth;
+
+		return width;
+	};
+	Tab.prototype.scrollBeltWidth = function(_index, _tabMargin){
+		const index = _index ?? this.indexOnActive;
+		const scrollItem = this.tabBtns;
+		const scrollItemMargin = _tabMargin ?? getRenderStyle(scrollItem[index], "margin-left") * 2;
+		const wrapPaddingBox = this.swipeBelt && getRenderStyle(this.swipeBelt, "padding-left") * 2;
+		const wrapBorderBox = getRenderStyle(this.rootElement, "border-left-width") * 2;
+		const baseWidth = wrapPaddingBox + wrapBorderBox + ( scrollItemMargin * (scrollItem.length - 1) );
+		const totalWidth = Array.prototype.reduce.call(scrollItem, (total, tab)=> total + tab.offsetWidth, baseWidth);
+
+		return totalWidth;
+	};
+	Tab.prototype.scrollPosition = function(_index, _tabMargin){
+		const element = this.tabBtns[_index];
+		const elementMargin = _tabMargin ?? getRenderStyle(element, "margin-left");
+		const wrapPaddingBox = this.swipeBelt && getRenderStyle(this.swipeBelt, "padding-left") ;
+		const direction = this.isRTL ? 1 : -1;
+		const elementRight = element.offsetLeft + element.offsetWidth + wrapPaddingBox;
+		const elementLeft = this.isRTL ? this.containerWidth - elementRight : element.offsetLeft - wrapPaddingBox - Math.round((elementMargin - wrapPaddingBox) / 2);
+		const position = this.isRTL ? elementLeft * direction : (elementLeft - elementMargin) * direction;
+
+		return position;
+	};
+	Tab.prototype.scrollRange = function(_containerWidth, _tabBtnsWidth){
+		const scrollBeltBox = getRenderStyle(this.swipeBelt, "margin-left") + getRenderStyle(this.swipeBelt, "padding-left");
+		const leftScrollLimit = 0;
+		const rightScrollLimit = _containerWidth > _tabBtnsWidth ? 0 : (_containerWidth - _tabBtnsWidth) + Math.round(scrollBeltBox / 2);
+		const boundRange = this.isRTL ? [leftScrollLimit, (rightScrollLimit * -1)] : [rightScrollLimit, leftScrollLimit];
+
+		return boundRange;
+	};
+	Tab.prototype.dimensionUpdate = function(){
+		this.containerWidth = this.scrollContainerWidth();
+		this.tabBtnsWidth = this.scrollBeltWidth();
+		this.boundRange = this.scrollRange(this.containerWidth, this.tabBtnsWidth);
+
+		return this;
+	};
+	// CRUD 
+	// create
+	Tab.prototype.create = function(){
+		// Pre setting
+		const startIndex = this.getIndex(this.rootElement.querySelector("[role=tab].active"));
+		this.indexBefore = this.indexOnFocus = this.indexOnActive = startIndex;
+		this.markDirection().markActive(startIndex).dimensionUpdate();
+		
+		// Event listening
+		// Tab
+		this.TabEvent();
+		// indicator
+		this.indicatorEvent();
+		// Swipe
+		this.swipeHandleEvent = this.swipeHandler();
+		this.hangOnSwipe(this.containerWidth, this.tabBtnsWidth).dimensionUpdate();				
+		// Resize
+		this.resizeHandleEvent = this.resizeHandler();
+		globalThis.addEventListener("resize", this.resizeHandleEvent);
+		
+		// view render
+		this.onSwipe && ( this.positionX.last = this.animate(this.scrollPosition(startIndex)) );
+		this.rootElement.classList.add(componentClass);
+
+		return this;
+	};
+	// read
+	Tab.prototype.read = function(_key, _method = "method", _param){
+		if(_method === "method"){
+			return this[_key](_param);
+		}else{
+			return this[_key];
+		}
+	};
+	// update
+	Tab.prototype.update = function(_key, _value, _context){
+		const context = _context || this;
+		context[_key] = _value;
+
+		return context;
+	};
+	// delete
+	Tab.prototype.delete = function(){
+		this.rootElement.remove();
+		this.tabPanelWrap.remove();
+
+		for (const key in this) {
+			if (this.hasOwnProperty(key)) {
+				delete this[key];
+			}
+		}
+
+		return "clear";
+	};
+	
+	// init
+	this.create();
+	// insert object
+	this.rootElement.tabComponent = this;
+}
+const tab = new Tab({
+  rootElement : document.querySelector("[role=tablist]")
+});
+	</script>
+</body>
+</html>

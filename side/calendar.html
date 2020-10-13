@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		.datepicker[role="application"] {
+			font-size:1rem;
+			max-width:290px;
+		}
+		.indicator {
+			display: inline-block;
+			vertical-align: top;
+			width:100%;
+		}
+		.indicator button {
+			background:#fff;
+			border:none;
+			cursor:pointer;
+		}
+		.indicator .quiver {
+			float:right;
+		}
+		.indicator .prev {}
+		.indicator .next {}
+		/* [class*="layer-"] {max-width:290px;} */
+		[class*="layer-"] {
+			border:1px solid tan;
+		}
+		[class*="layer-"]:not(.active) {display:none;}
+		.layer-year {
+			position: relative;
+			overflow: hidden;
+			
+		}
+		.layer-year .inner {
+			overflow-y: scroll;
+			height:214px;
+			width:calc(100% + 20px);
+		}
+		.layer-year:after {
+			content:"";
+			position:absolute;
+			bottom:0;
+			left:0;
+			width:100%;
+			height:14px;
+			background:linear-gradient(180deg, hsla(0, 0%, 99%, 0.15), hsla(0,0%,99%, 1))
+		}
+		.layer-year .inner,
+		.layer-month .inner {
+			display:flex;
+			flex-wrap: wrap;
+			flex-direction: row;
+		}
+		.layer-year .card,
+		.layer-month .card {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 25%;
+			min-height: 60px;
+			box-sizing: border-box;
+			
+			box-shadow: inset 2px 4px 3px 0px hsla(45,80%,98%,1);
+			font-size:0.875em;
+			color:#333;
+		}
+		.card:focus, .card:hover {
+			box-shadow: 2px 6px 8px 0px hsla(0,0%,0%,0.05);
+		}
+		.layer-date {}
+		.layer-date table {
+			width:100%;
+			color:#999;
+		}
+		.layer-date th,
+		.layer-date td {
+			width:calc(100%/7);
+			text-align:center;
+		}
+		.layer-time {}
+		
+		[date-layer-id="year"] {}
+		[date-layer-id="month"] {}
+		[date-layer-id="day"] {}
+		[date-layer-id="time"] {}
+		
+		
+	</style>
+</head>
+<body>
+	<div class="datepicker js-widget-component-date" role="application" lang="en">
+		<div class="indicator js-indicator-wrap">
+			<button type="button" class="js-call-layer" data-link-layer="month">
+				<span class="js-this-year"></span>
+				<span class="js-this-month"></span>
+			</button>
+			<!-- call other layer trigger -->
+			<div class="quiver js-shift-date" data-use-layer="date">
+				<button type="button" class="prev">Prev</button><button type="button" class="next">Next</button>
+			</div>
+		</div>
+		<div class="layer-year" data-layer-id="year">
+			<div class="inner">
+
+			</div>
+		</div>
+		<!-- // year -->
+		<div class="layer-month" data-layer-id="month">
+			<div class="inner">
+				<div class="card js-date" data-month="1" aria-label="January">1</div>
+				<div class="card js-date" data-month="2" aria-label="February">2</div>
+				<div class="card js-date" data-month="3" aria-label="Match">3</div>
+				<div class="card js-date" data-month="4" aria-label="April">4</div>
+				<div class="card js-date" data-month="5" aria-label="May">5</div>
+				<div class="card js-date" data-month="6" aria-label="June">6</div>
+				<div class="card js-date" data-month="7" aria-label="July">7</div>
+				<div class="card js-date" data-month="8" aria-label="August">8</div>
+				<div class="card js-date" data-month="9" aria-label="September">9</div>
+				<div class="card js-date" data-month="10" aria-label="October">10</div>
+				<div class="card js-date" data-month="11" aria-label="November">11</div>
+				<div class="card js-date" data-month="12" aria-label="December">12</div>
+			</div>
+		</div>
+		<!-- // month -->
+		<div class="layer-date active" data-layer-id="date">
+			<div class="inner">
+				<table role="grid" aria-readonly="true">
+					<thead role="presentation">
+						<tr role="row">
+							<th role="columnheader" scope="col" aria-label="Sunday" abbr="Sunday">Sun</th>
+							<th role="columnheader" scope="col" aria-label="Monday" abbr="Monday">Jan</th>
+							<th role="columnheader" scope="col" aria-label="Tuesday" abbr="Tuesday">Tue</th>
+							<th role="columnheader" scope="col" aria-label="wednesday" abbr="wednesday">Wen</th>
+							<th role="columnheader" scope="col" aria-label="Thursday" abbr="Thursday">Thu</th>
+							<th role="columnheader" scope="col" aria-label="Friday" abbr="Friday">Fri</th>
+							<th role="columnheader" scope="col" aria-label="Saturday" abbr="Saturday">Sat</th>
+						</tr>
+					</thead>
+					<tbody class="js-date-calendar-wrap" role="presentation">
+						<tr>
+							<td role="gridcell" tabindex="0"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- // day -->
+		<div class="layer-time" data-layer-id="time">
+			<div class="timeline">
+				<div class="slider"></div>
+				<div class="bar"></div>
+			</div>
+		</div>
+		<!-- // time -->
+	</div>
+	<script>
+		const timestamp = new Date();
+		// console.log(timestamp);
+		const datekeeper = [
+			{
+				year : timestamp.getFullYear(),
+				month : timestamp.getMonth() + 1,
+				date : timestamp.getDate(),
+				hour : null,
+				minute : null,
+			},
+			{
+				year : timestamp.getFullYear(),
+				month : timestamp.getMonth() + 1,
+				date : timestamp.getDate(),
+				hour : null,
+				minute : null,
+			},
+		]
+		const months = [
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"September",
+			"October",
+			"November",
+			"December"
+		];
+		const days = [
+			"Sunday",
+			"Monday",
+			"Tuesday",
+			"Wednesday",
+			"Thursday",
+			"Friday",
+			"SaturDay"
+		];
+		const abbreviation = (_array, _cut) => _array.map(val => val.slice(0, _cut));
+		const clipIndex = 3;
+		const informalMonths = abbreviation(months, clipIndex);
+		const informalDays = abbreviation(days, clipIndex);
+		// console.log(informalMonths);
+		// console.log(informalDays);
+
+		const formatType = {
+			informalYear : "yy-mm-dd",
+			default : "yyyy-mm-dd"
+		}
+		const separator = new RegExp(/[,.-/]/);
+		const formatter = (_date, _formatType = formatType.default)=>{
+			const year = _date.getFullYear();
+			const month = _date.getMonth() + 1;
+			const day = _date.getDay();
+			const date = _date.getDate();
+			let format = "";
+
+			switch(_formatType){
+				case "yy-mm-dd" : 
+					format = `${year - 2000}-0${month}-0${date}`;	
+				break;
+				default : 
+					format = `${year}-0${month}-0${date}`
+				break;
+			}
+
+			// console.log(format);
+		}
+		formatter(timestamp);
+		
+		const getDateLength = (_year, _month)=>{
+			console.log(_year, _month);
+			let length = null;
+			const jsMonth = _month - 1;
+			const max = 31;
+			const min = 28;
+			const hasLeapDay = 29;
+			switch(_month){
+				case 2 :
+					length = _year % 4 === 0 ? hasLeapDay : min;
+					break;
+				case 4 :
+				case 6 :
+				case 9 :
+				case 11 :
+					length = max - 1;
+					break;
+				default :
+					length = max;
+					break;
+			}
+			// console.log(`${_year}, ${months[jsMonth]} have ${length}days.`);
+			return length;
+		}
+		const getStartDay = (_year, _month)=>{
+			const jsMonth = _month - 1;
+			const day = new Date(_year, jsMonth, 1).getDay();
+			const dayText = days[day];
+			// console.log(day, dayText);
+
+			return day;
+		}
+		const spread = (_date, _flag)=>{
+			// const day = new Date(currentYear, currentMonth, 1).getDay();
+			// const date = new Date(currentYear, (currentMonth + 1), 1).getDate();
+			// const u = currentMonth === 0 ? new Date((currentYear - 1), 11, 0).getDate() : new Date(currentYear, currentMonth, 0).getDate();
+			// const head = `<button type="button">${month[currentMonth]} currentYear</button>`
+			// const table = `<table role="grid">`;
+			// table += `<thead role=presentation>`;
+			// 	for (let i=0; i<7; i++){
+			// 		table += `<th role="columnheader">`
+			// 	}
+			// 1일의 요일.
+			// 마지막 날
+			// 마지막 날의 요일.
+			// 7*4 = 28
+			// row = getDay() > 3
+			// 1,2,3
+			// 28,29,30,31
+			// 29,30,31
+			// const year = _date.getFullYear();
+			// const month = _date.getMonth() + 1;
+			// const date = _date.getDate();
+			console.log("spread");
+			const year = datekeeper[0]["year"];
+			const month = datekeeper[0]["month"];
+			// console.log(year, month);
+			const dateLength = getDateLength(year, month);
+			const startDay = getStartDay(year, month);
+			const loopLength = dateLength + startDay;
+			
+			// year
+			let yearBody = "";
+			const yearLayer = document.querySelector(".layer-year");
+			const startYear = 1920;
+			const upcoming = 12;
+			const yearLimit = _date.getFullYear() + upcoming; 
+			for( let i=startYear; i<=yearLimit; i++){
+				const card = document.createElement("div");
+				card.setAttribute("class", "card js-date");
+				card.setAttribute("aria-label", i);
+				card.innerText = i;
+				yearLayer.children[0].appendChild(card);
+				// console.log(i, card);
+			}
+			yearLayer.children[0].scrollTop = yearLayer.querySelector(`.card[aria-label='${_date.getFullYear()}']`).offsetTop;
+			// date
+			let dateBody = "";
+			const tagName = {
+				row : "tr",
+				cell : "td"
+			}
+			for( let i=1; i<=loopLength; i++){
+				const day = i - startDay;
+				if(1 === i%7 && 0 < day){
+					// console.log("case1 :", day);
+					dateBody += `<${tagName.row} role="row">`
+					dateBody += `<${tagName.cell} role="gridcell" class="js-date">${day}</${tagName.cell}>`
+				}
+				else if(0 === i%7 || i === loopLength){
+					// console.log("case2 :", day);
+					dateBody += `<${tagName.cell} role="gridcell" class="js-date">${day}</${tagName.cell}>`
+					dateBody += `</${tagName.row}>`
+				}else{
+					if(i <= startDay ){
+						// console.log("case3 :", day);
+						(1 === i%7) && (dateBody += `<${tagName.row} role="row">`)
+						dateBody += `<${tagName.cell} role="gridcell"></${tagName.cell}>`
+					}
+					else{
+					// console.log("case4 :", day);
+						dateBody += `<${tagName.cell} role="gridcell" class="js-date">${day}</${tagName.cell}>`
+					}
+				}
+			}
+			document.querySelector(".layer-date .js-date-calendar-wrap").innerHTML = dateBody;
+		}
+		spread(timestamp);
+		const mark = (_date)=>{
+			const yearHead = document.querySelectorAll(".js-this-year");
+			const monthHead = document.querySelectorAll(".js-this-month");
+			
+			yearHead.forEach(head => head.innerText = datekeeper[0]["year"]);
+			monthHead.forEach(head => head.innerText = months[datekeeper[0]["month"] - 1]);
+		}
+		mark(timestamp);
+
+		const YEAR = "year";
+		const MONTH = "month";
+		const DATE = "date";
+		const eventListening = ()=>{
+			const layer = document.querySelectorAll("[class*='layer-']");
+			const indicator = document.querySelector(".js-indicator-wrap");
+
+			// bottom up
+			const stairUp = indicator.querySelector(".js-call-layer");
+			stairUp.addEventListener("click", event => {
+				const _ = event.currentTarget;
+				const linkId = _.dataset.linkLayer;
+				// console.log(linkId);
+				linkId === MONTH ? _.dataset.linkLayer = YEAR : false; 
+				// linkId === YEAR ? _.dataset.linkLayer = MONTH : false; 
+				// linkId === DATE ? _.dataset.linkLayer = MONTH : false; 
+				layer.forEach(layer =>{
+					const layerId = layer.dataset.layerId;
+					// console.log(layer, layerId);
+					layerId === linkId ? 
+					layer.classList.add("active") :
+					layer.classList.remove("active");
+					layerId === YEAR ? layer.children[0].scrollTop = layer.querySelector(`.card[aria-label='${timestamp.getFullYear()}']`).offsetTop : false;
+				});
+			}, false);
+
+			// top down
+			const component = document.querySelector(".js-widget-component-date");
+			component.addEventListener("click", event => {
+				const target = event.target;
+				// catch y/m/d
+				if(target.classList.contains("js-date")){
+					const activeLayer = target.closest("[class*='layer-']");
+					const layerId = activeLayer.dataset.layerId;
+					// console.log(target.innerText);
+					// console.log(layerId);
+					layer.forEach(layer => layer.classList.remove("active"));
+					layerId === YEAR && document.querySelector(".layer-month").classList.add("active");
+					layerId === MONTH && document.querySelector(".layer-date").classList.add("active"), stairUp.dataset.linkLayer = YEAR;
+					layerId === DATE && document.querySelector(".layer-date").classList.add("active"), stairUp.dataset.linkLayer = MONTH;
+					// console.log(datekeeper[0]);
+					if( datekeeper[0][layerId] !== parseInt(target.innerText)){
+						datekeeper[0][layerId] = parseInt(target.innerText);
+						mark(timestamp);
+						spread(timestamp);
+					}
+				}
+			}, {capture : true})
+
+		}
+		eventListening();
+		// 구간 선택에서 두 개의 컴포넌트를 띄울지 단일 컴포넌트의 두개의 팔렛트를 띄울 지
+		// 하나의 인디케이터를 공용으로 사용할 지, 레이어마다 개별 사용할 지
+		// year/month/time는 컴포넌트 생성 시 한번만 spread, date만 갈아끼우기.
+		// 불필요한 리렌더링 제거.
+		// format에 대한 자유도
+		// 언어별 고정 텍스트를 tolocalstring으로 해결?
+		// time slider
+	</script>
+</body>
+</html>

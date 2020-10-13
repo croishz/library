@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tooltip | Popover</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap">
+	<style>
+		html {font-family: 'Open Sans', sans-serif;}
+		body {margin: 0; overflow-y: scroll;}
+		.tooltip-trigger {
+			cursor: pointer;
+			user-select: none;
+			background-color:#f9f9f9;
+			box-sizing: border-box;
+			padding:7px 12px;
+			border:1px solid #ccc;
+			font-weight:600;
+		}
+		.tooltip-trigger:nth-of-type(1) {
+			
+				width:40%;
+			margin-bottom:80vh;
+		}
+		@media screen and (min-width:768px){
+			.tooltip-trigger:nth-of-type(1) {
+				text-align:right;
+				margin-left:auto;
+			}
+		}
+		[role="tooltip"] {
+			/* display: inline-block; */
+		}
+		[role="tooltip"]:after {
+			content:"";
+			box-sizing:border-box;
+			position:fixed;
+			z-index:1;
+			/* top:-5px; */
+			left:50%;
+			width:10px;
+			height:10px;
+			border-width:1px 0 0 1px;
+			border-style:solid;
+			border-color:inherit;
+			background-color:inherit;
+		}
+		/* variation */
+		[role="tooltip"][class*="bottom"]:after {
+			top:-5px;
+			transform:rotate(45deg);
+		}
+		[role="tooltip"][class*="top"]:after {
+			top:calc(100% - 5px);
+			transform:rotate(225deg);
+		}
+		[role="tooltip"][class*="left"]:after {left:28px;}
+		[role="tooltip"][class*="right"]:after {left:calc(100% - 28px);}
+
+		/* customize */
+		[role="tooltip"] {
+			position:absolute;
+			top:0;
+			left:0;
+			/* max-width:300px; */
+			width:300px;
+			box-sizing: border-box;
+			background-color:#fff;
+			padding:14px 20px;
+			border: 1px solid #ccc;
+			/* margin:0 10px; */
+		}
+		[role="tooltip"][class*="top"] {
+			margin-top:-10px;
+		}
+		[role="tooltip"][class*="bottom"] {
+			margin-top:10px;
+		}
+		/* [role="tooltip"]:not(.active) {display:none;} */
+	</style>
+</head>
+<body>
+	<div class="tooltip-trigger | js-tooltip-trigger" role-description="tooltip trigger" aria-describedby="globalTooltip" data-tooltip-axis="right-bottom">Trigger element1</div>
+	<!--  -->
+	<div class="tooltip-trigger | js-tooltip-trigger" role-description="tooltip trigger" aria-describedby="globalTooltip" data-tooltip-axis="center-bottom">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut.</div>
+	<!--  -->
+	<!-- dynamic template -->
+	<template class="tooltip-template">
+		<div role="tooltip" id="globalTooltip">
+			<div class="body">This function is disabled on your cookie management. To activate it, click on the link <a href="#" target="_blank">"Edit cookie settings"</a> in the upper right corner of this page.</div>
+		</div>
+	</template>	
+	<script>
+		"use strict";
+		// log style
+		const flowStyle = "color:#333; border:1px solid currentColor; background-color:#fff; font-size:14px; padding:4px 10px; text-transform:capitalize";
+
+		class Tooltip {
+			// static field
+			static SHOW = "SHOW";
+			static HIDE = "HIDE";
+			static defaultPosition = "left-bottom";
+			static templateCreate = (_htmlSting)=>{
+				const wrapper = document.createElement("div");
+				wrapper.innerHTML = _htmlSting; 
+
+				const [template] = wrapper.children;
+				wrapper.remove();
+
+				return template;
+			}
+			
+			constructor(config){
+				this.trigger = config.trigger;
+				this.template = typeof config.template === "string" ? Tooltip.templateCreate(config.template) : config.template;
+				this.message = config.message || "";
+				this.active = false;
+				this.initialAxis = this.trigger.getAttribute("data-tooltip-axis") || Tooltip.defaultPosition;
+				this.axis = {
+					x:this.initialAxis.split("-")[0], 
+					y:this.initialAxis.split("-")[1]
+				};
+			}
+
+			// prototype field
+			binder(_object){
+				console.group("%cBinder", flowStyle);
+				console.log("caller :", this.constructor.name);
+				console.log(_object);
+				console.log("trigger :", this.trigger);
+				const {action, data} = _object;
+				switch(action){
+					case Tooltip.SHOW :
+					// case "click.active" :
+					// case "mouseenter" :
+					// case "focus" :
+						console.log("Render");
+						console.log(data.type);
+						// this.active = true;
+						console.log("toggle :", this.active);
+						this.trigger.parentNode.insertBefore(this.template, this.trigger.nextSibling);
+						this.render(data.currentTarget);
+						
+						break;
+					case Tooltip.HIDE :
+					// case "click.deActive" :
+					// case "mouseleave" :	
+					// case "blur"	:
+						console.log("Remove");
+						console.log(data.type);
+						// this.active = false;
+						console.log("toggle :", this.active);
+						document.querySelector("[role=tooltip]").remove();
+						break;
+					default : 
+						return false;
+				};
+				console.groupEnd();
+				return false;
+			}
+
+			render(_target){
+				console.group("Render");
+				console.log(_target);
+
+				// body copy
+				const msgTarget = this.template.querySelector(".body");
+				const msg = this.message || null;
+				msg ? msgTarget.innerHTML = this.message : false;
+				
+				console.groupCollapsed("template");
+				console.log(this.template.getClientRects()[0]);
+				console.log("Left :", this.template.offsetLeft);
+				console.log("Top :", this.template.offsetTop);
+				console.log("width :", this.template.offsetWidth);
+				console.log("height :", this.template.offsetHeight);
+				console.groupEnd();
+				
+				const boxValue = _target.getClientRects()[0];
+
+				console.groupCollapsed("trigger");
+				console.log("right :", boxValue.right);
+				console.log("left :", boxValue.left);
+				console.log("top :", boxValue.top);
+				console.log("bottom :", boxValue.bottom);
+				console.log("width :", boxValue.width);
+				console.log("height :", boxValue.height);
+				console.log("x :", boxValue.x);
+				console.log("y :", boxValue.y);
+				console.groupEnd();
+				
+				// positioning
+				// use translate
+				this.template.style.transform = `matrix(1,0,0,1, ${this.setAlignX(this.axis.x, boxValue)}, ${this.setAlignY(this.axis.y, boxValue)})`;
+				// use position
+				// this.template.style.position = "absolute";
+				// this.template.style.left = `${this.setAlignX(this.axis.x, boxValue)}px`;
+				// this.template.style.top = `${this.setAlignY(this.axis.y, boxValue)}px`;
+				this.alignClassNamePrint(this.axis);
+
+				console.groupEnd();
+			}
+
+			setAlignX(_axis, _value){
+				let posX = null;
+				let axisX = null;
+				const {x, width} = _value;
+				console.groupCollapsed("Set PositionX");
+				console.log("x-type :", _axis);
+				console.log(this.template.offsetWidth);
+
+				switch(_axis){
+					case "center" :
+						posX = x + (width/2 - this.template.offsetWidth/2);
+						break;
+					case "right" :
+						posX = x + width - this.template.offsetWidth;
+						break;
+					case "left" :
+						posX = x;
+						break;
+					default :
+						break;
+				}
+				
+				console.log("positionX :", posX);
+				
+				if(posX < 0){	// force left positioning
+					const forcePositionX = Tooltip.defaultPosition.split("-")[0];
+					posX = this.setAlignX(forcePositionX, _value);
+					axisX = forcePositionX;
+				}
+				else{
+					axisX = _axis;
+				}
+				
+				this.axis.x = axisX;
+				
+				console.log("axisX :", this.axis.x);
+				console.groupEnd();
+
+				return posX;
+			}
+
+			setAlignY(_axis, _value){
+				let posY = null;
+				let axisY = null;
+				const {y, height} = _value;
+
+				console.groupCollapsed("Set PositionY");
+				console.log("y-type", _axis);
+				console.log(this.template.offsetHeight);
+
+				switch(_axis){
+					case "top" :
+						posY = y - this.template.offsetHeight;
+						break;
+					case "bottom" :
+						posY = y + height;
+						break;
+					case "mid" :
+						posY = y + (height/2 - this.template.offsetHeight/2);
+					default :
+						break;
+				}
+				
+				console.log("positionY :", posY);
+				
+				if(posY < 0){	// force bottom positioning
+					const forcePositionY = Tooltip.defaultPosition.split("-")[1];
+					posY = this.setAlignY(forcePositionY, _value);
+					axisY = forcePositionY;
+				}
+				else{
+					axisY = _axis;
+				}
+
+				this.axis.y = axisY;
+
+				console.log("axisY :", this.axis.y);
+				console.groupEnd();
+
+				return posY;
+			}
+
+			alignClassNamePrint(_axis){
+				const classList = this.template.classList;
+
+				console.group("ClassNamePrint");
+				console.log(classList);
+
+				classList.remove(...classList);
+				classList.add(`${_axis.x}-${_axis.y}`);
+
+				console.groupEnd();
+			}
+
+			listener(){
+				console.groupCollapsed("Event listening");
+
+				// const SHOW = "SHOW";
+				// const HIDE = "HIDE";
+				const dispatch = _action => _event => this.binder({action : _action, data : _event});
+				
+				this.trigger.addEventListener("focus", dispatch(Tooltip.SHOW));
+				this.trigger.addEventListener("blur", dispatch(Tooltip.HIDE));
+				this.trigger.addEventListener("mouseenter", dispatch(Tooltip.SHOW));
+				this.trigger.addEventListener("mouseleave", dispatch(Tooltip.HIDE));
+
+				console.log("done");
+				console.groupEnd();
+			}
+
+			resizeHandler(){
+				window.addEventListener("resize", event => {
+					const classList = this.template.classList;
+					const initialAxis = this.initialAxis.split("-");
+					const comparison = initialAxis.reduce( (obj, axis, idx)=>{
+						idx === 0 ? 
+						obj.x = axis : 
+						obj.y = axis;
+
+						return obj;
+					} ,{});
+
+					classList.remove(...classList);
+					classList.add(this.initialAxis);
+					this.axis = comparison;
+				});
+			}
+
+			create(){
+				console.group("%cCreate", flowStyle);
+				console.trace();
+				console.log("this :", this);
+
+				// preset
+				this.template.classList.add(this.initialAxis);
+				this.trigger.setAttribute("tabindex", 0);
+				this.listener();
+				this.resizeHandler();
+
+				console.groupEnd();
+			}
+		}
+		class Popover extends Tooltip {
+			constructor(config){
+				super(config);
+				this.header = this.template.querySelector(".header");
+				this.body = this.template.querySelector(".body");
+			}
+
+			// Event listening overwrite : just click.
+			listener(){
+				console.groupCollapsed("Event listening :: popover");
+				const templateEvent = _action => _event => {this.binder({action : _action, data : _event}); this.active = !this.active};
+				const handleEvent = _event => {
+					this.active = !this.active;
+					this.active ? 
+					this.binder({
+						// action : `${_event.type}.active`,
+						action : Tooltip.SHOW,
+						data : _event
+					}) :
+					this.binder({
+						// action : `${_event.type}.deActive`,
+						action : Tooltip.HIDE,
+						data : _event
+					});
+				}
+				this.trigger.addEventListener("click",  event => handleEvent(event));
+				this.trigger.addEventListener("keydown", event => event.keyCode === 13 && handleEvent(event));
+
+				window.addEventListener("resize", event => this.render(this.trigger));
+				this.template.addEventListener("blur", templateEvent(Tooltip.HIDE) , true);
+
+				console.log("done");
+				console.groupEnd();
+			}
+		}
+
+		// create 
+		const trigger = Array.prototype.map.call(document.querySelectorAll(".js-tooltip-trigger"), node => node );
+		// console.log(trigger);
+		const template = document.querySelector("#globalTooltip") || document.querySelector("[role=tooltip]") || document.querySelector(".tooltip-template").innerHTML;
+		const config_tooltip = {
+			trigger : trigger[0],
+			template : template,
+			message : "Hello World!"
+		};
+		const config_popover = {
+			trigger : trigger[1],
+			template : template
+		};
+		const tooltip = new Tooltip(config_tooltip);
+		const popover = new Popover(config_popover);
+		tooltip.create();
+		popover.create();
+	</script>
+</body>
+</html>
