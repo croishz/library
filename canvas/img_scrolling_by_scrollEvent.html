@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body, h1, h2 {padding: 0;margin: 0;}
+		canvas {
+		}
+		.ir {
+			position:absolute;
+			z-index: -100;
+			opacity:0;
+			color: transparent;
+		}
+		.sequence_img {
+			/* position:relative; */
+			/* height:100vh; */
+			min-height:100vh;
+		}
+		.sequence_img .inner {
+			position: relative;
+			top:0;
+			left:0;
+			outline: 3px solid steelblue;
+			outline-offset: -1px;
+		}
+		.sequence_img .inner.fixed {
+			position:fixed;
+		}
+		section {outline: 1px solid coral;}
+	</style>
+</head>
+<body>
+	<section style="height:70vh"><h2>test section 1</h2></section>
+	<section class="sequence_img" data-canvas-wrap>
+		<!-- <h1 class="ir">Sampling - Image Sequence animation </h1> -->
+		<div class="inner">
+			<canvas id="canvas">Your broswer do not supported canvas</canvas>
+		</div>
+	</section>
+	<section style="height:130vh"><h2>test section 2</h2></section>
+	<script>
+		class Canvas {
+			constructor(){
+				this.canvas = document.createElement('canvas');
+				this.ctx = this.canvas.getContext('2d');
+				this.wrap = this.canvas.closest('[data-canvas-wrap]');
+				this.wrap.appendChild(this.canvas);
+			}
+		}
+	</script>
+	<script>
+		class ImageSequenceAnimation {
+			constructor({
+				timeline, 
+				sensitivity, 
+				imgRootSrc,
+				imgExtension, 
+				imgDimension
+			}){
+				const [imgWidth, imgHeight] = imgDimension;
+				this.canvas = document.getElementById('canvas');
+				this.ctx = this.canvas.getContext('2d');
+				this.wrap = this.canvas.closest('[data-canvas-wrap]');
+				// animation set
+				this.timeline = timeline;
+				this.sensitivity = sensitivity;
+				// image set
+				this.img = new Image();
+				this.imageInfo = {
+					width : imgWidth,
+					height : imgHeight,
+					rootSrc : imgRootSrc,
+					extension : imgExtension ?? 'jpg'
+				};
+				console.log(this.imageInfo);
+				this.imgRootSrc = imgRootSrc;
+				this.imgExtension = imgExtension ?? 'jpg'
+			}
+			render(){
+				// Initialize
+				this.setScrollHeight();
+				this.setCanvasSize();
+				this.timeline.now = this.setImgIndexFormat(this.timeline.start);
+				this.img.src = `${globalThis.innerWidth < 768 ? './images/m_jpg/Rollable_m_' : this.imgRootSrc}${this.timeline.now}.${this.imgExtension}`;
+				this.img.addEventListener('load', ()=> this.ctx.drawImage(...this.drawPositionData));
+
+				// Re-render by event
+				globalThis.addEventListener('resize', ()=> {
+					this.setCanvasSize();
+					this.setScrollHeight();
+					// this.setSequence();
+					this.draw();
+				});
+				globalThis.addEventListener('scroll', ()=>{
+					const startPoint = this.wrap.offsetTop;
+					const endPoint = startPoint + (this.scrollHeight - globalThis.innerHeight);
+					const container = this.wrap.children[0];
+					(globalThis.scrollY >= startPoint && globalThis.scrollY < endPoint ) ? container.classList.add("fixed") : container.classList.remove("fixed");
+					container.style.top = globalThis.scrollY >= endPoint ? `${endPoint - startPoint}px` : "";
+					if( globalThis.scrollY < startPoint || globalThis.scrollY > endPoint ) return false;
+
+					const timelineProgress = (globalThis.scrollY - this.wrap.offsetTop) / (this.scrollHeight - globalThis.innerHeight); 
+					const imgSequenceLength = this.timeline.end - this.timeline.start;
+					this.timeline.now = this.setImgIndexFormat(this.timeline.start + Math.round(timelineProgress * imgSequenceLength));
+
+					
+
+					console.group("scroll event");
+					console.log(endPoint);
+					console.log("timelineProgress: ", timelineProgress);
+					console.log("now sequence no. ", this.timeline.now);
+					console.log("page scrollY: ", globalThis.scrollY);
+					console.log("section offsetTop: ", this.wrap.offsetTop);
+					console.log("section scrollY", globalThis.scrollY - this.wrap.offsetTop);
+					console.groupEnd("scroll event");
+					
+					// this.setSequence( );
+					this.draw();
+				});
+
+				// 
+			}
+			setCanvasSize(){
+				const DPR = globalThis.devicePixelRatio;
+				const windowWidth = globalThis.innerWidth;
+				// const windowHeight = globalThis.innerHeight;
+				
+				this.imageInfo.width = windowWidth < 768 ? 720 : 1920;
+				this.imageInfo.height = windowWidth < 768 ? 1280 : 950;
+				this.imageInfo.ratio = (this.imageInfo.height/this.imageInfo.width);
+
+				const pixelRatio = [1/DPR , 1/DPR];
+				const retinaWidth = this.imageInfo.width * DPR;
+				const retinaHeight = this.imageInfo.height * DPR;
+				
+				this.canvas.width = retinaWidth;
+				// this.canvas.height = retinaHeight;
+				this.canvas.style.width = `${this.imageInfo.width}px`;
+				this.canvas.style.height = `${this.imageInfo.height}px`;
+				
+				// by aspect ratio
+				this.canvas.height = retinaWidth * this.imageInfo.ratio;
+				this.canvas.style.width = windowWidth + "px";
+				this.canvas.style.height = windowWidth * this.imageInfo.ratio + "px";
+				
+				this.renderRect = {
+					// 데탑에서 가운데 정렬 + 클립, 모바일에선 너비 비율
+					// startX : windowWidth < 768 ? 0 : (retinaWidth - this.imageInfo.width * DPR)/2,
+					// startY : windowWidth < 768 ? (windowHeight - windowWidth * this.imageInfo.ratio)/2 * DPR : (retinaHeight - this.imageInfo.height * DPR)/2,
+					// drawX : windowWidth < 768 ? retinaWidth : this.imageInfo.width * DPR,
+					// drawY :	windowWidth < 768 ? retinaWidth * this.imageInfo.ratio : this.imageInfo.height * DPR
+					startX : 0,
+					startY : 0,
+					// drawX : retinaWidth,
+					// drawY : retinaWidth * this.imageInfo.ratio,
+				};
+				this.drawPositionData = [
+					// Draw source image
+					this.img, 
+					// Draw Image dimension 
+					// 0, 0,
+					// this.imageInfo.width, this.imageInfo.height,
+					// Draw canvas dimension 
+					this.renderRect.startX, this.renderRect.startY,	// be started point
+					// this.renderRect.drawX, this.renderRect.drawY,	// draw size
+				];
+				// this.ctx.scale(...pixelRatio);
+
+				// console.group("checker");
+				// console.log("windowHeight <= this.imageInfo.height : ", windowHeight <= this.imageInfo.height);
+				// console.log("windowWidth > 767: ", windowWidth > 767);
+				// console.log("DPR < 2: ", DPR < 2);
+				// console.groupEnd("checker");
+
+				console.group("scale");
+				console.log("this.renderRect: ",this.renderRect);
+				console.log(" 너비 비율 :", windowWidth/this.imageInfo.width);
+				console.log(globalThis.innerHeight, Math.round(retinaWidth * this.imageInfo.ratio));
+				console.log(this);
+				console.log(pixelRatio);
+				// console.log("windowHeight : ", windowHeight);
+				console.log("devicePixelRatio : ", DPR);
+				console.dir(this.img);
+					console.group("img info");
+					console.log("width :", this.img.naturalWidth, this.img.width);
+					console.log("height :", this.img.naturalHeight, this.img.height);
+					console.groupEnd("img info");
+				console.groupEnd("scale");
+				
+				return this;
+			}
+			setScrollHeight(){
+				this.scrollHeight = globalThis.innerHeight * (this.sensitivity + 1);
+				this.wrap.style.height = this.scrollHeight + 'px';
+				
+				return this;
+			}
+			setImgIndexFormat(_index){
+				const index = _index || this.timeline.start;  
+				const sequenceIndex = index < 100 ? (index < 10 ? `00${index}` : `0${index}`) : `${index}`;
+				return sequenceIndex;
+			}
+			setSequence(_index){
+				console.group("sequence");
+				console.log("index", _index);
+				console.log("adj no.", this.timeline.now);
+				console.groupEnd("sequence");
+				return this;
+			}
+			draw(){
+				const src = globalThis.innerWidth < 768 ? './images/m_jpg/Rollable_m_' : this.imgRootSrc;
+				this.img.src = `${src}${this.timeline.now}.${this.imgExtension}`; 
+				this.ctx.drawImage(...this.drawPositionData);
+				return this;
+			}
+		}
+		const keyframes = [
+			{
+				id: 1,
+				timeline : {
+					start : 136,
+					end : 208,
+					direction : 1
+				},
+				sensitivity : 10
+			},
+			{
+				id: 2,
+				timeline : {
+					start : 209,
+					end : 209,
+					direction : 1
+				},
+				sensitivity : 100	// equal hold animation duration
+			},
+			{
+				id: 3,
+				timeline : {
+					start : 210,
+					end : 241,
+					direction : 1
+				},
+				sensitivity : 10
+			},
+		];
+		const commonOption = {
+			imgSize: [1920, 950],
+			imgRootSrc: './images/m_jpg/Rollable_m_', 
+			imgExtension: 'jpg',
+		} ;
+		const imgSqcAnimation = new ImageSequenceAnimation({
+			imgRootSrc : './images/jpg/Rollable_',
+			imgDimension : [1920, 950],
+			// imgRootSrc : './images/m_jpg/Rollable_m_',
+			// imgDimension : [720, 1280],
+			imgExtension : 'jpg',
+			timeline : {
+				start : 0,
+				end : 263,
+				direction : 1
+			},
+			sensitivity : 10
+		});
+		console.log(imgSqcAnimation);
+		imgSqcAnimation.render();
+	</script>
+</body>
+</html>
