@@ -547,32 +547,23 @@ $(function(){
 					if( theme == "sleek" ){
 						if( btnNo == "1" ){
 							$(myBtnEl).attr("adobe-click", "signature-online-showroom-room-products");
-							$(myBtnEl).attr("adobe-value", "products-sleek-dishwasher");
+							$(myBtnEl).attr("adobe-value", "products-sleek-oled-8k-tv-zx-77-inch");
 						}else if( btnNo == "2" ){
 							$(myBtnEl).attr("adobe-click", "signature-online-showroom-room-products");
-							$(myBtnEl).attr("adobe-value", "products-sleek-wine-cellar");
-						}else if( btnNo == "3" ){
-							$(myBtnEl).attr("adobe-click", "signature-online-showroom-room-products");
-							$(myBtnEl).attr("adobe-value", "products-sleek-refrigerator");
+							$(myBtnEl).attr("adobe-value", "products-sleek-air-purifier");
 						}
 					}else if( theme == "minimalist" ){
 						if( btnNo == "1" ){
 							$(myBtnEl).attr("adobe-click", "signature-online-showroom-room-products");
-							$(myBtnEl).attr("adobe-value", "products-minimalist-oven");
+							$(myBtnEl).attr("adobe-value", "products-minimalist-oled-8k-tv-zx-88-inch");
 						}else if( btnNo == "2" ){
 							$(myBtnEl).attr("adobe-click", "signature-online-showroom-room-products");
-							$(myBtnEl).attr("adobe-value", "products-minimalist-wine-cellar");
-						}else if( btnNo == "3" ){
-							$(myBtnEl).attr("adobe-click", "signature-online-showroom-room-products");
-							$(myBtnEl).attr("adobe-value", "products-minimalist-refrigerator");
+							$(myBtnEl).attr("adobe-value", "products-minimalist-air-purifier");
 						}
 					}else if( theme == "natural" ){
 						if( btnNo == "1" ){
 							$(myBtnEl).attr("adobe-click", "signature-online-showroom-room-products");
-							$(myBtnEl).attr("adobe-value", "products-natural-refrigerator");
-						}else if( btnNo == "2" ){
-							$(myBtnEl).attr("adobe-click", "signature-online-showroom-room-products");
-							$(myBtnEl).attr("adobe-value", "products-natural-wine-cellar");
+							$(myBtnEl).attr("adobe-value", "products-natural-rollable-oled-tv-rx");
 						}
 					}
 
