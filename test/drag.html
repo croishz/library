@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		.box {width:200px; height:200px; background-color:tan;}
+	</style>
+</head>
+<body>
+	<!-- <div class="box"></div>
+	<script>
+		const tg = document.querySelector('.box');
+		tg.addEventListener('dragstart', function(){
+			console.log(1);
+		})
+		tg.addEventListener('dragend', function(){
+			console.log(2);
+		})
+	</script> -->
+	<style>
+		.box {
+		  float: left; 
+		  width: 200px; 
+		  height: 60px;
+		  padding: 0;
+		  margin: 15px;  
+		  border: 1px solid silver;
+		}
+		.box p {padding: 10px; margin:0;}
+		.box p:hover {cursor:pointer;}
+		#demo {clear:both; padding:20px;}
+		</style>
+		
+		<div class="box">
+		  <p draggable="ture" id="dragtarget">홈짱닷컴 Homzzang.com</p>
+		</div>
+		
+		<div class="box"></div>
+		
+		<p id="demo"></p>
+		
+		<script>
+			const tg = document.querySelector('.box');
+			tg.addEventListener("dragstart", function(event) {
+		//   event.dataTransfer.setData("Text", event.target.id);  
+		  document.getElementById("demo").innerHTML = "드래그 시작";  
+		//   event.target.style.opacity = "0.3";
+		});
+		
+		// tg.addEventListener("drag", function(event) {
+		//   document.getElementById("demo").style.color = "red";
+		// });
+		
+		tg.addEventListener("dragend", function(event) {
+		  document.getElementById("demo").innerHTML = "드래그 완료";
+		//   event.target.style.opacity = "1";
+		});
+		
+		// tg.addEventListener("dragenter", function(event) {
+		//   if ( event.target.className == "box" ) {
+		// 	event.target.style.border = "1px dashed red";
+		//   }
+		// });
+		
+		// tg.addEventListener("dragover", function(event) {
+		//   event.preventDefault();
+		// });
+		
+		// tg.addEventListener("dragleave", function(event) {
+		//   if ( event.target.className == "box" ) {
+		// 	event.target.style.border = "";
+		//   }
+		// });
+		
+		// tg.addEventListener("drop", function(event) {
+		//   event.preventDefault();
+		//   if ( event.target.className == "box" ) {
+		// 	document.getElementById("demo").style.color = "";
+		// 	event.target.style.border = "";
+		// 	var data = event.dataTransfer.getData("Text");
+		// 	event.target.appendChild(document.getElementById(data));
+		//   }
+		// });
+		</script>
+</body>
+</html>

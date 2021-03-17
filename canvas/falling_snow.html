@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Snowing - top view</title>
+	<style>
+		body {
+			margin: 0; 
+			padding: 0;
+			background: darkseagreen;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap" id="canvas_wrap"></div>
+	<script>
+		class Canvas {
+			constructor(_config){
+				console.log(_config);
+				this.wrap = document.getElementById(_config.parentNode);
+				this.element = document.createElement('canvas');
+				this.context = this.element.getContext(_config.context);
+			}
+			framing(){
+				const DPR = globalThis.devicePixelRatio;
+				console.log("pixelRaitio :", DPR);
+				
+				this.element.width = globalThis.innerWidth * DPR;
+				this.element.height = (globalThis.innerHeight - 4) * DPR;
+			}
+			resize(){
+				globalThis.addEventListener('resize', ()=>{
+					// this.framing();
+				});
+			}
+			render(){
+				this.wrap.appendChild(this.element);
+				this.framing();
+				this.resize();
+			}
+		};
+		class Snowing{
+			// static field
+
+			// constructor
+			constructor(_config){
+				this.canvas = new Canvas(_config);
+			}
+			// Prototype field
+			render(){
+				this.canvas.render();
+				this.fallingAnimate();
+				// globalThis.addEventListener('resize', ()=>{
+				// 	this.draw();
+				// });
+			}
+			draw(_data){
+				// const {x, y, dx, dy, radius} = _data;
+				const {radius} = _data;
+				console.trace();
+				this.canvas.context.beginPath();
+				this.canvas.context.arc(100, 150, radius, 0, Math.PI*2);
+				this.canvas.context.fillStyle = 'rgba(255, 255, 255, 0.5)';
+				this.canvas.context.fill();
+				// this.canvas.context.stroke();
+				this.canvas.context.closePath();
+			}
+			spread(){
+			}
+			fallingAnimate(_timestamp){
+				console.log(123);
+				// this.canvas.context.clearRect(0, 0, this.width, this.height);
+				requestAnimationFrame(this.fallingAnimate);
+				
+				console.group(`animate`);
+				console.log(_timestamp);
+				console.groupEnd(`animate`);
+
+				this.draw({
+					radius : 40
+				});
+			}
+		};
+		const falling = new Snowing({
+			parentNode : 'canvas_wrap',
+			context : '2d'
+		});
+		falling.render();
+	</script>
+</body>
+</html>

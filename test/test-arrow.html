@@ -1,0 +1,55 @@
+
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<style>
+			.path {
+  stroke-dasharray: 397;
+  stroke-dashoffset: 397;
+  /* animation: dash 10000ms infinite linear forwards; */
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+		</style>
+	</head>
+	<body>
+		<div class="test-arrow">
+			<svg viewbox="0 0 58 66">
+				<path 
+					class="path"
+					stroke="aqua"
+					stroke-width="1"
+					d="
+					M31.034,
+					41.232 L44.858,
+					60.258 L43.240,
+					61.434 L29.482,
+					42.498 L14.116,
+					65.465 L0.695,
+					0.904 L57.509,
+					34.087 L31.034,
+					41.232 ZM14.803,
+					60.075 L28.613,
+					39.338 L51.848,
+					33.385 L3.614,
+					4.913 L14.803,
+					60.075 Z"
+				/>
+			</svg>
+		</div>
+		<script>
+			const line1 = document.querySelector(".path");
+			const fullWidth1 = line1.getTotalLength();
+			console.dir(line1);
+			console.log(fullWidth1);
+		</script>
+</body>
+</html>
