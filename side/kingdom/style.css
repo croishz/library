@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap");
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Play', sans-serif;
+  font-size: 1.6rem;
+  margin: 0;
+  padding: 0;
+  background-color: #222;
+  color: #fff;
+}
+
+.my-topping-list {
+  max-width: 1140px;
+  margin: 24px auto;
+  padding: 0 24px;
+}
+
+.my-topping-list .effect-list {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background: #222;
+  margin-bottom: 20px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[10];
+      grid-template-columns: repeat(10, 1fr);
+  padding: 12px 12px 12px 200px;
+  text-align: right;
+  font-size: 1.4rem;
+}
+
+.my-topping-list .effect-list > * {
+  padding: 0 7px;
+}
+
+.my-topping-list .topping-item {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 200px 1fr;
+      grid-template-columns: 200px 1fr;
+  -ms-grid-rows: 1fr;
+      grid-template-rows: 1fr;
+      grid-template-areas: "head detail";
+  margin-bottom: 12px;
+}
+
+.my-topping-list .topping-item:before, .my-topping-list .topping-item:after {
+  content: "";
+}
+
+.my-topping-list .topping-item .item-head {
+  cursor: pointer;
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: head;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 188px;
+  padding: 12px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 10px;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.my-topping-list .topping-item .item-head > * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.my-topping-list .topping-item .item-head .kind {
+  width: 50%;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  padding-right: 10px;
+}
+
+.my-topping-list .topping-item .item-head .level {
+  width: 50%;
+  padding-left: 10px;
+  text-align: right;
+}
+
+.my-topping-list .topping-item .item-head .owner {
+  width: 100%;
+  font-size: 1.2rem;
+  text-align: right;
+  text-transform: capitalize;
+  padding-top: 3px;
+}
+
+.my-topping-list .topping-item .passive {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: detail;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[10];
+      grid-template-columns: repeat(10, 1fr);
+  -ms-grid-rows: 1em;
+      grid-template-rows: 1em;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+.my-topping-list .topping-item .effect {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1/2;
+}
+
+.my-topping-list .topping-item .effect > * {
+  display: block;
+}
+
+.my-topping-list .topping-item .effect .name {
+  font-size: 1.2rem;
+}
+
+.my-topping-list .topping-item .effect .value {
+  text-align: right;
+}
+
+.my-topping-list .topping-item[data-kind="raspberry"] .item-head {
+  border-color: lightcoral;
+}
+
+.my-topping-list .topping-item [data-equip-check="true"] .owner {
+  color: #ecbc33;
+}
+
+.my-topping-list .topping-item [data-effect-name="none"] {
+  display: none;
+}
+
+.my-topping-list .topping-item:hover, .my-topping-list .topping-item:focus {
+  background: #333;
+}
+/*# sourceMappingURL=style.css.map */
