@@ -1,0 +1,42 @@
+.ST0001 {
+  display: flex;
+}
+.ST0001--full {
+  margin: auto;
+  max-width: 1920px;
+}
+.ST0001--wide {
+  margin: auto;
+  max-width: 1600px;
+}
+.ST0001--regular {
+  margin: auto;
+  max-width: 1280px;
+}
+.ST0001 .component-headcopy {
+  font-weight: 700;
+}
+.ST0001 .component-headcopy__title {
+  color: #000;
+  font-size: 3rem;
+  line-height: 4rem;
+}
+@media (max-width: 768px) {
+  .ST0001 .component-headcopy__title {
+    font-size: 2.2rem;
+    line-height: 3rem;
+  }
+}
+.ST0001 .component-headcopy__eyebrow {
+  color: #bbb;
+  font-size: 1.4rem;
+  line-height: 1.429;
+}
+@media (max-width: 768px) {
+  .ST0001 .component-headcopy__eyebrow {
+    font-size: 1.2rem;
+    line-height: 1.334;
+  }
+}
+
+/*# sourceMappingURL=ST0001.css.map */
