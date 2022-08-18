@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/croishz/library#readme",
   "dependencies": {
-    "node-sass": "^4.14.0"
+    "node-sass": "^7.0.0"
   },
   "packageManager": "yarn@3.1.1",
   "devDependencies": {
