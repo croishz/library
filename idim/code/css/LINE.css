@@ -1,77 +1,107 @@
 body {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+}
 
 ul, ol, li {
-  list-style: none; }
+  list-style: none;
+}
 
 body {
   width: 100vw;
-  height: 100vh; }
+  height: 100vh;
+}
 
 .brick {
   display: inline-block;
   width: 80vw;
   height: 100%;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   border-left: 6px solid #f15a35;
-  text-align: left; }
+  text-align: left;
+}
 
 .wrap {
   height: 100%;
   background-color: #fffaf8;
-  overflow: hidden; }
+  overflow: hidden;
+}
 
 .wrap > div {
-  text-align: right; }
+  text-align: right;
+}
 
 .wrap > div > div {
-  text-align: left; }
+  text-align: left;
+}
 
 .top-area {
   position: relative;
-  box-sizing: border-box;
-  height: 17%; }
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  height: 17%;
+}
 
 .main {
   height: 66%;
-  box-sizing: border-box; }
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
 
 .main .brick {
   position: relative;
   border-top: 6px solid #f15a35;
-  transform: rotate(0deg);
-  transform-origin: 0% 0%; }
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+  -webkit-transform-origin: 0% 0%;
+          transform-origin: 0% 0%;
+}
 
 .bottom-area {
   position: relative;
-  box-sizing: border-box;
-  height: 17%; }
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  height: 17%;
+}
 
 .bottom-area .protrude {
   width: 20vw;
   border-top: 6px solid #f15a35;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding-left: 17px;
-  transform-origin: 100% 0%;
-  transform: rotate(0deg); }
+  -webkit-transform-origin: 100% 0%;
+          transform-origin: 100% 0%;
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+}
 
 .bottom-area .protrude .inner {
   position: absolute;
   top: 0;
   right: 4vw;
   text-align: right;
-  transform: translateY(17vh);
-  transition: transform 300ms 300ms; }
+  -webkit-transform: translateY(17vh);
+          transform: translateY(17vh);
+  -webkit-transition: -webkit-transform 300ms 300ms;
+  transition: -webkit-transform 300ms 300ms;
+  transition: transform 300ms 300ms;
+  transition: transform 300ms 300ms, -webkit-transform 300ms 300ms;
+}
 
 .bottom-area .protrude .inner.pull-up {
-  transform: translateY(0); }
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+}
 
 .bottom-area .brick {
   position: absolute;
   bottom: 0;
   right: 0;
-  transform-origin: 250px 100%; }
+  -webkit-transform-origin: 250px 100%;
+          transform-origin: 250px 100%;
+}
 
 .touch-area {
   position: fixed;
@@ -80,11 +110,11 @@ body {
   bottom: 0;
   width: 23vw;
   border-radius: 0 20em 7em 0 / 180em 180em;
-  transition: background-color 300ms; }
+  -webkit-transition: background-color 300ms;
+  transition: background-color 300ms;
+}
 
 .touch-area.identify {
-  background-color: rgba(255, 0, 0, 0.35); }
-
-/*# sourceMappingURL=LINE.css.map */
-
+  background-color: rgba(255, 0, 0, 0.35);
+}
 /*# sourceMappingURL=LINE.css.map */

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body {
+			background-color: hsla(0, 0%, 0%, 0.4);
+		}
+	</style>
+</head>
+<body>
+	
+<svg width="514" height="200" viewBox="0 0 514 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<path fill="black" fill-opacity="0.4"  d="M2 64.354L73.9385 186C73.9385 186 130.333 145.317 227.619 145.317C324.905 145.317 378.559 186 378.559 186L452 64.354C452 64.354 344.682 1 227.619 1C103.394 1 2 64.354 2 64.354Z" stroke="white" stroke-width="2" stroke-miterlimit="10">	
+		<animate dur="500ms" attributeName="d" to="M2 1.76193L83.5303 128.786C83.5303 128.786 147.444 128.786 257.701 128.786C367.958 128.786 428.766 128.786 428.766 128.786L512 1.76193C512 1.76193 390.373 1 257.701 1C116.914 1 2 1.76193 2 1.76193Z" fill="freeze" begin="indefinite" class="morphi1"/>
+		<animate dur="500ms" attributeName="d" to="M2 64.354L73.9385 186C73.9385 186 130.333 145.317 227.619 145.317C324.905 145.317 378.559 186 378.559 186L452 64.354C452 64.354 344.682 1 227.619 1C103.394 1 2 64.354 2 64.354Z" fill="freeze" begin="indefinite" class="morphi2">
+	</path>
+</svg>
+	
+<svg width="514" height="190" viewBox="0 0 514 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<svg width="514" height="190" viewBox="0 0 514 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+	<!-- pannel : sample -->
+	<path fill="black" fill-opacity="0.4"  d="M2 13.7619L83.5303 140.786C83.5303 140.786 147.444 140.786 257.701 140.786C367.958 140.786 428.766 140.786 428.766 140.786L512 13.7619C512 13.7619 390.373 13 257.701 13C116.914 13 2 13.7619 2 13.7619Z" stroke="white" stroke-width="2" stroke-miterlimit="10">
+		<animate class="morphi1" fill="freeze" begin="indefinite" dur="500ms" attributeName="d" to="M2 13.7619L83.5303 140.786C83.5303 140.786 147.444 140.786 257.701 140.786C367.958 140.786 428.766 140.786 428.766 140.786L512 13.7619C512 13.7619 390.373 13 257.701 13C116.914 13 2 13.7619 2 13.7619Z"/>
+		<animate class="morphi2" fill="freeze" begin="indefinite" dur="500ms" attributeName="d" to="M32 64.354L103.938 186C103.938 186 160.333 145.317 257.619 145.317C354.905 145.317 408.559 186 408.559 186L482 64.354C482 64.354 374.682 1 257.619 1C133.394 1 32 64.354 32 64.354Z">
+	</path>
+
+	<!-- left -->
+	<path opacity="0.3" d="M59.65 76.25H180M59.65 76.25L55 70M59.65 76.25L64.2999 82.5" fill="red" stroke="white" stroke-width="2" stroke-linecap="round"/>
+		<animate class="morphi1" fill="freeze" begin="indefinite" dur="500ms" attributeName="d" to="M59.65 76.25H180M59.65 76.25L55 70M59.65 76.25L64.2999 82.5"/>
+		<animate class="morphi2" fill="freeze" begin="indefinite" dur="500ms" attributeName="d" to="M84 114L80 107.5M84 114L88 120.5M84 114C111 97.5 143.5 84 180 79"/>
+	</path>
+
+	<!-- right -->
+	<path opacity="0.3" d="M454.35 76.25H334M454.35 76.25L459 70M454.35 76.25L449.7 82.5" fill="red" stroke="white" stroke-width="2" stroke-linecap="round"/>
+		<animate class="morphi1" fill="freeze" begin="indefinite" dur="500ms" attributeName="d" to="M454.35 76.25H334M454.35 76.25L459 70M454.35 76.25L449.7 82.5"/>
+		<animate class="morphi2" fill="freeze" begin="indefinite" dur="500ms" attributeName="d" to="M430 114L434 107.5M430 114L426 120.5M430 114C403 97.5 370.5 84 334 79"/>
+	</path>
+
+</svg>
+
+<script>
+	const target = document.querySelector("svg");
+	const [...morphi1] = document.querySelectorAll(".morphi1");
+	const [...morphi2] = document.querySelectorAll(".morphi2");
+
+	target.addEventListener('click', function() {
+		console.log(0);
+		if (target.classList.contains("change")) {
+			console.log(1);
+			morphi2.map(el => el.beginElement());
+			target.classList.remove("change");
+		} else {
+			console.log(2);
+			morphi1.map(el => el.beginElement());
+			target.classList.add("change");
+		}
+	
+	}, false);
+</script>
+</body>
+</html>

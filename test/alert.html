@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sample - Alert </title>
+	<style>
+		[role="alert"] {
+			position:fixed;
+			z-index:10;
+			bottom:10vh;
+			left:50%;
+			transform:translateX(-50%);
+			border-radius: 0.725em;
+			padding:16px 24px 20px;
+			color:#fff;
+			background-color:hsla(34, 50%, 40%, 0.75);
+			font-size:20px;
+			line-height:135%;
+			white-space:pre-line;
+		}
+		.button {
+			cursor:pointer;
+			border:none;
+			border-radius: 0.725em;
+			padding:12px 20px 15px;
+			background-color:#f4f5f5;
+		}
+		.button:hover,
+		.button:focus {
+			background-color:#d4d5d5;
+		}
+	</style>
+</head>
+<body>
+	<button type="button" class="button">Popup The Toast message</button>
+	<script>
+		const [알럿호출버튼] = document.querySelectorAll('.button');
+		const 알럿창 = document.createElement('div');
+		알럿창.setAttribute('role', 'alert');
+		알럿호출버튼.addEventListener('click', 알럿띄우기, false);
+		function 알럿띄우기(){
+			console.log("창이 뜹니다.");
+			document.body.appendChild(알럿창);
+			메세지출력(function(){
+				알럿창.innerText = "Hello World!\nI\'m ready~";
+			})
+		}
+		function 메세지출력(콜백){
+			window.requestAnimationFrame(콜백);
+		}
+	</script>
+</body>
+</html>

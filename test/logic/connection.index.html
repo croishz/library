@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div class="wrap">
+		<div>
+			<input type="checkbox" id="chk1" disabled><label for="chk1" data-check-action="all">All</label>
+		</div>
+		<div>
+			<input type="checkbox" id="chk2" disabled><label for="chk2" data-check-action="each">1</label>
+			<input type="checkbox" id="chk3" disabled><label for="chk3" data-check-action="each">2</label>
+			<input type="checkbox" id="chk4" disabled><label for="chk4" data-check-action="each">3</label>
+		</div>
+	</div>
+	<script>
+		const [chk_all_indicate, ...rest_chk] = document.querySelectorAll('input[type="checkbox"]');
+		// utils
+		const action =  {
+			ALL : "all",
+			EACH : "each"
+		};
+		const getTarget = (_target, _key)=>{
+			let target = null;
+			const nullish_check = (_value)=> _value == null; // if v is null or undefined, return true; 
+			if(nullish_check(_key)) return getTarget(_target.parentElement, _key);
+			target = _target;
+			if(_target instanceof HTMLLabelElement) return target.previousElementSibling;
+			return target;
+		};
+		const checkOneOfAll = function(_checkbox){
+			const max = rest_chk.length;
+			_checkbox.click();
+			chk_all_indicate.checked = max <= rest_chk.filter(chk => chk.checked).length;
+		};
+		const checkAll = function(){
+			const now = chk_all_indicate.checked || false;
+			console.log(now);
+			chk_all_indicate.checked = !now;
+			rest_chk.map(chk => chk.checked = !now);
+		};
+		const controller = (event)=>{
+			const search_key = event.target.dataset.checkAction;
+			const target = getTarget(event.target, search_key);
+			if(!target) return false;
+			console.log(target);
+			switch(target.dataset.checkAction){
+				case action["EACH"] : return checkOneOfAll(target);
+				case action["ALL"] : return checkAll();
+			}
+		};
+		document.querySelector('.wrap').addEventListener("click", controller, false);
+	</script>
+</body>
+</html>

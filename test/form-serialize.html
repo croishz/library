@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<form action="" method="get" id="FORM">
+		<div>
+			<input type="text" id="name">
+			<label for="name">Name</label>
+		</div>
+		<div>
+			<input type="text" id="char">
+			<label for="char">char</label>
+		</div>
+		<div>
+			<input type="text" id="local">
+			<label for="local">local</label>
+		</div>
+		<div>
+			<textarea name="test" id="test" cols="30" rows="10"></textarea>
+		</div>
+		<div>
+			<select name="combobox" id="combobox">
+				<option value="01">Oop1</option>
+				<option value="02">Oop12</option>
+				<option value="03">Oop123</option>
+			</select>
+		</div>
+		<button type="button">button</button>
+	</form>
+	<script>
+		const form = document.getElementById('FORM');
+		const button = document.querySelector('button');
+		console.log(form);
+		let count = 0;
+		button.addEventListener('click', function(){
+			const data = new FormData(form);
+			data.append([count], null);
+			
+			console.log(data.entries().next());
+			// console.log(data.entries());
+			// console.log(data.keys());
+			// console.log(data.get(local));
+			count++;
+		});
+	</script>
+</body>
+</html>

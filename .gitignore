@@ -4,3 +4,10 @@ canvas/asset
 canvas/images
 *.ai
 *.psd
+.parcel-cache
+.vscode
+.yarn
+.yarnrc.yml
+yarn.lock
+.pnp.cjs
+.pnp.loader.mjs

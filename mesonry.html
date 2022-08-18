@@ -1,0 +1,255 @@
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Masonry</title>
+		<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css" />
+		<style>
+			.swiper-pagination {bottom:40px; text-align: center; width:100%;}
+			.swiper-pagination-bullet {margin:0 15px;}
+		</style>
+		<style>
+			body {
+				margin:0;
+				padding:0;
+			}
+			
+			.item {
+				background-color: tan;
+				border:1px solid steelblue;
+				/* box-sizing: border-box; */
+			}
+			.inner {}	/* muse be exist */
+			.image-box {
+				width:100px; 
+				height:100px; 
+				margin:auto;
+			}
+			.title {
+			padding: 20px;
+				font-size: 1.2em;
+				text-transform: uppercase;
+			}
+			.desc{
+			padding: 10px 10px 5px 10px;
+				margin: 0 10px 10px 0;
+			}
+			/* column setting */
+			.item:nth-child(3n-2) {
+				grid-column:1/2 ;
+			}
+			.item:nth-child(3n-1) {
+				grid-column:2/3 ;
+			}
+			.item:nth-child(3n) {
+				grid-column:3/4 ;
+			}				
+			@media screen and (min-width:769px){
+				.grid { 
+					display: grid;
+					grid-gap: 10px;
+					grid-auto-rows: 20px;
+					grid-template-columns: repeat(3, minmax(calc((768px - (10px*2) - (25px*2) )/3), 1fr));
+				}
+			}
+			@media screen and (max-width:768px){
+				.wrap {
+					overflow: hidden;
+					width: auto;
+					margin:0 15px;
+				}
+				.grid {
+					grid-template-columns: repeat(3, 100%);
+				}
+			}
+			@media screen and (min-width:769px) and (max-width:1120px){
+				.grid { 
+					grid-template-columns: repeat(2, minmax(calc((320px - (10px*2) - (15px*2) )/3), 1fr));
+				}
+				.item:nth-child(2n-1) {
+					grid-column:1/2 ;
+				}
+				.item:nth-child(2n) {
+					grid-column:2/3 ;
+				}
+			}
+			/* to insert matrix by js */
+			/* .item:nth-child(1) {
+				grid-row:1/16
+			}
+			.item:nth-child(2) {
+				grid-row:1/10
+			}
+			.item:nth-child(3) {
+				grid-row:1/20
+			}
+			.item:nth-child(4) {
+				grid-row:16/25
+			}
+			.item:nth-child(5) {
+				grid-row:10/22
+			} */
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="grid">
+				<div class="item" tabindex="0">
+					<div class="inner">
+						<div class="image-box"><img src="" alt="image"></div>
+						<div class="text-box">
+							<div class="title">Post1</div>
+							<div class="desc">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, matt Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, matt
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="item" tabindex="0">
+					<div class="inner">
+						<div class="image-box"><img src="" alt="image"></div>
+						<div class="text-box">
+							<div class="title">Post2</div>
+							<div class="desc">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fe
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="item" tabindex="0">
+					<div class="inner">
+						<div class="image-box"><img src="" alt="image"></div>
+						<div class="text-box">
+							<div class="title">Post3</div>
+							<div class="desc">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, matt Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, matt Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, matt
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="item" tabindex="0">
+					<div class="inner">
+						<div class="image-box"><img src="" alt="image"></div>
+						<div class="text-box">
+							<div class="title">Post4</div>
+							<div class="desc">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="item" tabindex="0">
+					<div class="inner">
+						<div class="image-box"><img src="" alt="image"></div>
+						<div class="text-box">
+							<div class="title">Post5</div>
+							<div class="desc">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, matt
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="item" tabindex="0">
+					<div class="inner">
+						<div class="image-box"><img src="" alt="image"></div>
+						<div class="text-box">
+							<div class="title">Post6</div>
+							<div class="desc">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fe
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+		<script>
+			// mobile
+			const mobUI = function(){
+				const swiper = new Swiper('.swiper-container', {
+					// Optional parameters
+					slidesPerView: 1,
+					slidesPerColumn: 2,
+					autoHeight: true,
+					keyboard : {
+						enabled : true
+					},
+					breakpoints : {
+						768 : {
+							slidesPerView: 1,
+							slidesPerColumn: 2,
+						}
+					},
+					navigation: {
+						nextEl: '.swiper-button-next',
+						prevEl: '.swiper-button-prev',
+					},
+					pagination: {
+						el: '.swiper-pagination',
+						clickable : true
+					}
+				});
+				if(window.innerWidth <= 768){
+					swiper.init();
+				}
+				else{
+					swiper.destroy();
+				}
+			};
+			// widerThanMobile 
+			const mesonryLayout = function(){
+				const grid = document.querySelector(".grid");
+				const bricks = Array.prototype.map.call(document.querySelectorAll(".item"), el=>el);
+				const matrix = bricks.reduce((acc, brick, idx) => {
+					// calc
+					const brickHeight = brick.querySelector(".inner").offsetHeight;
+					const rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+					const rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
+					const rowSpan = Math.ceil( (brickHeight + rowGap)/(rowHeight + rowGap) );
+					const columnLength = 1120 >= window.innerWidth && 768 < window.innerWidth ? 2 : 3;
+					const firstRow = idx < columnLength;
+					console.log(idx, firstRow, idx - columnLength, rowSpan, acc);
+					// create acc data
+					/* 
+						example
+						[
+							[1,16],
+							[1,10]
+							[1,20],
+							[16,25],
+							[10,22],
+							[20,33]
+						]
+						[
+							[1, 6],
+							[1, 19],
+							[6, 15],
+							[19, 28],
+							[15, 33],
+							[28, 36]
+						]
+					*/ 
+					const reference = firstRow ? 1 : acc[idx - columnLength][1];
+					acc.push([reference, reference + rowSpan]);
+					return acc;
+				},[]);
+				console.log(matrix);
+				matrix.map((pairs, idx) => {
+					console.log(idx, pairs, bricks[idx]);
+					bricks[idx].style.gridRowStart = `${pairs[0]}`;
+					bricks[idx].style.gridRowEnd = `${pairs[1]}`;
+				});
+			}
+			window.innerWidth > 768 &&
+			mesonryLayout();
+			// mobUI();
+			window.addEventListener("resize", ()=>{
+				window.innerWidth > 768 &&
+				mesonryLayout();
+				// mobUI();
+			});
+		</script>
+	</body>
+	</html>

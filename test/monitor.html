@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		.on {color:beige; background-color:cadetblue;}
+		.hidden {display:none;}
+		[data-function="button"],
+		.indicator .prev,
+		.indicator .next {
+			display:inline-block;
+			outline:1px solid lightcoral;
+			cursor:pointer;
+			padding:10px 14px;
+		}
+		.indicator[data-reach="max"] .next,
+		.indicator[data-reach="min"] .prev {
+			display:none;
+		}
+	</style>
+</head>
+<body>
+	<!-- subscribe:list -->
+	<ul class="tab">
+		<li data-function="button"><span>1item</span></li>
+		<li data-function="button"><span>2item</span></li>
+		<li data-function="button"><span>3item</span></li>
+		<li data-function="button"><span>4item</span></li>
+		<li data-function="button"><span>5item</span></li>
+	</ul>
+	<!-- // subscribe:list -->
+
+	<!-- subscribe:slider -->
+	<ul class="slider">
+		<li data-function="button"><span>slide 1</span></li>
+		<li data-function="button"><span>slide 2</span></li>
+		<li data-function="button"><span>slide 3</span></li>
+		<li data-function="button"><span>slide 4</span></li>
+		<li data-function="button"><span>slide 5</span></li>
+	</ul>
+	<!-- // subscribe:slider -->
+
+	<!-- subscribe:dots -->
+	<ul class="dots">
+		<li data-function="button"><span>1</span></li>
+		<li data-function="button"><span>2</span></li>
+		<li data-function="button"><span>3</span></li>
+		<li data-function="button"><span>4</span></li>
+	</ul>
+	<!-- // subscribe:dots -->
+	
+	<!-- subscribe:indicator -->
+	<div class="indicator">
+		<div class="prev"><span data-indicate-direction="prev">&nbsp;</span></div>
+		<div class="next"><span data-indicate-direction="next">&nbsp;</span></div>
+	</div>
+	<!-- // subscribe:indicator -->
+
+	<!-- tester -->
+	<button class="button" type="button" data-index="4">
+		[ Click ]
+	</button>
+	<!-- // tester -->
+	<script>
+		// abstract function
+		function Store(_initial_state){
+			this.state = _initial_state;
+			this.subscribe_list = [];
+			// prototype field
+			Store.prototype.subscribe = function subscribe(_new_one){
+				const new_one = _new_one instanceof Array ? _new_one : [_new_one];
+				this.subscribe_list = this.subscribe_list.concat(new_one);
+			}
+			Store.prototype.unsubscribe = function unsubscribe(_someone){
+				this.subscribe_list = this.subscribe_list.filter(n => n !== _someone);
+			}
+			Store.prototype.dispatch = function dispatch(_state){
+				console.group("dispatch state");
+				console.log("before state", this.state);
+				console.log("update state", _state);
+				console.groupEnd("dispatch state");				
+				this.will_update(_state);
+			};
+			Store.prototype.will_update = function will_update(_state){
+				if(this.state === _state) return false; 
+				this.state = _state;
+				this.notice();
+			} 
+			Store.prototype.notice = function notice(){
+				console.group("notice");
+				console.log("will update to this value : ", this.state);
+				console.log("will update to these group : ", this.subscribe_list);
+				console.groupEnd("notice");
+				this.subscribe_list.map(each => each?.update(this.state));
+			}
+		}
+		function Component(_selector, _option = {
+			active_classname : "on"
+		}){
+			this.element = document.querySelector(_selector);
+			this.active_classname = _option.active_classname;
+			// prototype field
+			Component.prototype.update = function(_index){
+				this.change_active(_index);
+			}
+			Component.prototype.change_active = function(_index){
+				Array.prototype.forEach.call(this.element.children, child => child.classList.remove(this.active_classname));
+				this.element.children[_index]?.classList.add(this.active_classname);
+			}
+		}
+		// variable
+		const [button] = document.querySelectorAll('button');
+		const event_targets = document.querySelectorAll('[data-function=button]');
+		const item_list = ["Preview", "Exterior", "Interior", "Accessories", "Summary"]; 
+		const initial_state = 0;
+		// create component n store
+		const store = new Store(initial_state);
+		const tab = new Component(".tab");
+		const slider = new Component(".slider");
+		const dots = new Component(".dots");
+		const indicator = new Component(".indicator");
+		store.subscribe([tab, slider, dots, indicator]);
+		indicator.prev = indicator.element.querySelector("[data-indicate-direction=prev]");
+		indicator.next = indicator.element.querySelector("[data-indicate-direction=next]");
+		// override or extend component method
+		tab.init = function(_item_list){
+			this.element.querySelectorAll('li').forEach( (item, idx) => {
+				item.dataset.index = idx;
+				item.dataset.name = item.children[0].innerText = _item_list[idx];
+			})
+		};
+		indicator.update = function(_index){
+			this.active_index = _index;
+			// for style selector
+			this.mark_min_max(_index);
+			// 
+			this.change_active(_index);
+		}
+		indicator.change_active = function(_index){
+			const min = 0;
+			const max = item_list.length - 1;
+			this.prev.innerText = `${item_list[_index - 1 < min ? min : _index - 1]}`;
+			this.next.innerText = `${item_list[_index + 1 >= max ? max : _index + 1]}`;
+		}
+		indicator.mark_min_max = function(_index){
+			this.element.dataset.reach = (()=>{
+				const min = item_list.length - item_list.length;
+				const max = item_list.length - 1;
+				switch(_index){
+					case min : return "min";
+					case max : return "max";
+					default : return "among";
+				}
+			})();
+		}
+		dots.update = function(_index){
+			this.change_active(_index);
+			// disappearance 
+			if(3 >= _index) return this.element.classList.remove("hidden");
+			this.element.classList.add("hidden");
+		}
+		// init ui
+		store.notice();			// first push
+		tab.init(item_list);	// spread menu text
+		// make trigger 
+		function get_index(_el){
+			return Array.prototype.map.call(
+				_el.parentElement.children, 
+				child => child
+			).findIndex(el => el === _el);
+		}
+		const handler = {
+			drop : function(event){
+				const drawNum = Math.random() * item_list.length;
+				const active_index = Math.floor(drawNum);
+				store.dispatch(active_index);
+			},
+			tab : function(event){
+				const active_index = get_index(event.currentTarget);
+				store.dispatch(active_index);
+			},
+			indicator : function(event){
+				if(event.target === event.currentTarget) return false;
+				const target = 1 > event.target.children.length ? event.target.parentElement : event.target; 
+				const direction = target.classList.value.includes("prev") ? "prev" : "next";
+				const active_index = (function(){
+					const min = 0;
+					const max = item_list.length - 1;
+					switch(direction){
+						case "prev" :   
+							// console.log("prev");
+							if(min === indicator.active_index) return min;
+							return --indicator.active_index;
+						case "next" :
+							// console.log("next");
+							if(max === indicator.active_index) return indicator.active_index;
+							return ++indicator.active_index;
+					}
+				})();
+				store.dispatch(active_index);
+			}
+		}
+		// event listening
+		button.addEventListener("click", handler["drop"], false);
+		event_targets.forEach(tg => tg.addEventListener("click", handler["tab"], false));
+		indicator.element.addEventListener("click", handler["indicator"], false);
+	</script>
+</body>
+</html>

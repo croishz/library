@@ -4,36 +4,71 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css" />
 </head>
 <body>
 	<div class="nav">
-		<ul>
-			<li>
+		<ul class="swiper-wrapper">
+			<li class="swiper-slide">
 				<a href="#" class="menu">navigation menu1</a>
 				<div class="door" onmousedown=dragOn();>sliding door</div>
 			</li>
-			<li>
+			<li class="swiper-slide">
 				<a href="#" class="menu">navigation menu2</a>
 				<div>sliding door</div>
 			</li>
 		</ul>
 	</div>
-
+	<!-- Slider main container -->
+	<div class="nav">
+		<!-- Additional required wrapper -->
+		<div class="swiper-wrapper">
+			<!-- Slides -->
+			<div class="swiper-slide">Slide 1</div>
+			<div class="swiper-slide">Slide 2</div>
+			<div class="swiper-slide">Slide 3</div>
+		</div>
+		<!-- If we need pagination -->
+		<div class="swiper-pagination"></div>
+		
+		<!-- If we need navigation buttons -->
+		<div class="swiper-button-prev"></div>
+		<div class="swiper-button-next"></div>
+		
+		<!-- If we need scrollbar -->
+		<div class="swiper-scrollbar"></div>
+	</div>
+	<div class="outer"></div>
+	<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
 	<script>
-		const door = document.querySelector(".door");
-		function dragCallback(e){
-			console.log(e.pageX);
-		}
-		function dragOn(){
-			console.log("mousedown");
-			window.addEventListener("mousemove", dragCallback, false);
-		}
-		function dragOff(){
-			window.addEventListener("mouseup", function(e){
-				console.log("mouseup");
-				window.addEventListener("mousemove", dragCallback, false);
-			},false)
-		}
+		const d = new Swiper('.nav', {
+			pagination : {
+				el : document.querySelector(".outer"),
+				type: 'bullets',
+				clickable : true
+			},
+			on : {
+				update : function(s){
+					console.log(s);
+				}
+			}
+		});
+		d.forEach(s => s.update());
+		console.log();
+		// const door = document.querySelector(".door");
+		// function dragCallback(e){
+		// 	console.log(e.pageX);
+		// }
+		// function dragOn(){
+		// 	console.log("mousedown");
+		// 	window.addEventListener("mousemove", dragCallback, false);
+		// }
+		// function dragOff(){
+		// 	window.addEventListener("mouseup", function(e){
+		// 		console.log("mouseup");
+		// 		window.addEventListener("mousemove", dragCallback, false);
+		// 	},false)
+		// }
 	</script>
 </body>
 </html>

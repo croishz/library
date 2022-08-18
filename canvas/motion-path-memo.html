@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>how to memo mouse path</title>
+	<style>
+		html, body {
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+</head>
+<body>
+
+	<script>
+		
+		class canvas {
+			// static filed
+			static canvas_HTML = document.createElement("canvas"); 
+			
+			// constructor
+			constructor({
+				hang_on_where
+			}){
+				this.root = hang_on_where; 
+				this.canvas = canvas.canvas_HTML;
+				this.context = this.canvas.getContext("2d");		
+				this.record = [];
+			}
+			
+			// prototype field
+			render(){
+				// console.log(this.canvas.parentElement);
+				// if not yet render on screen...
+				this.canvas.parentElement ??
+				(
+					document.body.appendChild(this.canvas),
+					this.event_listening()
+				);
+				// 
+				this.resize();
+				
+			}
+			resize(){
+				// const scrollbar_size = 17;
+				this.canvas.width = window.innerWidth;
+				this.canvas.height = window.innerHeight - 4; // why 4px? 화면에 차려면 innerHeight 값만. 다만 페이지 스크롤이 생긴다. 왜 4px 차이로 스크롤 판정이 나는지 모름.  
+			}
+			event_listening(){
+				// resize
+				window.addEventListener('resize', ()=>{
+					this.resize();
+				})
+				// mouse event
+				const path_tracking = (event)=>{
+					console.group("move");
+					
+					this.tracking(event);
+
+					console.groupEnd("move");
+				}
+				this.canvas.addEventListener('mousedown', ()=>{ this.canvas.addEventListener('mousemove', path_tracking, false) }, false);
+				this.canvas.addEventListener('mouseup', ()=>{ 
+					this.canvas.removeEventListener('mousemove', path_tracking, false) 
+					this.paint();
+				}, false);
+			}
+			tracking(event){
+				// console.log(event);
+				this.record.push({
+					x : event.clientX, 
+					y : event.clientY
+				});
+				console.log(JSON.stringify(this.record));
+				// console.log(event.mouseX, event.mouseY);
+			}
+			paint(coordinates){
+				this.context.beginPath();
+				this.moveTo(path[0].x,path[0].y);
+				this.lineTo(path)
+				this.context.closePath();
+			}
+		}
+
+		const plate = new canvas({
+			hang_on_where : document.body,
+		});
+		plate.render();
+	</script>
+</body>
+</html>

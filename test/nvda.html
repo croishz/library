@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div role="table" aria-colcount="3" aria-rowcount="4">
+		<div role="row" aria-rowindex="1">
+			<div role="columnheader" aria-colindex="1">항목</div>
+			<div role="columnheader" aria-colindex="2">AA</div>
+			<div role="columnheader" aria-colindex="3">BB</div>
+		</div>
+		<div role="row" aria-rowindex="2">
+			<div role="cell" aria-colindex="1">입력값</div>
+			<div role="cell" aria-colindex="2">100</div>
+			<div data-graph-value="100" aria-hidden="true"></div>
+			<div data-graph-value="100" aria-hidden="true"></div>
+			<div role="cell" aria-colindex="3">100</div>
+		</div>
+		<div role="row" class="flex-container" aria-rowindex="3">
+			<div role="cell" aria-colindex="1">실제 출력값</div>
+			<div role="cell" aria-colindex="2">100</div>
+			<div data-graph-value="100" aria-hidden="true"></div>
+			<div data-graph-value="50" aria-hidden="true"></div>
+			<div role="cell" aria-colindex="3">50</div>
+		</div>
+		<div role="row" class="flex-container" aria-rowindex="4">
+			<div role="cell" aria-colindex="1">손실율</div>
+			<div role="cell" aria-colindex="2">0%</div>
+			<div aria-hidden="true"></div>
+			<div aria-hidden="true"></div>
+			<div role="cell" aria-colindex="3">50%</div>
+		</div>
+	</div>
+
+	<table>
+		<thead>
+			<tr>
+				<th scope="col"></th>
+				<th scope="col">input</th>
+				<th scope="col">output</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row">LCD</th>
+				<td>1000 nit</td>
+				<td>350 nit</td>
+			</tr>
+			<tr>
+				<th scope="row">OLED</th>
+				<td>600 nit</td>
+				<td>600 nit</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!-- <table>
+		<thead>
+			<tr>
+				<th scope="col">항목</th>
+				<th scope="col">AA</th>
+				<th scope="col">BB</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row">입력값</th>
+				<td>100</td>
+				<td>100</td>
+				
+			</tr>
+			<tr>
+				<th scope="row">실제 출력값</th>
+				<td>100</td>
+				<td>50</td>
+			</tr>
+			<tr>
+				 <th scope="row">손실율</th>
+				<td>0%</td>
+				<td>50%</td>
+			</tr>
+		</tbody>
+	</table> -->
+
+	<strong>Aria table</strong>	
+
+	<!-- <div role="grid" aria-rowcount="24">
+		<div role="rowgroup">
+		  <div role="row" aria-rowindex="1">
+			<span role="columnheader">First Name</span>
+			<span role="columnheader">Last Name</span>
+			<span role="columnheader">Position</span>
+		  </div>
+		</div>
+		<div role="rowgroup">
+		  <div role="row" aria-rowindex="7">
+			<span role="gridcell">Morgan</span>
+			<span role="gridcell">Brian</span>
+			<span role="gridcell">Midfielder</span>
+		  </div>
+		  <div role="row" aria-rowindex="8">
+			<span role="gridcell">Abby</span>
+			<span role="gridcell">Dahlkemper</span>
+			<span role="gridcell">Defender</span>
+		  </div>
+		  <div role="row" aria-rowindex="9">
+			<span role="gridcell">Ashlyn</span>
+			<span role="gridcell">Harris</span>
+			<span role="gridcell" aria-rowspan="2"
+				  aria-rowindex="9">Goalkeeper</span>
+		  </div>
+		  <div role="row" aria-rowindex="10">
+			<span role="gridcell">Alyssa</span>
+			<span role="gridcell">Naeher</span>
+		  </div>
+		</div>
+	  </div> -->
+
+	  <div class="compare-table" role="table" aria-colcount="3" aria-rowcount="3">
+		<div class="line sr-only" role="row" aria-rowindex="1">
+			<div class="cell" role="columnheader" aria-colindex="1">
+				
+			</div>
+			<div class="cell" role="columnheader" aria-colindex="2">
+				LCD
+			</div>
+			<div class="cell" role="columnheader" aria-colindex="3">
+				OLED
+			</div>
+		</div>
+		<div class="line" role="row" aria-rowindex="2">			
+			<div class="cell" role="cell" aria-colindex="1">
+				Input
+			</div>
+			<div class="effect-wrap">
+				<div class="effect to-left">
+					<div class="cell" role="cell" aria-colindex="2">
+						1000nit
+					</div>
+					<div class="guage-bar lumen-1000" aria-hidden="true"></div>
+				</div>
+				<div class="effect to-right">
+					<div class="guage-bar lumen-600" aria-hidden="true"></div>
+					<div class="cell" role="cell" aria-colindex="3">
+						600nit
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="line" role="row" aria-rowindex="3">			
+			<div class="cell" role="cell" aria-colindex="1">
+				Output
+			</div>
+			<div class="effect-wrap">
+				<div class="effect to-left">
+					<div class="cell" role="cell" aria-colindex="2">
+						350nit
+					</div>
+					<div class="guage-bar lumen-350" aria-hidden="true"></div>
+				</div>
+				<div class="effect to-right">
+					<div class="guage-bar lumen-600" aria-hidden="true"></div>
+					<div class="cell" role="cell" aria-colindex="3">
+						600nit
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- <div role="table" aria-colcount="3" aria-rowcount="4">
+		<div role="row" aria-rowindex="1">
+			<div role="columnheader" aria-colindex="1">AA</div>
+			<div role="columnheader" aria-colindex="2">BB</div>
+		</div>
+		<div role="row" aria-rowindex="2">
+			<div role="cell">입력값</div>
+			<div role="cell" aria-colindex="1">100</div>
+			<div data-graph-value="100" aria-hidden="true"></div>
+			<div data-graph-value="100" aria-hidden="true"></div>
+			<div role="cell" aria-colindex="2">100</div>
+		</div>
+		<div role="row" aria-rowindex="3" class="flex-container">
+			<div role="cell">실제 출력값</div>
+			<div role="cell" aria-colindex="1">100</div>
+			<div data-graph-value="100" aria-hidden="true"></div>
+			<div data-graph-value="50" aria-hidden="true"></div>
+			<div role="cell" aria-colindex="2">50</div>
+		</div>
+		<div role="row"  aria-rowindex="4" class="flex-container">
+			<div role="cell">손실율</div>
+			<div role="cell" aria-colindex="1">0%</div>
+			<div aria-hidden="true"></div>
+			<div aria-hidden="true"></div>
+			<div role="cell" aria-colindex="2">50%</div>
+		</div>
+	</div> -->
+
+	<!-- <div class="compare-table" role="table">
+		<div class="line sr-only" role="row">
+			<div class="cell" role="columnheader" aria-colindex="2">
+				LCD
+			</div>
+			<div class="cell" role="columnheader" aria-colindex="3">
+				OLED
+			</div>
+		</div>
+		<div class="line" role="row">			
+			<div class="cell" role="columnheader">
+				Input
+			</div>
+			<div class="effect-wrap">
+				<div class="effect">
+					<div class="cell"  role="cell" aria-colindex="2">
+						1000nit
+					</div>
+					<div class="gauge-bar to-left" aria-hidden="true"></div>
+				</div>
+				<div class="effect">
+					<div class="gauge-bar to-right" aria-hidden="true"></div>
+					<div class="cell"  role="cell" aria-colindex="3">
+						600nit
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="line" role="row">			
+			<div class="cell" role="columnheader">
+				Output
+			</div>
+			<div class="effect-wrap">
+				<div class="effect">
+					<div class="cell"  role="cell" aria-colindex="2">
+						350nit
+					</div>
+					<div class="gauge-bar to-left" aria-hidden="true"></div>
+				</div>
+				<div class="effect">
+					<div class="gauge-bar to-right" aria-hidden="true"></div>
+					<div class="cell"  role="cell" aria-colindex="3">
+						600nit
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+</body>
+</html>

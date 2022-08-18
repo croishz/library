@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function item(_opt){
+			const classList = _opt.classList || ["ir-event-list__detail"];
+			const LI = document.createElement('li');
+			const DL = document.createElement('dl');
+			const DT = document.createElement('dt');
+			const DD = document.createElement('dd');
+			DL.appendChild(DT);
+			DL.appendChild(DD);
+			LI.append(document.createComment(` ${_opt.time} `), DL);
+			// injection data
+			DL.classList.add(...classList);
+			DT.innerText = _opt.title;
+			DD.innerText = _opt.time;
+			// 장소 정보가 있을 때
+			if(_opt.location){
+				const DD_location = document.createElement('dd');
+				DD_location.innerText = _opt.location;
+				DL.appendChild(DD_location);
+			}
+			// 최근 일정에 사용할 때
+			if(_opt.is_latest){
+				const is_one_day_event = 2 > _opt.date.length;
+				LI.dataset.tableDate = `{startDate : ${_opt.date[0]}${is_one_day_event ? "" : `, endDate : ${_opt.date[1]}`}}`;
+				LI.ariaExpanded = true;
+			}
+			// exception:webcast
+			if(_opt.webcast && 0 < _opt.webcast.length){
+				const static_data = {
+					meta : {
+						forum : ({year}) => `investor relations:Samsung Electronics' 20${year} Investors Forum`,
+						conference : ({quarter, year}) => `investor relations:web casting_${quarter}Q FY${year} Earnings Conference Call`
+					},
+					link_text : (_local) => {
+						switch(_local){
+							case "en" : 
+							case "kr" : 
+								return `실시간 듣기 [${_local.toUpperCase()}]`
+							case "global" : 
+								return "Webcast"
+						}
+					}
+				}
+				const link_template = ({type, time, url, local}) => `
+					<li><a 
+						href="http://irsvc.teletogether.com/sec/${url}.php" 
+						target="_blank" 
+						class="ir-btn-text ir-ico-webcast type1" 
+						data-omni-type="microsite" 
+						data-omni="${static_data.meta[type](time)}">
+						<span class="ir-ico"></span><em>${static_data.link_text(local)}</em>
+					</a></li>
+				`.trim();
+				const UL_webcast = document.createElement('ul');
+				UL_webcast.classList.add("ir-event-list__download");	
+				UL_webcast.innerHTML = _opt.webcast.reduce((html, info) => html += link_template(info), "");
+				LI.append(UL_webcast, document.createComment(` // ${_opt.time} `));
+			}
+			return LI;
+		}
+		document.body.append(
+			item({
+				title : "UBS Korea Conference 2017",
+				time : "June 19-20, 2017",
+				date : [19, 20],
+				location : "seoul",
+				is_latest : true,
+				classList : ["ir-event-list__detail"],
+				webcast : [
+					{
+						type : "conference",
+						time : {
+							year : 22,
+							quarter : 1
+						},
+						url : "2022Q1/eng/kor",
+						local : "en"
+					},
+					{
+						type : "conference",
+						time : {
+							year : 22,
+							quarter : 1
+						},
+						url : "2022Q1/kor/kor2",
+						local : "kr"
+					}
+				]
+			})
+		);
+	</script>
+	<!-- export data -->
+	<script>
+		const target = document.querySelectorAll('.ir-event-list__detail');
+		console.log(target);
+		[].reduce.call("html", (acc, item, idx) => {
+			
+		}, []);
+	</script>
+</body>
+</html>
+

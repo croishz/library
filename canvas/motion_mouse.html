@@ -32,7 +32,7 @@
 			x : 0,
 			y : 0,
 		}
-		let radius = 5;
+		let radius = 2;
 
 		function draw(){
 			cx.beginPath();
@@ -74,7 +74,7 @@
 			
 			mouse.x = event.offsetX;
 			mouse.y = event.offsetY;
-			cx.clearRect(0,0,canvas.width, canvas.height);
+			// cx.clearRect(0,0,canvas.width, canvas.height);
 			draw();
 			
 			if(  event.clientX > 1000 &&  event.clientY > 700 ){

@@ -102,7 +102,7 @@
 					container.style.top = globalThis.scrollY >= endPoint ? `${endPoint - startPoint}px` : "";
 					if( globalThis.scrollY < startPoint || globalThis.scrollY > endPoint ) return false;
 
-					const timelineProgress = (globalThis.scrollY - this.wrap.offsetTop) / (this.scrollHeight - globalThis.innerHeight); 
+					const timelineProgress = (globalThis.scrollY - startPoint) / (this.scrollHeight - globalThis.innerHeight); 
 					const imgSequenceLength = this.timeline.end - this.timeline.start;
 					this.timeline.now = this.setImgIndexFormat(this.timeline.start + Math.round(timelineProgress * imgSequenceLength));
 
