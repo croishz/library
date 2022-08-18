@@ -1,0 +1,15 @@
+@charset 'UTF-8';
+
+// module
+@use "../abstract" as foundation;
+
+$component : ".ST0001";
+
+#{$component} {
+	display:flex;
+	@include foundation.wrapper;
+
+	.component-headcopy {
+		@include foundation.headcopy;
+	}
+}

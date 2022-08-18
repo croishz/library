@@ -1,0 +1,28 @@
+@use "color";
+@use "font";
+
+@mixin wrapper {
+	&--full {
+		margin:auto;
+		max-width:1920px;
+	}
+	&--wide {
+		margin:auto;
+		max-width:1600px;
+	}
+	&--regular {
+		margin:auto;
+		max-width:1280px;
+	}
+}
+@mixin headcopy {
+	font-weight:700;
+	&__title {
+		color:color.$black;
+		@include font.f30-l40; 		
+	}
+	&__eyebrow {
+		color:color.$gray;
+		@include font.f14-l20; 		
+	}
+};
